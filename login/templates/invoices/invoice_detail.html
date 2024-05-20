@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice {{ invoice.id }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #00aaff;
+            padding-bottom: 20px;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .invoice-details, .customer-details, .billing-details {
+            margin-bottom: 20px;
+        }
+        .invoice-details h2, .customer-details h2, .billing-details h2 {
+            margin-bottom: 10px;
+            color: #00aaff;
+        }
+        .invoice-details p, .customer-details p, .billing-details p {
+            margin: 5px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid #00aaff;
+        }
+        .footer p {
+            color: #888;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        .table th {
+            background-color: #00aaff;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Invoice</h1>
+        </div>
+        <div class="invoice-details">
+            <h2>Invoice Details</h2>
+            <p><strong>Invoice ID:</strong> {{ invoice.id }}</p>
+            <p><strong>Date:</strong> {{ invoice.created_at|date:"F j, Y" }}</p>
+        </div>
+        <div class="customer-details">
+            <h2>Customer Details</h2>
+            <p><strong>Name:</strong> {{ invoice.customer_name }}</p>
+            <p><strong>Email:</strong> {{ invoice.customer_email }}</p>
+            <p><strong>Billing Address:</strong> {{ invoice.billing_address }}</p>
+        </div>
+        <div class="billing-details">
+            <h2>Billing Details</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ invoice.item_description }}</td>
+                        <td>{{ invoice.item_quantity }}</td>
+                        <td>${{ invoice.item_price }}</td>
+                        <td>${{ invoice.total_cost }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3>Total Amount Due: ${{ invoice.total_cost }}</h3>
+        </div>
+        <div class="footer">
+            <p>Thank you for your business!</p>
+        </div>
+    </div>
+</body>
+</html>
