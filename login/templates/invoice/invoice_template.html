@@ -1,0 +1,167 @@
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm;
+        }
+
+        html,
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+            height: 297mm;
+            width: 210mm;
+        }
+
+        .invoice-box {
+            background-color: #fff;
+            padding: 30px;
+            margin: auto;
+            border: 1px solid #eee;
+            max-width: 800px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            font-size: 16px;
+            line-height: 24px;
+            font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+            box-sizing: border-box;
+        }
+
+        .invoice-box h1 {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .company-info,
+        .invoice-to,
+        .invoice-details {
+            margin-bottom: 20px;
+        }
+
+        .company-info p,
+        .invoice-to p,
+        .invoice-details p {
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .invoice-to {
+            margin-top: 40px;
+        }
+
+        .invoice-details {
+            text-align: right;
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 3px;
+            color: #fff;
+        }
+
+        .unpaid {
+            background-color: #f44336;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            line-height: inherit;
+            text-align: left;
+        }
+
+        table th,
+        table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+        }
+
+        .totals {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .terms {
+            margin-top: 40px;
+        }
+
+        .terms p {
+            margin: 0;
+        }
+    </style>
+    <!--
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'invoice/style.css' %}">
+    -->
+</head>
+
+<body>
+    <div class="invoice-box">
+        <h1>INVOICE # {{ invoice.id }}</h1>
+        <div class="company-info">
+            {% load static %}
+            <img src="{% static 'invoice/creative-junk logo.jpg'%}">
+            <p><strong>Creative Junk Ltd</strong></p>
+            <p>3rd Floor, College House</p>
+            <p>Koinange Street / University Way</p>
+            <p>Nairobi, Kenya</p>
+        </div>
+        <div class="invoice-to">
+            <p><strong>Invoiced To</strong></p>
+            <p>{{ invoice.company_name }}</p>
+            <p>ATTN: {{ invoice.client_name }}</p>
+            <p>{{ invoice.billing_address }}</p>
+        </div>
+        <div class="invoice-details">
+            <p><strong>INVOICE # {{ invoice.id }}</strong></p>
+            <p>Status: {{invoice.paid|yesno:"Paid,Unpaid" }}</span></p>
+            <p>Invoice Date: {{ invoice.created_at|date:"DATE_FORMAT" }}</p>
+            <p>Due Date: {{ invoice.due_date|date:"DATE_FORMAT" }}</p>
+            <p>Amount Due: <strong>Ksh {{ invoice.total_cost | floatformat:2|intcomma }}</strong></p>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ invoice.item_description }}</td>
+                    <td>Ksh {{ invoice.item_price | floatformat:2|intcomma }}</td>
+                    <!-- To display figures in currency format -->
+                    <td>{{ invoice.item_quantity }}</td>
+                    <td>Ksh {{ invoice.total_cost | floatformat:2|intcomma }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="totals">
+            <p>Grand Total: <strong>Ksh {{ invoice.total_cost | floatformat:2|intcomma }}</strong></p>
+        </div>
+        <div class="terms">
+            <p><strong>TERMS</strong></p>
+            <p>All Payments to be made out to CREATIVE JUNK LTD</p>
+        </div>
+    </div>
+</body>
+
+</html>

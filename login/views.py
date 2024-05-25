@@ -1,12 +1,16 @@
 from django.shortcuts import render ,redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
 
+# Display login page
+class LoginView(LoginView):
+    template_name = 'registration/login.html'
+
+# Dashboard function
 @login_required
-def home(request):
-    return render(request, 'accounts/')
-# def home(request):
-  #   return render(request, 'home.html', {})
+def dashboard(request):
+    return render(request, 'invoice/dashboard.html')
 
 def authView(request):
     if request.method == 'POST':

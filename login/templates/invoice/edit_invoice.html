@@ -1,0 +1,68 @@
+{% extends 'invoice/index.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Edit Invoice #{{ invoice.id }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="client_name">Client Name</label>
+            <input type="text" class="form-control" id="client_name" name="client_name" value="{{ form.client_name.value }}">
+            {% if form.client_name.errors %}
+                <div class="text-danger">{{ form.client_name.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="company_name">Company Name</label>
+            <input type="text" class="form-control" id="company_name" name="company_name" value="{{ form.company_name.value }}">
+            {% if form.company_name.errors %}
+                <div class="text-danger">{{ form.company_name.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="billing_address">Billing Address</label>
+            <input type="text" class="form-control" id="billing_address" name="billing_address" value="{{ form.billing_address.value }}">
+            {% if form.billing_address.errors %}
+                <div class="text-danger">{{ form.billing_address.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="item_description">Item Description</label>
+            <input type="text" class="form-control" id="item_description" name="item_description" value="{{ form.item_description.value }}">
+            {% if form.item_description.errors %}
+                <div class="text-danger">{{ form.item_description.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="item_quantity">Item Quantity</label>
+            <input type="number" class="form-control" id="item_quantity" name="item_quantity" value="{{ form.item_quantity.value }}">
+            {% if form.item_quantity.errors %}
+                <div class="text-danger">{{ form.item_quantity.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="item_price">Item Price</label>
+            <input type="number" class="form-control" id="item_price" name="item_price" value="{{ form.item_price.value }}">
+            {% if form.item_price.errors %}
+                <div class="text-danger">{{ form.item_price.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="due_date">Due Date</label>
+            <input type="date" class="form-control" id="due_date" name="due_date" value="{{ form.due_date.value }}">
+            {% if form.due_date.errors %}
+                <div class="text-danger">{{ form.due_date.errors }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="paid">Paid</label>
+            <input type="checkbox" class="form-control" id="paid" name="paid" value="{{ form.paid.value }}">
+            {% if form.paid.errors %}
+                <div class="text-danger">{{ form.paid.errors }}</div>
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="{% url 'invoicing_app:invoice_detail' invoice.id %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize', # For formatting int values to currency format
     'login',
     'invoicing_app',
 ]
@@ -113,6 +114,10 @@ USE_I18N = True
 
 USE_TZ = True
 
+USE_L1ON = True
+
+DATE_FORMAT = 'j/N/Y'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
@@ -125,5 +130,5 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # To redirect User upon successful login
-LOGIN_REDIRECT_URL = 'accounts/'
+LOGIN_REDIRECT_URL = 'login:dashboard'
 LOGOUT_REDIRECT_URL = 'login:login'

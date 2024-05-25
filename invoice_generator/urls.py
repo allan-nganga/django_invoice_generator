@@ -22,4 +22,5 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(('login.urls', 'login'), 'login')),
+    path('',include(('invoicing_app.urls', 'invoicing_app'),'invoicing_app')),
 ]+ static(settings.STATIC_URL)
