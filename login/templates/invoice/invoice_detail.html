@@ -1,107 +1,159 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice {{ invoice.id }}</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        .container {
-            width: 80%;
-            margin: auto;
-            background: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .header {
-            text-align: center;
-            border-bottom: 2px solid #00aaff;
-            padding-bottom: 20px;
-        }
-        .header h1 {
-            margin: 0;
-        }
-        .invoice-details, .customer-details, .billing-details {
-            margin-bottom: 20px;
-        }
-        .invoice-details h2, .customer-details h2, .billing-details h2 {
-            margin-bottom: 10px;
-            color: #00aaff;
-        }
-        .invoice-details p, .customer-details p, .billing-details p {
-            margin: 5px 0;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 2px solid #00aaff;
-        }
-        .footer p {
-            color: #888;
-        }
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        .table th, .table td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
-        .table th {
-            background-color: #00aaff;
-            color: #fff;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>Invoice</h1>
-        </div>
-        <div class="invoice-details">
-            <h2>Invoice Details</h2>
-            <p><strong>Invoice ID:</strong> {{ invoice.id }}</p>
-            <p><strong>Date:</strong> {{ invoice.created_at|date:"F j, Y" }}</p>
-        </div>
-        <div class="customer-details">
-            <h2>Customer Details</h2>
-            <p><strong>Name:</strong> {{ invoice.customer_name }}</p>
-            <p><strong>Email:</strong> {{ invoice.customer_email }}</p>
-            <p><strong>Billing Address:</strong> {{ invoice.billing_address }}</p>
-        </div>
-        <div class="billing-details">
-            <h2>Billing Details</h2>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Description</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>{{ invoice.item_description }}</td>
-                        <td>{{ invoice.item_quantity }}</td>
-                        <td>${{ invoice.item_price }}</td>
-                        <td>${{ invoice.total_cost }}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <h3>Total Amount Due: ${{ invoice.total_cost }}</h3>
-        </div>
-        <div class="footer">
-            <p>Thank you for your business!</p>
-        </div>
+{% extends 'invoice/index.html' %}
+
+{% block title %}Invoice Detail{% endblock %}
+
+{% block extra_styles %}
+<style>
+    @page {
+        size: A4;
+        margin: 20mm;
+    }
+
+    html,
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 20px;
+        height: 297mm;
+        width: 210mm;
+    }
+
+    .invoice-box {
+        background-color: #fff;
+        padding: 30px;
+        margin: auto;
+        border: 1px solid #eee;
+        max-width: 800px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+        font-size: 16px;
+        line-height: 24px;
+        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+        box-sizing: border-box;
+    }
+
+    .invoice-box h1 {
+        font-size: 24px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .company-info,
+    .invoice-to,
+    .invoice-details {
+        margin-bottom: 20px;
+    }
+
+    .company-info p,
+    .invoice-to p,
+    .invoice-details p {
+        margin: 0;
+        line-height: 1.6;
+    }
+
+    .invoice-to {
+        margin-top: 40px;
+    }
+
+    .invoice-details {
+        text-align: right;
+    }
+
+    .status {
+        padding: 5px 10px;
+        border-radius: 3px;
+        color: #fff;
+    }
+
+    .unpaid {
+        background-color: #f44336;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        line-height: inherit;
+        text-align: left;
+    }
+
+    table th,
+    table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    table th {
+        background-color: #f2f2f2;
+    }
+
+    .totals {
+        text-align: right;
+        margin-bottom: 20px;
+    }
+
+    .terms {
+        margin-top: 40px;
+    }
+
+    .terms p {
+        margin: 0;
+    }
+</style>
+{% endblock %}
+
+{% load humanize %}
+{% block content %}
+<div class="invoice-box">
+    <h1>INVOICE # {{ invoice.id }}</h1>
+    <div class="company-info">
+        {% load static %}
+        <img src="{% static 'invoice/creative-junk logo.jpg'%}">
+        <p><strong>Creative Junk Ltd</strong></p>
+        <p>3rd Floor, College House</p>
+        <p>Koinange Street / University Way</p>
+        <p>Nairobi, Kenya</p>
     </div>
-</body>
-</html>
+    <div class="invoice-to">
+        <p><strong>Invoiced To</strong></p>
+        <p>{{ invoice.company_name }}</p>
+        <p>ATTN: {{ invoice.client_name }}</p>
+        <p>{{ invoice.billing_address }}</p>
+    </div>
+    <div class="invoice-details">
+        <p><strong>INVOICE #{{ invoice.id }}</strong></p>
+        <p>Status: <strong>{{invoice.paid|yesno:"Paid,Unpaid" }}</strong></span></p>
+        <p>Invoice Date: <strong>{{ invoice.created_at|date:"DATE_FORMAT" }}</strong></p>
+        <p>Due Date: <strong>{{ invoice.due_date|date:"DATE_FORMAT" }}</strong></p>
+        <p>Amount Due: <strong>Ksh {{ invoice.total_cost | floatformat:2|intcomma }}</strong></p>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ invoice.item_description }}</td>
+                <td>Ksh {{ invoice.item_price | floatformat:2|intcomma }}</td>
+                <!-- To display figures in currency format -->
+                <td>{{ invoice.item_quantity }}</td>
+                <td>Ksh {{ invoice.total_cost | floatformat:2|intcomma }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="totals">
+        <p>Grand Total: <strong>Ksh {{ invoice.total_cost | floatformat:2|intcomma }}</strong></p>
+    </div>
+    <div class="terms">
+        <p><strong>TERMS</strong></p>
+        <p>All Payments to be made out to CREATIVE JUNK LTD</p>
+    </div>
+</div>
+{% endblock %}

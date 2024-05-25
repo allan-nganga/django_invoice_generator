@@ -11,7 +11,7 @@ from weasyprint import HTML
 # View invoice function
 def view_invoice(request,invoice_id):
     invoice = get_object_or_404(Invoice, id=invoice_id)
-    return render(request, 'invoice/invoice_template.html', {'invoice': invoice})
+    return render(request, 'invoice/invoice_detail.html', {'invoice': invoice})
 
 # Edit invoice function
 def edit_invoice(request, invoice_id):
@@ -94,7 +94,7 @@ def invoice_list(request):
 # Display contents of the requested invoice
 def invoice_detail(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
-    return render(request, 'invoice/invoice_template.html', {'invoice': invoice})
+    return render(request, 'invoice/invoice_detail.html', {'invoice': invoice})
 
 def home(request):
     context = {'page_title':'Home'}

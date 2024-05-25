@@ -129,10 +129,10 @@
             <p>{{ invoice.billing_address }}</p>
         </div>
         <div class="invoice-details">
-            <p><strong>INVOICE # {{ invoice.id }}</strong></p>
-            <p>Status: {{invoice.paid|yesno:"Paid,Unpaid" }}</span></p>
-            <p>Invoice Date: {{ invoice.created_at|date:"DATE_FORMAT" }}</p>
-            <p>Due Date: {{ invoice.due_date|date:"DATE_FORMAT" }}</p>
+            <p><strong>INVOICE #{{ invoice.id }}</strong></p>
+            <p>Status: <strong>{{invoice.paid|yesno:"Paid,Unpaid" }}</strong></span></p>
+            <p>Invoice Date: <strong>{{ invoice.created_at|date:"DATE_FORMAT" }}</strong></p>
+            <p>Due Date: <strong>{{ invoice.due_date|date:"DATE_FORMAT" }}</strong></p>
             <p>Amount Due: <strong>Ksh {{ invoice.total_cost | floatformat:2|intcomma }}</strong></p>
         </div>
         <table>
@@ -163,5 +163,4 @@
         </div>
     </div>
 </body>
-
 </html>
