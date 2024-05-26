@@ -11,12 +11,31 @@
 
     html,
     body {
-        display: flex;
+        padding-left: 250px;
         font-family: 'Arial', sans-serif;
         background-color: #f9f9f9;
         margin: 0;
         height: 297mm;
         width: 210mm;
+    }
+
+    .header {
+        padding: 10px;
+        text-align: right;
+        background-color: #d1dbf9;
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 8px;
+        display: flex;
+        width: 800px;
+    }
+
+    .page_title {
+        display: flex;
+        text-align: left;
+        color: #6C63FF;
+        align-items: center;
+        padding-left: 250px;
     }
 
     .invoice-box {
@@ -56,7 +75,7 @@
     }
 
     .company-logo img {
-        float: right;
+        justify-content: flex-end;
         height: 90px;
     }
     .invoice-to p,
@@ -120,6 +139,11 @@
 
 {% load humanize %}
 {% block content %}
+<div class="header">
+    <div class="page_title">
+        <h1>Invoice Details</h1>
+    </div>
+</div>
 <div class="invoice-box">
     <h1>INVOICE # {{ invoice.id }}</h1>
     <div class="company-logo">
