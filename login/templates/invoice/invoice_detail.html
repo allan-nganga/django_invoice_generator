@@ -11,25 +11,29 @@
 
     html,
     body {
+        display: flex;
         font-family: 'Arial', sans-serif;
         background-color: #f9f9f9;
         margin: 0;
-        padding: 20px;
         height: 297mm;
         width: 210mm;
     }
 
     .invoice-box {
+        height: 297mm;
+        width: 210mm;
         background-color: #fff;
-        padding: 30px;
-        margin: auto;
-        border: 1px solid #eee;
-        max-width: 800px;
+        padding: 20mm;
+        margin: 20px auto;
+        border: 1px solid #ccc;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+        border-radius: 10px;
         font-size: 16px;
         line-height: 24px;
         font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
         box-sizing: border-box;
+        justify-content: center;
+        align-items: center;
     }
 
     .invoice-box h1 {
@@ -44,7 +48,17 @@
         margin-bottom: 20px;
     }
 
-    .company-info p,
+    .company-info p {
+        margin: 0;
+        line-height: 1.6;
+        text-align: right;
+        vertical-align: text-bottom;
+    }
+
+    .company-logo img {
+        float: right;
+        height: 90px;
+    }
     .invoice-to p,
     .invoice-details p {
         margin: 0;
@@ -79,7 +93,7 @@
 
     table th,
     table td {
-        border: 1px solid #ddd;
+        border: 2px solid #000000;
         padding: 8px;
         text-align: left;
         vertical-align: top;
@@ -108,9 +122,11 @@
 {% block content %}
 <div class="invoice-box">
     <h1>INVOICE # {{ invoice.id }}</h1>
-    <div class="company-info">
+    <div class="company-logo">
         {% load static %}
-        <img src="{% static 'invoice/creative-junk logo.jpg'%}">
+        <img src="{% static 'invoice/creative-junk logo.jpg'%}"><br>
+    </div>
+    <div class="company-info">
         <p><strong>Creative Junk Ltd</strong></p>
         <p>3rd Floor, College House</p>
         <p>Koinange Street / University Way</p>

@@ -98,7 +98,7 @@ def invoice_detail(request, invoice_id):
 
 def home(request):
     context = {'page_title':'Home'}
-    return render(request, 'invoice/dashboard.html', context)
+    return render(request, 'invoice/dashboard_test.html', context)
 
 # Change invoice payment status to paid
 def mark_as_paid(request, invoice_id):

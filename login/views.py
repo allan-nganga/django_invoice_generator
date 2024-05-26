@@ -10,7 +10,7 @@ class LoginView(LoginView):
 # Dashboard function
 @login_required
 def dashboard(request):
-    return render(request, 'invoice/dashboard.html')
+    return render(request, 'invoice/dashboard_test.html')
 
 def authView(request):
     if request.method == 'POST':

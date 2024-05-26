@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auriva Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('https://example.com/background-image.jpg'); /* Replace with your background image URL */
+            background-size: cover;
+            margin: 0;
+            color: #333;
+        }
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #F3F4F6;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .sidebar h2 {
+            font-size: 24px;
+            color: #6C63FF;
+            margin-bottom: 20px;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin: 20px 0;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        .main-content {
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header .profile {
+            display: flex;
+            align-items: center;
+        }
+        .header .profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .card {
+            background-color: #F9FAFB;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .card h3 {
+            margin: 0 0 20px;
+            font-size: 20px;
+            color: #333;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .stats .stat {
+            text-align: center;
+        }
+        .stats .stat h4 {
+            margin: 0;
+            font-size: 16px;
+            color: #333;
+        }
+        .stats .stat p {
+            font-size: 18px;
+            font-weight: bold;
+            color: #6C63FF;
+        }
+        .bar-chart {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 20px;
+        }
+        .bar {
+            width: 14%;
+            background-color: #E0E7FF;
+            border-radius: 5px;
+            text-align: center;
+            padding: 5px 0;
+        }
+        .bar p {
+            margin: 0;
+            font-size: 14px;
+            color: #6C63FF;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table th, .table td {
+            padding: 10px;
+            text-align: left;
+        }
+        .table th {
+            background-color: #E0E7FF;
+            color: #6C63FF;
+        }
+        .table tr:nth-child(even) {
+            background-color: #F9FAFB;
+        }
+        .live-chat {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #6C63FF;
+            color: #fff;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+        }
+        .live-chat p {
+            margin: 0;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Auriva</h2>
+            <ul>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Cash Flows</a></li>
+                <li><a href="#">Monitor KPIS</a></li>
+                <li><a href="#">Manage Payables</a></li>
+                <li><a href="#">Manage Receivables</a></li>
+                <li><a href="#">Centime Products</a></li>
+                <li><a href="#">Sync Status</a></li>
+                <li><a href="#">Guide</a></li>
+                <li><a href="#">Settings</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <div class="header">
+                <div class="search-bar">
+                    <input type="text" placeholder="Search...">
+                </div>
+                <div class="profile">
+                    <img src="https://example.com/profile-pic.jpg" alt="Profile Picture"> <!-- Replace with profile picture URL -->
+                    <p>Johnson</p>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Payables</h3>
+                <div class="stats">
+                    <div class="stat">
+                        <h4>Total AR</h4>
+                        <p>$50,560</p>
+                    </div>
+                    <div class="stat">
+                        <h4>Total Overdue</h4>
+                        <p>$1,321</p>
+                    </div>
+                    <div class="stat">
+                        <h4>Total Customers</h4>
+                        <p>08</p>
+                    </div>
+                    <div class="stat">
+                        <h4>Total Invoices</h4>
+                        <p>20</p>
+                    </div>
+                </div>
+                <div class="bar-chart">
+                    <div class="bar" style="height: 100px;">
+                        <p>$1,500</p>
+                    </div>
+                    <div class="bar" style="height: 80px;">
+                        <p>$1,500</p>
+                    </div>
+                    <div class="bar" style="height: 90px;">
+                        <p>$1,500</p>
+                    </div>
+                    <div class="bar" style="height: 60px;">
+                        <p>$1,500</p>
+                    </div>
+                    <div class="bar" style="height: 70px;">
+                        <p>$1,500</p>
+                    </div>
+                    <div class="bar" style="height: 90px;">
+                        <p>$1,500</p>
+                    </div>
+                    <div class="bar" style="height: 100px;">
+                        <p>$1,500</p>
+                    </div>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Supplier</th>
+                            <th>Invoice</th>
+                            <th>Amount</th>
+                            <th>Due Date</th>
+                            <th>Payment Method</th>
+                            <th>Payment Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Thor Crop</td>
+                            <td>CIO00142</td>
+                            <td>$1,200.00</td>
+                            <td>15.10.2022</td>
+                            <td>Credit Card</td>
+                            <td>15.10.2022</td>
+                            <td>Paid</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="live-chat">
+        <p>Chat</p>
+    </div>
+</body>
+</html>
