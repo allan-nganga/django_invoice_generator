@@ -146,6 +146,7 @@
         user-select: none;
         z-index: 1000;
         margin-left: 190px;
+        white-space: nowrap;
     }
 
     .watermark.paid {
@@ -166,7 +167,8 @@
     </div>
 </div>
 <div class="invoice-box">
-    {% if invoice.status == 'paid' %}
+    <!-- Logic for watermark -->
+    {% if invoice.paid %}
     <div class="watermark paid">PAID</div>
     {% else %}
     <div class="watermark unpaid">UNPAID</div>
