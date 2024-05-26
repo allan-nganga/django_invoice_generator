@@ -28,6 +28,7 @@
         margin-bottom: 8px;
         display: flex;
         width: 790px;
+        border: solid 3px #6C63FF;
     }
 
     .page_title {
@@ -77,7 +78,9 @@
     .company-logo img {
         justify-content: flex-end;
         height: 90px;
+        margin-left: 450px;
     }
+
     .invoice-to p,
     .invoice-details p {
         margin: 0;
@@ -98,9 +101,6 @@
         color: #fff;
     }
 
-    .unpaid {
-        background-color: #f44336;
-    }
 
     table {
         width: 100%;
@@ -134,6 +134,27 @@
     .terms p {
         margin: 0;
     }
+
+    .watermark {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(-45deg);
+        font-size: 250px;
+        color: rgba(0, 0, 0, 0.1);
+        pointer-events: none;
+        user-select: none;
+        z-index: 1000;
+        margin-left: 190px;
+    }
+
+    .watermark.paid {
+        content: 'PAID';
+    }
+
+    .watermark.unpaid {
+        content: 'UNPAID';
+    }
 </style>
 {% endblock %}
 
@@ -145,6 +166,11 @@
     </div>
 </div>
 <div class="invoice-box">
+    {% if invoice.status == 'paid' %}
+    <div class="watermark paid">PAID</div>
+    {% else %}
+    <div class="watermark unpaid">UNPAID</div>
+    {% endif %}
     <h1>INVOICE # {{ invoice.id }}</h1>
     <div class="company-logo">
         {% load static %}

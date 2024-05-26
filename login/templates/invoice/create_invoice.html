@@ -2,37 +2,81 @@
 
 {% block title %}Create Invoice{% endblock %}
 
+{% block extra_styles %}
+<style>
+    .header {
+        padding: 10px;
+        background-color: #d1dbf9;
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 8px;
+        display: flex;
+        border: solid 3px #6C63FF;
+        width: 1135px;
+        margin-left: 180px;
+    }
+
+    .page_title {
+        display: flex;
+        text-align: left;
+        color: #6C63FF;
+        align-items: center;
+        padding-left: 400px;
+    }
+
+    .container {
+        background-color: #F9FAFB;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        border: solid 3px #6C63FF;
+        width: 1800px;
+    }
+    label {
+        font-size: large;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        padding: 5px;
+    }
+    input {
+        border-radius: 5px;
+        height: 40px;
+        width: 300px;
+        padding: 8px;
+    }
+</style>
+{% endblock %}
+
 {% block content%}
 <section>
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-        <div
-            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">{{page_title}}</h1>
-        </div>
-        <div class="container">
+    <div class="header">
+        <div class="page_title">
             <h1>Create Invoice</h1>
-            <form method="post">
-                {% csrf_token %}
-                <label for="client_name">Client Name:</label>
-                <input type="text" id="client_name" name="client_name"><br>
-                <label for="company_name">Company Name:</label>
-                <input type="text" id="company_name" name="company_name"><br>
-                <label for="billing_address">Billing Address:</label>
-                <input type="text" id="billing_address" name="billing_address"><br>
-                <label for="item_description">Item Description</label>
-                <input type="text" id="item_description" name="item_description"><br>
-                <label for="item_quantity">Item Quantity:</label>
-                <input type="int" id="item_quantity" name="item_quantity"><br>
-                <label for="item_price">Item Price:</label>
-                <input type="int" id="item_price" name="item_price"><br>
-                <label for="due_date">Due Date:</label>
-                <input type="date" id="due_date" name="due_date"><br>
-                <label for="paid">Paid:</label>
-                <input type="checkbox" id="paid" name="paid"><br>
-
-                <button type="submit" class="btn btn-primary">Create Invoice</button>
-            </form>
         </div>
+    </div>
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            <label for="client_name">Client Name:</label>
+            <input type="text" id="client_name" name="client_name"><br>
+            <label for="company_name">Company Name:</label>
+            <input type="text" id="company_name" name="company_name"><br>
+            <label for="billing_address">Billing Address:</label>
+            <input type="text" id="billing_address" name="billing_address"><br>
+            <label for="item_description">Item Description</label>
+            <input type="text" id="item_description" name="item_description"><br>
+            <label for="item_quantity">Item Quantity:</label>
+            <input type="int" id="item_quantity" name="item_quantity"><br>
+            <label for="item_price">Item Price:</label>
+            <input type="int" id="item_price" name="item_price"><br>
+            <label for="due_date">Due Date:</label>
+            <input type="date" id="due_date" name="due_date"><br>
+            <label for="paid">Paid:</label>
+            <input type="checkbox" id="paid" name="paid"><br>
+
+            <button type="submit" class="btn btn-primary">Create Invoice</button>
+        </form>
+    </div>
     </main>
 </section>
 {% endblock %}
