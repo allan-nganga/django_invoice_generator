@@ -137,6 +137,9 @@
                                 Unpaid</a>
                         </div>
                     </div>
+                    <!-- Download PDF -->
+                    <a href="{% url 'invoicing_app:generate_invoice_pdf' invoice.id %}" class="btn btn-secondary btn-sm"><span
+                        data-feather="download"></span>Download</a>
 </div>
 </td>
 </tr>
