@@ -71,14 +71,14 @@ def generate_invoice_pdf(request, invoice_id):
 
 # invoice generate function
 def create_invoice(request):
-    context = {'page_title':'Create Invoice'}
+    # context = {'page_title':'Create Invoice'}
     if request.method == 'POST':
         form = InvoiceForm(request.POST)
         if form.is_valid():
             invoice = form.save()
             return redirect('invoicing_app:invoice_detail', invoice_id=invoice.id)
         else:
-            return render(request, 'invoice/create_invoice.html', {'form': form}, context)
+            return render(request, 'invoice/create_invoice.html', {'form': form})
 
     else:
         # if the form is invalid, render the form again with validation errors
