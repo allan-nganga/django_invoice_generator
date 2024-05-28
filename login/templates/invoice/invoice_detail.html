@@ -9,26 +9,16 @@
         margin: 20mm;
     }
 
-    html,
-    body {
-        padding-left: 250px;
-        font-family: 'Arial', sans-serif;
-        background-color: #f9f9f9;
-        margin: 0;
-        height: 297mm;
-        width: 210mm;
-    }
-
     .header {
         padding: 10px;
         text-align: right;
         background-color: #d1dbf9;
         border-radius: 10px;
-        padding: 10px;
         margin-bottom: 8px;
         display: flex;
         width: 790px;
         border: solid 3px #6C63FF;
+        margin-left: 340px;
     }
 
     .page_title {
@@ -47,7 +37,7 @@
         margin: 20px auto;
         border: 1px solid #ccc;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-        border-radius: 10px;
+        border-radius: 5px;
         font-size: 16px;
         line-height: 24px;
         font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
@@ -75,7 +65,8 @@
         vertical-align: text-bottom;
     }
 
-    .company-logo img {
+
+    .company-brand img {
         justify-content: flex-end;
         height: 90px;
         margin-left: 450px;
@@ -98,7 +89,7 @@
     .status {
         padding: 5px 10px;
         border-radius: 3px;
-        color: #fff;
+        color: #e41616;
     }
 
 
@@ -145,7 +136,7 @@
         pointer-events: none;
         user-select: none;
         z-index: 1000;
-        margin-left: 190px;
+        margin-left: 0px;
         white-space: nowrap;
     }
 
@@ -174,7 +165,7 @@
     <div class="watermark unpaid">UNPAID</div>
     {% endif %}
     <h1>INVOICE # {{ invoice.id }}</h1>
-    <div class="company-logo">
+    <div class="company-brand">
         {% load static %}
         <img src="{% static 'invoice/creative-junk logo.jpg'%}"><br>
     </div>
