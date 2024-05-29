@@ -104,7 +104,7 @@
         <form method="get" action="{% url 'invoicing_app:invoice_list' %}">
             <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}">
             <button type="submit"><span data-feather="search"></span> Search</button>
-            <button type="button" class="clear-button" onclick="clearSearch()"><span data-feather="x"></span></button>
+            <button type="button" class="clear-button" onclick="clearSearch()"><span data-feather="x"></span> Clear</button>
             <!-- <input type="text" placeholder="Search..."> -->
         </form>
     </div>
