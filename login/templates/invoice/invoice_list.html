@@ -22,6 +22,19 @@
         align-items: center;
     }
 
+    .search-bar button {
+        color: #fff;
+        background-color: #d9534f;
+        border: none;
+        padding: 10px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        position: relative;
+        height: 40px;
+        width: 120px;
+        margin-top: 5px;
+    }
+
     .page_title,
     .search-bar {
         padding: 5px;
@@ -88,7 +101,11 @@
         <h1>Invoice List</h1>
     </div>
     <div class="search-bar">
-        <input type="text" placeholder="Search...">
+        <form method="get" action="{% url 'invoicing_app:invoice_list' %}">
+            <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}">
+            <button type="submit"><span data-feather="search"></span> Search</button>
+            <!-- <input type="text" placeholder="Search..."> -->
+        </form>
     </div>
 </div>
 <div class="card">
@@ -140,8 +157,8 @@
                         </div>
                     </div>
                     <!-- Download PDF -->
-                    <a href="{% url 'invoicing_app:generate_invoice_pdf' invoice.id %}" class="btn btn-secondary btn-sm"><span
-                        data-feather="download"></span>Download</a>
+                    <a href="{% url 'invoicing_app:generate_invoice_pdf' invoice.id %}"
+                        class="btn btn-secondary btn-sm"><span data-feather="download"></span>Download</a>
 </div>
 </td>
 </tr>

@@ -3,11 +3,13 @@ body {
     display: flex;
     background-color: #f0f0fa;
 }
+
 /* Sidebar styles */
 .sidebar {
     position: fixed;
     left: 0;
-    z-index: 100; /* Behind the navbar */
+    z-index: 100;
+    /* Behind the navbar */
     box-shadow: inset -1px 0 0 rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     width: 300px;
@@ -33,11 +35,13 @@ body {
 .sidebar-sticky {
     position: -webkit-sticky;
     position: sticky;
-    top: 0; /* Height of navbar */
+    top: 0;
+    /* Height of navbar */
     height: calc(100vh - 48px);
     padding-top: 0.5rem;
     overflow-x: hidden;
-    overflow-y: auto; /* Scrollable contents */
+    overflow-y: auto;
+    /* Scrollable contents */
     border-radius: 20px;
     font-family: Arial, Helvetica, sans-serif;
 }
@@ -116,9 +120,11 @@ body {
     box-sizing: border-box;
     margin-top: 60px;
 }
+
 .logout-form {
     margin: 0;
 }
+
 .logout-button {
     color: #fff;
     background-color: #d9534f;
@@ -132,7 +138,7 @@ body {
     width: 150px;
     margin-top: 15px;
 }
+
 .logout-button:hover {
     background-color: #c9302c;
 }
-

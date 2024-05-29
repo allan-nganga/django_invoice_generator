@@ -5,6 +5,7 @@ from django.template.loader import render_to_string
 from .models import Invoice
 from .forms import InvoiceForm
 from weasyprint import HTML
+from django.db.models import Q
 
 # Create your views here.
 
@@ -44,14 +45,17 @@ def generate_invoice_pdf(request, invoice_id):
     # Prepare context data for the template
     context = {
         'invoice': {
-            'number': invoice.id,
+            'id': invoice.id,
             'client_name': invoice.client_name,
             'company_name': invoice.company_name,
             'billing_address': invoice.billing_address,
             'item_description': invoice.item_description,
             'item_quantity': invoice.item_quantity,
-            'item_price': invoice.item_price,  
-            'due_date': invoice.due_date, 
+            'item_price': invoice.item_price,
+            'total_cost': invoice.total_cost,  
+            'due_date': invoice.due_date,
+            'created_at':invoice.created_at,
+            'paid':invoice.paid, 
         }
     }
 
@@ -89,6 +93,16 @@ def create_invoice(request):
 def invoice_list(request):
     # context = {'page_title': 'Invoice List'}
     invoice = Invoice.objects.all()
+
+    # Search-bar function
+    query = request.GET.get('q')
+    if query:
+        invoice = Invoice.objects.filter(
+            Q(id__icontains=query) |
+            Q(client_name__icontains=query)
+        )
+    else:
+        invoice = Invoice.objects.all()
     return render(request, 'invoice/invoice_list.html', {'invoice': invoice})
 
 # Display contents of the requested invoice

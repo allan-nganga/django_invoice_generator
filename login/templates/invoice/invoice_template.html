@@ -5,34 +5,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice</title>
+    <title>Invoice {{ invoice.id }}</title>
     <style>
         @page {
             size: A4;
-            margin: 20mm;
+            margin: 0mm;
         }
 
-        html,
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f9f9f9;
+        .body {
+            padding: 0;
             margin: 0;
-            padding: 20px;
-            height: 297mm;
-            width: 210mm;
         }
 
         .invoice-box {
+            height: 297mm;
+            width: 210mm;
             background-color: #fff;
-            padding: 30px;
-            margin: auto;
-            border: 1px solid #eee;
-            max-width: 800px;
+            padding: 20mm;
+            margin: 20px auto;
+            border: 1px solid #ccc;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            border-radius: 5px;
             font-size: 16px;
             line-height: 24px;
             font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
             box-sizing: border-box;
+            justify-content: center;
+            align-items: center;
         }
 
         .invoice-box h1 {
@@ -47,7 +46,20 @@
             margin-bottom: 20px;
         }
 
-        .company-info p,
+        .company-info p {
+            margin: 0;
+            line-height: 1.6;
+            text-align: right;
+            vertical-align: text-bottom;
+        }
+
+
+        .company-brand img {
+            justify-content: flex-end;
+            height: 90px;
+            margin-left: 450px;
+        }
+
         .invoice-to p,
         .invoice-details p {
             margin: 0;
@@ -65,12 +77,9 @@
         .status {
             padding: 5px 10px;
             border-radius: 3px;
-            color: #fff;
+            color: #e41616;
         }
 
-        .unpaid {
-            background-color: #f44336;
-        }
 
         table {
             width: 100%;
@@ -82,7 +91,7 @@
 
         table th,
         table td {
-            border: 1px solid #ddd;
+            border: 2px solid #000000;
             padding: 8px;
             text-align: left;
             vertical-align: top;
@@ -104,19 +113,45 @@
         .terms p {
             margin: 0;
         }
+
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 250px;
+            color: rgba(0, 0, 0, 0.1);
+            pointer-events: none;
+            user-select: none;
+            z-index: 1000;
+            margin-left: 0px;
+            white-space: nowrap;
+        }
+
+        .watermark.paid {
+            content: 'PAID';
+        }
+
+        .watermark.unpaid {
+            content: 'UNPAID';
+        }
     </style>
-    <!--
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'invoice/style.css' %}">
-    -->
 </head>
 
 <body>
     <div class="invoice-box">
+        <!-- Logic for watermark -->
+        {% if invoice.paid %}
+        <div class="watermark paid">PAID</div>
+        {% else %}
+        <div class="watermark unpaid">UNPAID</div>
+        {% endif %}
         <h1>INVOICE # {{ invoice.id }}</h1>
-        <div class="company-info">
+        <div class="company-brand">
             {% load static %}
-            <img src="{% static 'invoice/creative-junk logo.jpg'%}">
+            <img src="{% static 'invoice/creative-junk logo.jpg'%}"><br>
+        </div>
+        <div class="company-info">
             <p><strong>Creative Junk Ltd</strong></p>
             <p>3rd Floor, College House</p>
             <p>Koinange Street / University Way</p>
@@ -162,5 +197,5 @@
             <p>All Payments to be made out to CREATIVE JUNK LTD</p>
         </div>
     </div>
-</body>
+
 </html>
