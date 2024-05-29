@@ -104,6 +104,7 @@
         <form method="get" action="{% url 'invoicing_app:invoice_list' %}">
             <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}">
             <button type="submit"><span data-feather="search"></span> Search</button>
+            <button type="button" class="clear-button" onclick="clearSearch()"><span data-feather="x"></span></button>
             <!-- <input type="text" placeholder="Search..."> -->
         </form>
     </div>
@@ -166,4 +167,14 @@
 </tbody>
 </table>
 </div>
+<script>
+    function clearSearch() {
+        // Clear the search input field
+        const searchInput = document.querySelector('.search-bar input[name="q"]');
+        searchInput.value = '';
+    
+        // Redirect to the invoice list page without query parameters
+        window.location.href = "{% url 'invoicing_app:invoice_list' %}";
+    }
+    </script>
 {% endblock %}
