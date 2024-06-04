@@ -1,255 +1,238 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auriva Dashboard</title>
+    <title>Dashboard</title>
     <style>
+        /* styles.css */
+
         body {
-            font-family: 'Arial', sans-serif;
-            background-image: url('https://example.com/background-image.jpg'); /* Replace with your background image URL */
-            background-size: cover;
             margin: 0;
-            color: #333;
+            font-family: Arial, sans-serif;
         }
+
         .container {
-            display: flex;
+            display: grid;
+            grid-template-columns: 250px 1fr 300px;
+            grid-template-rows: auto 1fr;
+            grid-template-areas:
+                "header header header"
+                "sidebar main right-sidebar";
             height: 100vh;
-            border-radius: 20px;
-            box-shadow: #333;
         }
-        .sidebar {
-            position: relative;
-            top: 20px;
-            bottom: 30px;
-            width: 250px;
-            background-color: #d1dbf9;
-            padding: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            border-radius: 15px;
-            height: 94vh;
-            overflow: hidden;
-        }
-        .sidebar h2 {
-            font-size: 24px;
-            color: #6C63FF;
-            margin-bottom: 20px;
-        }
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .sidebar ul li {
-            margin: 20px 0;
-        }
-        .sidebar ul li a {
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-        }
-        .main-content {
-            flex: 1;
-            background-color: #fff;
-            padding: 20px;
-            overflow-y: auto;
-        }
-        .header {
+
+        header {
+            grid-area: header;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 0 20px;
+            background-color: #f7f7f7;
+            border-bottom: 1px solid #ccc;
         }
-        .header .profile {
+
+        header .date {
+            font-size: 18px;
+        }
+
+        header .profile {
             display: flex;
             align-items: center;
         }
-        .header .profile img {
+
+        header .notifications {
+            position: relative;
+            margin-right: 20px;
+        }
+
+        header .notifications .badge {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            padding: 5px;
+            font-size: 12px;
+        }
+
+        header .user-icon {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            margin-right: 10px;
-        }
-        .card {
-            background-color: #F9FAFB;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        .card h3 {
-            margin: 0 0 20px;
-            font-size: 20px;
-            color: #333;
-        }
-        .stats {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        .stats .stat {
-            text-align: center;
-        }
-        .stats .stat h4 {
-            margin: 0;
-            font-size: 16px;
-            color: #333;
-        }
-        .stats .stat p {
-            font-size: 18px;
-            font-weight: bold;
-            color: #6C63FF;
-        }
-        .bar-chart {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 20px;
-        }
-        .bar {
-            width: 14%;
-            background-color: #E0E7FF;
-            border-radius: 5px;
-            text-align: center;
-            padding: 5px 0;
-        }
-        .bar p {
-            margin: 0;
-            font-size: 14px;
-            color: #6C63FF;
-        }
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .table th, .table td {
-            padding: 10px;
-            text-align: left;
-        }
-        .table th {
-            background-color: #E0E7FF;
-            color: #6C63FF;
-        }
-        .table tr:nth-child(even) {
-            background-color: #F9FAFB;
-        }
-        .live-chat {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background-color: #6C63FF;
-            color: #fff;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
+            background-color: #ccc;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-        }
-        .live-chat p {
-            margin: 0;
             font-size: 18px;
+            color: white;
+        }
+
+        aside {
+            grid-area: sidebar;
+            background-color: #800000;
+            color: white;
+            padding: 20px;
+        }
+
+        aside nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        aside nav ul li {
+            margin-bottom: 15px;
+        }
+
+        aside nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        main {
+            grid-area: main;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        main .course-overview {
+            margin-bottom: 20px;
+        }
+
+        main .course-overview h2 {
+            margin-top: 0;
+        }
+
+        main .courses {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        main .course-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        main .course-card h3 {
+            margin-top: 0;
+        }
+
+        main .course-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .right-sidebar {
+            grid-area: right-sidebar;
+            background-color: #f7f7f7;
+            padding: 20px;
+        }
+
+        .right-sidebar .calendar,
+        .right-sidebar .events {
+            margin-bottom: 20px;
+        }
+
+        .right-sidebar .calendar h3,
+        .right-sidebar .events h3 {
+            margin-top: 0;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
-        <div class="sidebar">
-            <h2>Auriva</h2>
-            <ul>
-                <li><a href="#">Dashboard</a></li>
-                <li><a href="#">Cash Flows</a></li>
-                <li><a href="#">Monitor KPIS</a></li>
-                <li><a href="#">Manage Payables</a></li>
-                <li><a href="#">Manage Receivables</a></li>
-                <li><a href="#">Centime Products</a></li>
-                <li><a href="#">Sync Status</a></li>
-                <li><a href="#">Guide</a></li>
-                <li><a href="#">Settings</a></li>
-            </ul>
-        </div>
-        <div class="main-content">
-            <div class="header">
-                <div class="search-bar">
-                    <input type="text" placeholder="Search...">
+        <header>
+            <div class="date" id="current-date"></div>
+            <div class="profile">
+                <div class="user-icon">AN</div>
+            </div>
+        </header>
+        <aside>
+            <nav>
+                <ul>
+                    <li><a href="#">My Learning</a></li>
+                    <li><a href="#">Available Courses</a></li>
+                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="#">Profile</a></li>
+                    <li><a href="#">Submissions</a></li>
+                    <li><a href="#">Timetable</a></li>
+                    <li><a href="#">Groups</a></li>
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">AI Chatbot</a></li>
+                </ul>
+            </nav>
+        </aside>
+        <main>
+            <section class="course-overview">
+                <h2>Software Development</h2>
+                <p>This course is meant to train young people from Africa, starting at a point of little experience to
+                    fairly skilled software developers ready to get into the market place and jump on the next phase of
+                    their learning at an advanced levels.</p>
+            </section>
+            <section class="courses">
+                <div class="course-card">
+                    <h3>Python Programming</h3>
+                    <img src="python-course.png" alt="Python Programming">
                 </div>
-                <div class="profile">
-                    <img src="https://example.com/profile-pic.jpg" alt="Profile Picture"> <!-- Replace with profile picture URL -->
-                    <p>Johnson</p>
+                <div class="course-card">
+                    <h3>Web Technologies</h3>
+                    <img src="web-tech-course.png" alt="Web Technologies">
+                </div>
+                <div class="course-card">
+                    <h3>Dart with Flutter</h3>
+                    <img src="dart-flutter-course.png" alt="Dart with Flutter">
+                </div>
+                <div class="course-card">
+                    <h3>Database</h3>
+                    <img src="database-course.png" alt="Database">
+                </div>
+                <div class="course-card">
+                    <h3>Entrepreneurship and Personal Development</h3>
+                    <img src="entrepreneurship-course.png" alt="Entrepreneurship and Personal Development">
+                </div>
+                <div class="course-card">
+                    <h3>Software Engineering</h3>
+                    <img src="software-engineering-course.png" alt="Software Engineering">
+                </div>
+            </section>
+        </main>
+        <aside class="right-sidebar">
+            <div class="calendar">
+                <h3>Calendar</h3>
+                <div class="calendar-widget">
+                    <p>June 2024</p>
+                    <!-- Calendar dates would go here -->
                 </div>
             </div>
-            <div class="card">
-                <h3>Payables</h3>
-                <div class="stats">
-                    <div class="stat">
-                        <h4>Total AR</h4>
-                        <p>$50,560</p>
-                    </div>
-                    <div class="stat">
-                        <h4>Total Overdue</h4>
-                        <p>$1,321</p>
-                    </div>
-                    <div class="stat">
-                        <h4>Total Customers</h4>
-                        <p>08</p>
-                    </div>
-                    <div class="stat">
-                        <h4>Total Invoices</h4>
-                        <p>20</p>
-                    </div>
-                </div>
-                <div class="bar-chart">
-                    <div class="bar" style="height: 100px;">
-                        <p>$1,500</p>
-                    </div>
-                    <div class="bar" style="height: 80px;">
-                        <p>$1,500</p>
-                    </div>
-                    <div class="bar" style="height: 90px;">
-                        <p>$1,500</p>
-                    </div>
-                    <div class="bar" style="height: 60px;">
-                        <p>$1,500</p>
-                    </div>
-                    <div class="bar" style="height: 70px;">
-                        <p>$1,500</p>
-                    </div>
-                    <div class="bar" style="height: 90px;">
-                        <p>$1,500</p>
-                    </div>
-                    <div class="bar" style="height: 100px;">
-                        <p>$1,500</p>
-                    </div>
-                </div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Supplier</th>
-                            <th>Invoice</th>
-                            <th>Amount</th>
-                            <th>Due Date</th>
-                            <th>Payment Method</th>
-                            <th>Payment Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Thor Crop</td>
-                            <td>CIO00142</td>
-                            <td>$1,200.00</td>
-                            <td>15.10.2022</td>
-                            <td>Credit Card</td>
-                            <td>15.10.2022</td>
-                            <td>Paid</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="events">
+                <h3>Events</h3>
+                <p>Sunday 2</p>
+                <p>No events on this date</p>
             </div>
-        </div>
+        </aside>
     </div>
-    <div class="live-chat">
-        <p>Chat</p>
-    </div>
+
+    <!-- Function to get and display the current date -->
+    <script>
+        function displayCurrentDate() {
+            const dateElement = document.getElementById('current-date');
+            const today = new Date();
+            const options = {year: 'numeric', month: '2-digit', day: '2-digit'};
+            dateElement.textContent = today.toLocaleDateString(undefined, options);
+        }
+
+        // Call funtion to display the date when the page loads
+        displayCurrentDate();
+    </script>
 </body>
+
 </html>

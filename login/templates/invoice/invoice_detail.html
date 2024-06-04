@@ -18,7 +18,8 @@
         display: flex;
         width: 790px;
         border: solid 3px #6C63FF;
-        margin-left: 340px;
+        margin-left: 345px;
+        box-sizing: border-box;
     }
 
     .page_title {
@@ -26,7 +27,35 @@
         text-align: left;
         color: #6C63FF;
         align-items: center;
-        padding-left: 250px;
+        padding-left: 20px;
+    }
+
+    .page_title a {
+        color: #fff;
+        background-color: #d9534f;
+        border: none;
+        padding: 10px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        position: relative;
+        height: 40px;
+        width: 120px;
+        margin-top: 5px;
+    }
+
+    .page_title,
+    .download {
+        padding: 5px;
+        flex: 1;
+    }
+
+    .download {
+        margin-bottom: 4px;
+        position: relative;
+        padding: 8px 30px 8px 10px;
+        border-radius: 4px;
+        outline: none;
+        justify-content: flex-end;
     }
 
     .invoice-box {
@@ -155,6 +184,11 @@
 <div class="header">
     <div class="page_title">
         <h1>Invoice Details</h1>
+        <div class="download">
+            <!-- Download PDF -->
+            <a href="{% url 'invoicing_app:generate_invoice_pdf' invoice.id %}" class="btn btn-secondary btn-sm">
+                <span data-feather="download"></span>Download</a>
+        </div>
     </div>
 </div>
 <div class="invoice-box">

@@ -6,6 +6,9 @@ from .models import Invoice
 from .forms import InvoiceForm
 from weasyprint import HTML
 from django.db.models import Q
+from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
+
 
 # Create your views here.
 
@@ -110,9 +113,14 @@ def invoice_detail(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
     return render(request, 'invoice/invoice_detail.html', {'invoice': invoice})
 
-def home(request):
-    context = {'page_title':'Home'}
-    return render(request, 'invoice/dashboard_test.html', context)
+# Dashboard function
+@login_required
+def dashboard(request):
+    total_amount = 0
+    paid_invoices = Invoice.objects.filter(paid=True)
+    for invoice in paid_invoices:
+        total_amount += invoice.total_cost
+    return render(request, 'invoice/dashboard.html', {'total_amount':total_amount})
 
 # Change invoice payment status to paid
 def mark_as_paid(request, invoice_id):
@@ -127,3 +135,8 @@ def mark_as_unpaid(request, invoice_id):
     invoice.paid = False
     invoice.save()
     return redirect('invoicing_app:invoice_detail', invoice_id=invoice.id)
+
+# Function for getting the total amount of money from invoices marked as paid
+def income_total(request):
+    
+    return render(request, 'invoice/dashboard.html')

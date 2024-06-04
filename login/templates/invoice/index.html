@@ -24,7 +24,7 @@
             <ul class="nav flex-column">
                 <li class="nav-item">
                     <a class="nav-link {% if page_title == 'Home' %}active{% endif %}"
-                        href="{% url 'login:dashboard' %}">
+                        href="{% url 'invoicing_app:dashboard' %}">
                         <span data-feather="home"></span>
                         Home
                     </a>
@@ -56,9 +56,7 @@
     </nav>
 
     <div class="head">
-        <div class="page-title">
-            <h1>Creative-Junk Limited</h1>
-        </div>
+        <div class="date" id="current-date"></div>
         <div class="form-group">
             {% if user.is_authenticated %}
             <form class="logout-form" action="{% url 'login:logout' %}" method="post">
@@ -79,6 +77,18 @@
     <script src="https://unpkg.com/feather-icons"></script>
     <script>
         feather.replace()
+    </script>
+    <script>
+        // Function to get and display the current date
+        function displayCurrentDate() {
+            const dateElement = document.getElementById('current-date');
+            const today = new Date();
+            const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            dateElement.textContent = today.toLocaleDateString(undefined, options);
+        }
+
+        // Call the function to display the date when the page loads
+        displayCurrentDate();
     </script>
 </body>
 
