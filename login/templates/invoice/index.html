@@ -12,7 +12,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     {% load static %}
     <link rel="stylesheet" href="{% static 'invoice/dash.css' %}">
-    {% block extra_styles %}{% endblock %}
+    {% block css %}{% endblock %}
 </head>
 
 <body>
@@ -41,13 +41,6 @@
                         href="{% url 'invoicing_app:invoice_list' %}">
                         <span data-feather="list"></span>
                         Invoice List
-                    </a>
-                </li>
-                <!-- Edit this to point to edit invoice -->
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'invoicing_app:invoice_list' %}">
-                        <span data-feather="edit"></span>
-                        Edit Invoice
                     </a>
                 </li>
                 <!-- Add more navigation items here -->

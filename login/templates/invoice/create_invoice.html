@@ -2,49 +2,9 @@
 
 {% block title %}Create Invoice{% endblock %}
 
-{% block extra_styles %}
-<style>
-    .header {
-        padding: 10px;
-        background-color: #d1dbf9;
-        border-radius: 5px;
-        padding: 10px;
-        margin-bottom: 8px;
-        display: flex;
-        border: solid 3px #6C63FF;
-        width: 1135px;
-        margin-left: 165px;
-    }
-
-    .page_title {
-        display: flex;
-        text-align: left;
-        color: #6C63FF;
-        align-items: center;
-        padding-left: 400px;
-    }
-
-    .container {
-        background-color: #F9FAFB;
-        padding: 20px;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        margin-bottom: 20px;
-        border: solid 3px #6C63FF;
-        width: 1800px;
-    }
-    label {
-        font-size: large;
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-        padding: 5px;
-    }
-    input {
-        border-radius: 5px;
-        height: 40px;
-        width: 300px;
-        padding: 8px;
-    }
-</style>
+{% block css %}
+{% load static %}
+    <link rel="stylesheet" href="{% static 'invoice/create_invoice.css' %}">
 {% endblock %}
 
 {% block content%}

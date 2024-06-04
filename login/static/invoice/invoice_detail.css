@@ -1,0 +1,176 @@
+@page {
+    size: A4;
+    margin: 20mm;
+}
+
+.header {
+    padding: 10px;
+    text-align: right;
+    background-color: #d1dbf9;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    display: flex;
+    width: 790px;
+    border: solid 3px #6C63FF;
+    margin-left: 345px;
+    justify-content: space-between;
+    box-sizing: border-box;
+    height: 60px;
+    align-items: center;
+}
+
+.page_title {
+    display: flex;
+    text-align: left;
+    color: #6C63FF;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.page_title a {
+    color: #fff;
+    background-color: #d9534f;
+    border: none;
+    padding: 10px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    height: 40px;
+    width: 120px;
+    margin-top: 5px;
+}
+
+.download {
+    margin-bottom: 4px;
+    position: relative;
+    padding: 8px 30px 8px 10px;
+    border-radius: 4px;
+    outline: none;
+    justify-content: flex-end;
+    box-sizing: border-box;
+}
+
+.page_title,
+.download {
+    padding: 5px;
+    flex: 1;
+}
+
+.invoice-box {
+    height: 297mm;
+    width: 210mm;
+    background-color: #fff;
+    padding: 20mm;
+    margin: 20px auto;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    font-size: 16px;
+    line-height: 24px;
+    font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+    box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
+}
+
+.invoice-box h1 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.company-info,
+.invoice-to,
+.invoice-details {
+    margin-bottom: 20px;
+}
+
+.company-info p {
+    margin: 0;
+    line-height: 1.6;
+    text-align: right;
+    vertical-align: text-bottom;
+}
+
+
+.company-brand img {
+    justify-content: flex-end;
+    height: 90px;
+    margin-left: 450px;
+}
+
+.invoice-to p,
+.invoice-details p {
+    margin: 0;
+    line-height: 1.6;
+}
+
+.invoice-to {
+    margin-top: 40px;
+}
+
+.invoice-details {
+    text-align: right;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 3px;
+    color: #e41616;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    line-height: inherit;
+    text-align: left;
+}
+
+table th,
+table td {
+    border: 2px solid #000000;
+    padding: 8px;
+    text-align: left;
+    vertical-align: top;
+}
+
+table th {
+    background-color: #f2f2f2;
+}
+
+.totals {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.terms {
+    margin-top: 40px;
+}
+
+.terms p {
+    margin: 0;
+}
+
+.watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    font-size: 250px;
+    color: rgba(0, 0, 0, 0.1);
+    pointer-events: none;
+    user-select: none;
+    z-index: 1000;
+    margin-left: 0px;
+    white-space: nowrap;
+}
+
+.watermark.paid {
+    content: 'PAID';
+}
+
+.watermark.unpaid {
+    content: 'UNPAID';
+}
