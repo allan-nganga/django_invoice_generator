@@ -57,7 +57,6 @@ body {
 
 .head {
     display: flex;
-    margin-left: 340px;
     padding: 10px;
     background-color: #d1dbf9;
     color: #6C63FF;
@@ -70,8 +69,10 @@ body {
     border: solid 3px #6C63FF;
     margin-top: 10px;
     text-align: right;
-    width: 80%;
+    width: 100%;
     justify-content: space-between;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .head h1 {
