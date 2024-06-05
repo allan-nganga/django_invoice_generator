@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect, get_object_or_404
-import html
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from .models import Invoice
@@ -68,7 +67,7 @@ def generate_invoice_pdf(request, invoice_id):
 
     # Create a PDF file using WeasyPrint
     # pdf_file = weasyprint.HTML(string=html_string).write_pdf(stylesheets=[weasyprint.css('login/static/invoice/style.css')])
-    html = HTML(string =html_string)
+    html = HTML(string =html_string, base_url=request.build_absolute_uri('/'))
     pdf = html.write_pdf()
 
     # Create a HTTP response with PDF as content type
@@ -76,7 +75,7 @@ def generate_invoice_pdf(request, invoice_id):
     response['Content-Disposition'] = f'attachment; filename="invoice_{invoice.id}.pdf"'
     return response
 
-# invoice generate function
+# invoice create function
 def create_invoice(request):
     # context = {'page_title':'Create Invoice'}
     if request.method == 'POST':
@@ -135,8 +134,3 @@ def mark_as_unpaid(request, invoice_id):
     invoice.paid = False
     invoice.save()
     return redirect('invoicing_app:invoice_detail', invoice_id=invoice.id)
-
-# Function for getting the total amount of money from invoices marked as paid
-def income_total(request):
-    
-    return render(request, 'invoice/dashboard.html')

@@ -2,48 +2,9 @@
 
 {% block title %}Dashboard{% endblock %}
 
-{% block extra_styles %}
-<style>
-    .container {
-        box-sizing: border-box;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-        background-color: #fff;
-        padding: 20px;
-        width: 80%;
-        height: 90vh;
-    }
-
-    .card {
-        background-color: #fff;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        width: 300px;
-        margin: 20px;
-        /* Set a fixed width for the cards */
-    }
-
-    .card-title {
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 35px;
-    }
-
-    .card h2 {
-        font-size: 20px;
-        font-family: Arial, Helvetica, sans-serif;
-        padding: 10px;
-        font-weight: bolder;
-    }
-
-    @media (max-width: 640px) {
-        .card {
-            width: 100%;
-            /* Make the cards take full width on small screens */
-        }
-    }
-</style>
+{% block css %}
+{% load static %}
+    <link rel="stylesheet" href="{% static 'invoice/dashboard.css' %}">
 {% endblock %}
 
 {% load humanize %}
