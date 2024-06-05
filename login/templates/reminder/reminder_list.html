@@ -1,22 +1,70 @@
-<!-- reminders/templates/reminders/reminder_list.html -->
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'invoice/index.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Reminder List</title>
-</head>
+{% block title %}Reminder List{% endblock %}
 
-<body>
-    <h1>Reminders</h1>
-    <a href="{% url 'reminders:reminder_create' %}">Create New Reminder</a>
-    <ul>
-        {% for reminder in reminders %}
-        <li>
-            <a href="{% url 'reminders:reminder_detail' reminder.id %}">{{ reminder.title }}</a> - {{ reminder.date }}
-        </li>
-        {% endfor %}
-    </ul>
-</body>
+{% block css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'reminder/reminder_list.css' %}?{% now 'U' %}">
+{% endblock %}
 
-</html>
+{% load humanize %}
+{% block content %}
+<div class="header">
+    <div class="page_title">
+        <h1>Reminder List</h1>
+    </div>
+    <div class="search-bar">
+        <form method="get" action="{% url 'reminders:reminder_list' %}">
+            <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}">
+            <button type="submit"><span data-feather="search"></span> Search</button>
+            <button type="button" class="clear-button" onclick="clearSearch()"><span data-feather="x"></span>
+                Clear</button>
+        </form>
+    </div>
+</div>
+<div class="card scrollable-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>title</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reminder in reminders %}
+            <tr>
+                <td>{{ reminder.id }}</td>
+                <td>{{ reminder.title }}</td>
+                <td>{{ reminder.date}}</td>
+                <td>
+                    <a href="{% url 'reminders:reminder_detail' invoice.id %}" class="btn btn-primary btn-sm"><span
+                            data-feather="eye"></span>View</a>
+                    <a href="{% url 'reminders:reminder_edit' invoice.id %}" class="btn btn-secondary btn-sm"><span
+                            data-feather="edit"></span>Edit</a>
+                    <form action="{% url 'reminders:delete_reminder' invoice.id %}" method="post"
+                        style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm"
+                            onclick="return confirm('Are you sure you want to delete this invoice?');"><span
+                                data-feather="trash-2"></span>Delete</button>
+                    </form>
+</div>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+<script>
+    function clearSearch() {
+        // Clear the search input field
+        const searchInput = document.querySelector('.search-bar input[name="q"]');
+        searchInput.value = '';
+
+        // Redirect to the invoice list page without query parameters
+        window.location.href = "{% url 'invoicing_app:invoice_list' %}";
+    }
+</script>
+{% endblock %}
