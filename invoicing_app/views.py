@@ -6,7 +6,7 @@ from .forms import InvoiceForm
 from weasyprint import HTML
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum
+from django.db.models import Sum, F, FloatField, ExpressionWrapper
 
 
 # Create your views here.
@@ -112,14 +112,41 @@ def invoice_detail(request, invoice_id):
     invoice = get_object_or_404(Invoice, pk=invoice_id)
     return render(request, 'invoice/invoice_detail.html', {'invoice': invoice})
 
+# Invoice summary
+def invoice_summary():
+    total_invoices = Invoice.objects.count()
+    total_paid_invoices = Invoice.objects.filter(paid=True).count()
+    total_unpaid_invoices = Invoice.objects.filter(paid=False).count()
+
+    return {
+        'total_invoices': total_invoices,
+        'total_paid_invoices' : total_paid_invoices,
+        'total_unpaid_invoices' : total_unpaid_invoices,
+    }
+
 # Dashboard function
 @login_required
 def dashboard(request):
+    # Get invoice summary data
+    summary_data = invoice_summary()
+
+    """
     total_amount = 0
     paid_invoices = Invoice.objects.filter(paid=True)
     for invoice in paid_invoices:
         total_amount += invoice.total_cost
-    return render(request, 'invoice/dashboard.html', {'total_amount':total_amount})
+
+        'total_amount':total_amount
+    """
+    total_amount = Invoice.objects.filter(paid=True).annotate(
+        total_cost=ExpressionWrapper(F('item_price')* F('item_quantity'),output_field=FloatField())
+    ).aggregate(total_amount=Sum('total_cost'))['total_amount'] or 0
+    ['total_amount'] or 0
+    context = {
+        'total_amount':total_amount
+    }
+    context.update(summary_data)
+    return render(request, 'invoice/dashboard.html', context)
 
 # Change invoice payment status to paid
 def mark_as_paid(request, invoice_id):
