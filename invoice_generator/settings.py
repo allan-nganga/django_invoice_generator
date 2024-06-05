@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize', # For formatting int values to currency format
     'login',
     'invoicing_app',
+    'reminders',
 ]
 
 MIDDLEWARE = [

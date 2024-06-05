@@ -23,4 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(('login.urls', 'login'), 'login')),
     path('',include(('invoicing_app.urls', 'invoicing_app'),'invoicing_app')),
+    path('reminders/', include('reminders.urls')),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

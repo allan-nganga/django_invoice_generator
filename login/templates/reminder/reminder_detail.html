@@ -1,0 +1,22 @@
+<!-- reminders/templates/reminders/reminder_detail.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reminder Detail</title>
+</head>
+
+<body>
+    <h1>{{ reminder.title }}</h1>
+    <p>{{ reminder.description }}</p>
+    <p>{{ reminder.date }}</p>
+    <a href="{% url 'reminders:reminder_edit' reminder.id %}">Edit</a>
+    <form action="{% url 'reminders:reminder_delete' reminder.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Delete</button>
+    </form>
+    <a href="{% url 'reminders:reminder_list' %}">Back to list</a>
+</body>
+
+</html>

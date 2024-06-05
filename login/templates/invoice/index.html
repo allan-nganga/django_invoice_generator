@@ -43,6 +43,20 @@
                         Invoice List
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if page_title == 'Invoice List' %}active{% endif %}"
+                        href="{% url 'reminders:reminder_create' %}">
+                        <span data-feather="plus-square"></span>
+                        Create Reminder
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if page_title == 'Invoice List' %}active{% endif %}"
+                        href="{% url 'reminders:reminder_list' %}">
+                        <span data-feather="bell"></span>
+                        Reminders
+                    </a>
+                </li>
                 <!-- Add more navigation items here -->
             </ul>
         </div>

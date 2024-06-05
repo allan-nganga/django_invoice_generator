@@ -1,0 +1,22 @@
+<!-- reminders/templates/reminders/reminder_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reminder List</title>
+</head>
+
+<body>
+    <h1>Reminders</h1>
+    <a href="{% url 'reminders:reminder_create' %}">Create New Reminder</a>
+    <ul>
+        {% for reminder in reminders %}
+        <li>
+            <a href="{% url 'reminders:reminder_detail' reminder.id %}">{{ reminder.title }}</a> - {{ reminder.date }}
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+
+</html>

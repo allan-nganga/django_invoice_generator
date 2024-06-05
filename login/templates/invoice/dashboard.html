@@ -27,19 +27,19 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Total invoices:</h5>
-                        <h2>{{ total_invoices }}</h2>
+                        <h2>{{ total_invoices |intcomma }}</h2>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Total unpaid invoices:</h5>
-                        <h2>{{ total_unpaid_invoices }}</h2>
+                        <h2>{{ total_unpaid_invoices |intcomma }}</h2>
                     </div>
                 </div>
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Total paid invoices:</h5>
-                        <h2>{{ total_paid_invoices }}</h2>
+                        <h2>{{ total_paid_invoices |intcomma }}</h2>
                     </div>
                 </div>
             </div>
