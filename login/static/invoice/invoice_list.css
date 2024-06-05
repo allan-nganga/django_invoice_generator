@@ -66,11 +66,12 @@
 
 .scrollable-container {
     background-color: #F9FAFB;
-    height: 775px; /* Fixed height for the container */
+    height: 82vh; /* Fixed height for the container */
     overflow-y: auto; /* Enable vertical scrolling */
     border: solid 3px #6C63FF; /* Optional: Add a border for better visibility */
     padding: 10px; /* Optional: Add some padding */
     position: relative;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .table thead {

@@ -17,7 +17,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
-    gap: 20px; /* Adjust the gap between the cards */
+    gap: 10px; /* Adjust the gap between the cards */
     width: 100%; /* Adjust as needed to control the overall size */
     height: 100%; /* Adjust as needed to control the overall size */
     box-sizing: border-box;

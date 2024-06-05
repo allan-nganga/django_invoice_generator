@@ -4,7 +4,7 @@
 
 {% block css %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'invoice/invoice_list.css' %}">
+<link rel="stylesheet" href="{% static 'invoice/invoice_list.css' %}?{% now 'U' %}">
 {% endblock %}
 
 {% load humanize %}
