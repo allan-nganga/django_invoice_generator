@@ -146,7 +146,7 @@ def dashboard(request):
         'total_amount':total_amount
     }
     context.update(summary_data)
-    return render(request, 'invoice/dashboard.html', context)
+    return render(request, 'dashboard.html', context)
 
 # Change invoice payment status to paid
 def mark_as_paid(request, invoice_id):

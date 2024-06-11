@@ -1,80 +1,8 @@
-{% extends 'invoice/index.html' %}
+{% extends 'base.html' %}
 
-{% block title %}Invoice Detail{% endblock %}
-
-{% block css %}
-{% load static %}
-    <link rel="stylesheet" href="{% static 'invoice/invoice_detail.css' %}">
-{% endblock %}
+{% block title %}View Invoice{% endblock %}
 
 {% load humanize %}
 {% block content %}
-<div class="header">
-    <div class="page_title">
-        <h1>Invoice Details</h1>
-        <div class="download">
-            <!-- Download PDF -->
-            <a href="{% url 'invoicing_app:generate_invoice_pdf' invoice.id %}" class="btn btn-secondary btn-sm">
-                <span data-feather="download"></span>Download</a>
-        </div>
-    </div>
-</div>
-<div class="invoice-box">
-    <!-- Logic for watermark -->
-    {% if invoice.paid %}
-    <div class="watermark paid">PAID</div>
-    {% else %}
-    <div class="watermark unpaid">UNPAID</div>
-    {% endif %}
-    <h1>INVOICE # {{ invoice.id }}</h1>
-    <div class="company-brand">
-        {% load static %}
-        <img src="{% static 'invoice/creative-junk_logo.jpg'%}"><br>
-    </div>
-    <div class="company-info">
-        <p><strong>Creative Junk Ltd</strong></p>
-        <p>3rd Floor, College House</p>
-        <p>Koinange Street / University Way</p>
-        <p>Nairobi, Kenya</p>
-    </div>
-    <div class="invoice-to">
-        <p><strong>Invoiced To</strong></p>
-        <p>{{ invoice.company_name }}</p>
-        <p>ATTN: {{ invoice.client_name }}</p>
-        <p>{{ invoice.billing_address }}</p>
-    </div>
-    <div class="invoice-details">
-        <p><strong>INVOICE #{{ invoice.id }}</strong></p>
-        <p>Status: <strong>{{invoice.paid|yesno:"Paid,Unpaid" }}</strong></span></p>
-        <p>Invoice Date: <strong>{{ invoice.created_at|date:"DATE_FORMAT" }}</strong></p>
-        <p>Due Date: <strong>{{ invoice.due_date|date:"DATE_FORMAT" }}</strong></p>
-        <p>Amount Due: <strong>Ksh {{ invoice.total_cost | floatformat:2|intcomma }}</strong></p>
-    </div>
-    <table>
-        <thead>
-            <tr>
-                <th>Item</th>
-                <th>Price</th>
-                <th>Qty</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ invoice.item_description }}</td>
-                <td>Ksh {{ invoice.item_price | floatformat:2|intcomma }}</td>
-                <!-- To display figures in currency format -->
-                <td>{{ invoice.item_quantity }}</td>
-                <td>Ksh {{ invoice.total_cost | floatformat:2|intcomma }}</td>
-            </tr>
-        </tbody>
-    </table>
-    <div class="totals">
-        <p>Grand Total: <strong>Ksh {{ invoice.total_cost | floatformat:2|intcomma }}</strong></p>
-    </div>
-    <div class="terms">
-        <p><strong>TERMS</strong></p>
-        <p>All Payments to be made out to CREATIVE JUNK LTD</p>
-    </div>
-</div>
+
 {% endblock %}

@@ -1,93 +1,278 @@
-{% extends 'invoice/index.html' %}
+{% extends 'base.html' %}
 
 {% block title %}Invoice List{% endblock %}
 
-{% block css %}
-{% load static %}
-<link rel="stylesheet" href="{% static 'invoice/invoice_list.css' %}?{% now 'U' %}">
-{% endblock %}
-
 {% load humanize %}
 {% block content %}
-<div class="header">
-    <div class="page_title">
-        <h1>Invoice List</h1>
-    </div>
-    <div class="search-bar">
-        <form method="get" action="{% url 'invoicing_app:invoice_list' %}">
-            <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q }}">
-            <button type="submit"><span data-feather="search"></span> Search</button>
-            <button type="button" class="clear-button" onclick="clearSearch()"><span data-feather="x"></span>
-                Clear</button>
-        </form>
-    </div>
-</div>
-<div class="card scrollable-container">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Client</th>
-                <th>Billing Address</th>
-                <th>Invoice Date</th>
-                <th>Due Date</th>
-                <th>Amount Due</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for invoice in invoice %}
-            <tr>
-                <td>{{ invoice.id }}</td>
-                <td>{{ invoice.client_name }}</td>
-                <td>{{ invoice.billing_address }}</td>
-                <td>{{ invoice.created_at|date:"DATE_FORMAT" }}</td>
-                <td>{{ invoice.due_date|date:"DATE_FORMAT" }}</td>
-                <td>{{ invoice.total_cost | floatformat:2|intcomma }}</td>
-                <td>{{ invoice.paid|yesno:"Paid,Unpaid" }}</td>
-                <td>
-                    <a href="{% url 'invoicing_app:invoice_detail' invoice.id %}" class="btn btn-primary btn-sm"><span
-                            data-feather="eye"></span>View</a>
-                    <a href="{% url 'invoicing_app:edit_invoice' invoice.id %}" class="btn btn-secondary btn-sm"><span
-                            data-feather="edit"></span>Edit</a>
-                    <form action="{% url 'invoicing_app:delete_invoice' invoice.id %}" method="post"
-                        style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger btn-sm"
-                            onclick="return confirm('Are you sure you want to delete this invoice?');"><span
-                                data-feather="trash-2"></span>Delete</button>
-                    </form>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            Status
-                        </button>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="{% url 'invoicing_app:mark_as_paid' invoice.id %}">Mark as
-                                Paid</a>
-                            <a class="dropdown-item" href="{% url 'invoicing_app:mark_as_unpaid' invoice.id %}">Mark as
-                                Unpaid</a>
+<div class="w-full bg-gray-900">
+    <div class="mx-auto max-w-7xl">
+        <div class="bg-gray-900 py-10">
+            <div class="px-4 sm:px-6 lg:px-8">
+                <div class="sm:flex sm:items-center">
+                    <div class="sm:flex-auto">
+                        <h1 class="text-base font-semibold leading-6 text-white">INVOICE LIST</h1>
+                    </div>
+                    <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+                        <a href="{% url 'invoicing_app:create_invoice' %}"
+                            class="block rounded-md bg-indigo-500 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Add
+                            invoice</a>
+                    </div>
+                </div>
+                <div class="mt-8 flow-root">
+                    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                            <table class="min-w-full divide-y divide-gray-700">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"
+                                            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-0">
+                                            #</th>
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
+                                            Client Name</th>
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
+                                            Billing Address</th>
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
+                                            Invoice Date</th>
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
+                                            Due Date</th>
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
+                                            Amount Due</th>
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
+                                            Status</th>
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
+                                            Actions</th>
+                                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
+                                            <span class="sr-only">Edit</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-800">
+                                    {% for invoice in invoice %}
+                                    <tr>
+                                        <td
+                                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-white sm:pl-0">
+                                            {{ invoice.id }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">Front-end
+                                            {{ invoice.client_name }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
+                                            {{ invoice.billing_address }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
+                                            {{ invoice.created_at | date:"DATE_FORMAT" }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
+                                            {{ invoice.due_date | date:"DATE_FORMAT" }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
+                                            {{ invoice.total_cost | floatformat:2|intcomma }}</td>
+                                        <!--
+                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
+                                            {{ invoice.paid|yesno:"Paid,Unpaid" }}</td>
+                                            -->
+                                        <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                                            <span
+                                                class="inline-flex items-center rounded-md bg-green-500/10 px-2 py-1 text-xs font-medium text-green-400 ring-1 ring-inset ring-green-500/20">
+                                                {{ invoice.paid|yesno:"Paid,Unpaid" }}</span>
+                                        </td>
+                                        <td
+                                            class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                                            <a href="{% url 'invoicing_app:invoice_detail' invoice.id %}"
+                                                class="text-indigo-400 hover:text-indigo-300">View</a>
+                                        </td>
+                                        <td
+                                            class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                                            <a href="{% url 'invoicing_app:edit_invoice' invoice.id %}"
+                                                class="text-indigo-400 hover:text-indigo-300">Edit</a>
+                                        </td>
+                                        <td
+                                            class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                                            <a href="#" class="text-indigo-400 hover:text-indigo-300"
+                                                onclick="event.preventDefault(); openModal('{{ invoice.id }}');">
+                                                Delete
+                                            </a>
+                                        </td>
+
+                                        <td
+                                            class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                                            <a href="{% url 'invoicing_app:generate_invoice_pdf' invoice.id %}"
+                                                class="text-indigo-400 hover:text-indigo-300">Download</a>
+                                        </td>
+                                        <td
+                                            class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                                            <div class="relative inline-block text-left">
+                                                <div>
+                                                    <button type="button"
+                                                        class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                                                        id="status-button">
+                                                        Status
+                                                    </button>
+                                                </div>
+                                                <div class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none hidden"
+                                                    id="dropdown-menu" role="menu" aria-orientation="vertical"
+                                                    aria-labelledby="menu-button" tabindex="-1">
+                                                    <div class="py-1" role="none">
+                                                        <a href="{% url 'invoicing_app:mark_as_paid' invoice.id %}"
+                                                            class="block px-4 py-2 text-sm text-gray-700"
+                                                            role="menuitem" id="menu-item-0">Mark as paid</a>
+                                                        <a href="{% url 'invoicing_app:mark_as_unpaid' invoice.id %}"
+                                                            class="block px-4 py-2 text-sm text-gray-700"
+                                                            role="menuitem" id="menu-item-1">Mark as unpaid</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    <!-- More fields... -->
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <!-- Download PDF -->
-                    <a href="{% url 'invoicing_app:generate_invoice_pdf' invoice.id %}"
-                        class="btn btn-secondary btn-sm"><span data-feather="download"></span>Download</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-</td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
+<!-- Modal HTML -->
+<div id="delete-modal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <!-- This element is to trick the browser into centering the modal contents. -->
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+        <div
+            class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6 fade-in">
+            <div>
+                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                    <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                    </svg>
+                </div>
+                <div class="mt-3 text-center sm:mt-5">
+                    <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Delete Invoice</h3>
+                    <div class="mt-2">
+                        <p class="text-sm text-gray-500" id="modal-body">Are you sure you want to delete this invoice?
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-5 sm:mt-6 sm:flex sm:flex-row-reverse">
+                <form id="modal-delete-form" method="post" action="">
+                    {% csrf_token %}
+                    <button type="submit"
+                        class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm">
+                        Delete
+                    </button>
+                </form>
+                <button type="button" onclick="closeModal()"
+                    class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
-<script>
-    function clearSearch() {
-        // Clear the search input field
-        const searchInput = document.querySelector('.search-bar input[name="q"]');
-        searchInput.value = '';
+<!-- Animation CSS -->
+<style>
+    .fade-in {
+        animation: fadeIn 0.5s ease-in-out;
+    }
 
-        // Redirect to the invoice list page without query parameters
-        window.location.href = "{% url 'invoicing_app:invoice_list' %}";
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+</style>
+
+<!-- JavaScript to Handle Delete Modal Logic -->
+<script>
+    function openModal(invoiceId) {
+        const modal = document.getElementById('delete-modal');
+        const modalBody = document.getElementById('modal-body');
+        const deleteForm = document.getElementById('modal-delete-form');
+
+        modalBody.textContent = `Are you sure you want to delete invoice ${invoiceId}?`;
+        deleteForm.action = `{% url 'invoicing_app:delete_invoice' 0 %}`.replace('/0/', `/${invoiceId}/`);
+        modal.classList.remove('hidden');
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('delete-modal');
+        modal.classList.add('hidden');
     }
 </script>
+<script>
+    $(document).ready(function() {
+            $('table').DataTable({
+                "pagingType": "full_numbers",
+                "pageLength": 10,
+                "lengthChange": false,
+                "autoWidth": false,
+                "language": {
+                    "paginate": {
+                        "first": "<<",
+                        "last": ">>",
+                        "next": ">",
+                        "previous": "<"
+                    }
+                }
+            });
+
+            $('button[id^="status-button"]').on('click', function() {
+                const id = this.id.split('-')[2];
+                const dropdown = document.getElementById(`dropdown-menu-${id}`);
+                dropdown.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', function(event) {
+                const dropdowns = document.querySelectorAll('[id^="dropdown-menu"]');
+                const buttons = document.querySelectorAll('[id^="status-button"]');
+                buttons.forEach(button => {
+                    if (!button.contains(event.target)) {
+                        dropdowns.forEach(dropdown => {
+                            if (!dropdown.contains(event.target)) {
+                                dropdown.classList.add('hidden');
+                            }
+                        });
+                    }
+                });
+            });
+        });
+
+        function mark_as_paid(invoiceId) {
+            $.ajax({
+                type: 'POST',
+                url: `/mark_as_paid/${invoiceId}/`,
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    alert(response.message);
+                },
+                error: function(error) {
+                    alert('Failed to mark as paid');
+                }
+            });
+        }
+
+        function mark_as_unpaid(invoiceId) {
+            $.ajax({
+                type: 'POST',
+                url: `/mark_as_unpaid/${invoiceId}/`,
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function(response) {
+                    alert(response.message);
+                },
+                error: function(error) {
+                    alert('Failed to mark as unpaid');
+                }
+            });
+        }
+</script>
+
 {% endblock %}
