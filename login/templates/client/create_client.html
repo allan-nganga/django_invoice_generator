@@ -2,7 +2,7 @@
 
 {% block title %}Create Invoice{% endblock %}
 
-{% load humanize %}
+{% load static %}
 {% block content %}
 <div class="w-full bg-gray-900">
     <div class="mx-auto max-w-7xl">
@@ -10,60 +10,91 @@
             <div class="px-4 sm:px-6 lg:px-8">
                 <div class="space-y-12">
                     <div class="border-b border-white/10 pb-12">
-                        <h2 class="text-base font-semibold leading-7 text-white">Create Invoice</h2>
-                        <p class="mt-1 text-sm leading-6 text-gray-400">Fill in the details below to create a new
+                        <h1 class="text-2xl font-bold mb-6 text-blue-400">Create Client</h1>
+                        <p class="text-2xl font-bold mb-6 text-white">Fill in the details below to create a new
                             client.</p>
 
-                        <h1 class="text-2xl font-bold mb-6">Create Client</h1>
-                        <form>
+                        <form method="post">
+                            {% csrf_token %}
                             <div class="mb-4">
-                                <label for="client-name" class="block text-gray-700 font-bold mb-2">Client
+                                <label for="client-name" class="block text-blue-400 font-bold mb-2">Client
                                     Name</label>
                                 <input type="text" id="client-name"
-                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-blue-950 leading-tight focus:outline-none focus:shadow-outline"
                                     placeholder="Enter client name">
                             </div>
 
                             <div class="mb-4">
-                                <label for="client-email" class="block text-gray-700 font-bold mb-2">Client
+                                <label for="client-email" class="block text-blue-400 font-bold mb-2">Client
                                     Email</label>
                                 <input type="email" id="client-email"
-                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-blue-950 leading-tight focus:outline-none focus:shadow-outline"
                                     placeholder="Enter client email">
                             </div>
 
                             <div class="mb-4">
-                                <label for="client-address" class="block text-gray-700 font-bold mb-2">Client
+                                <label for="client-address" class="block text-blue-400 font-bold mb-2">Client
                                     Address</label>
                                 <textarea id="client-address"
-                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-blue-950 leading-tight focus:outline-none focus:shadow-outline"
                                     placeholder="Enter client address"></textarea>
                             </div>
 
                             <div class="mb-4">
-                                <label for="client-status" class="block text-gray-700 font-bold mb-2">Active
+                                <label for="client-address" class="block text-blue-400 font-bold mb-2">Client
+                                    Company Name</label>
+                                <input type="text" id="client-company-name"
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-blue-950 leading-tight focus:outline-none focus:shadow-outline"
+                                    placeholder="Enter client company name"></textarea>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="client-status" class="block text-blue-400 font-bold mb-2">Active
                                     Status</label>
                                 <input type="checkbox" id="client-status" class="mr-2 leading-tight">
-                                <span class="text-gray-700">Active</span>
+                                <span class="text-yellow-50">Active</span>
                             </div>
 
                             <div class="mb-6">
-                                <label for="client-country" class="block text-gray-700 font-bold mb-2">Client
+                                <label  for="{{ form.client_country.id_for_label }}" class="block text-blue-400 font-bold mb-2">Client Country</label>
+                                {{ form.client_country }}
+                            </div>
+
+
+<!--
+                            <div class="mb-6">
+                                <label for="client-country" class="block text-blue-400 font-bold mb-2">Client
                                     Country</label>
                                 <select id="client-country"
                                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                     <option value="">Select country</option>
+                                    {% for code,name in countries %}
+                                        <option value="{{ code }}">{{ name }}</option>
+                                    {% endfor %}
                                 </select>
                             </div>
-
+                        -->
                             <div class="flex items-center justify-between">
                                 <button
                                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                                    type="button">
-                                    Submit
+                                    type="submit">
+                                    Create Client
                                 </button>
                             </div>
-                        </form>
+                            {% if form.errors %}
+                            <div class="errorlist">
+                                <ul>
+                                    {% for error in form.non_field_errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                    {% for field in form %}
+                                        {% for error in field.errors %}
+                                            <li>{{ error }}</li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
                         </form>
                     </div>
                 </div>

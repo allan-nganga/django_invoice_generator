@@ -9,7 +9,8 @@ class ClientForm(forms.ModelForm):
             'client_address',
             'client_email',
             'client_company_name',
-            'active_status'
+            'active_status',
+            'client_country'
         ]
 
 class InvoiceForm(forms.ModelForm):

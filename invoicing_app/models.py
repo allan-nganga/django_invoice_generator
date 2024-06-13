@@ -1,6 +1,8 @@
 from django.db import models
 import uuid
+from django_countries.fields import CountryField
 from django.contrib.auth.models import User
+
 
 # Create your models here.
 class Client(models.Model):
@@ -10,15 +12,18 @@ class Client(models.Model):
     client_email = models.EmailField(null=True, blank=True)  # Nullable field
     client_company_name = models.CharField(max_length=255)
     active_status = models.BooleanField(default=True)
+    client_country = CountryField(blank_label='(select country)', default='Kenya')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='client_created_by', default=1)
     created_at = models.DateTimeField(auto_now_add=True)
-    owned_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='client_owned_by')
+
+    # owned_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='client_owned_by', default=User)
 
     def __str__(self):
         return self.client_name
 
+
 class Invoice(models.Model):
-    invoice_id = models.CharField(max_length=100,unique=True, blank=True)
+    invoice_id = models.CharField(max_length=100, unique=True, blank=True)
     due_date = models.DateField()
     paid = models.BooleanField(default=False)
     client = models.ForeignKey(Client, on_delete=models.CASCADE, default=1)
@@ -27,11 +32,12 @@ class Invoice(models.Model):
 
     def __str__(self):
         return f"Invoice #{self.id} for {self.client_name}"
-    
+
     @property
     def total_cost(self):
         return sum(item.quantity * item.price for item in self.items.all())
-    
+
+
 class InvoiceItem(models.Model):
     item_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     description = models.TextField(null=True)
@@ -43,7 +49,7 @@ class InvoiceItem(models.Model):
 
     def __str__(self):
         return self.description
-    
+
 
 class Settings(models.Model):
     company_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -52,7 +58,7 @@ class Settings(models.Model):
     company_email = models.EmailField(null=True, blank=True)  # Nullable field
     company_address = models.TextField(null=True, blank=True)  # Nullable field
     company_city = models.CharField(max_length=255, null=True, blank=True)  # Nullable field
-    company_country = models.CharField(max_length=255, null=True, blank=True)  # Nullable field
+    company_country = CountryField(blank_label='(select country)', default='Kenya')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_created_by', default=1)
     created_at = models.DateTimeField(auto_now_add=True)
 

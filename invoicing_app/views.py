@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, F, FloatField, ExpressionWrapper
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django_countries import countries
 
 
 # Create your views here.
@@ -65,8 +66,8 @@ def generate_invoice_pdf(request, invoice_id):
         'invoice': {
             'id': invoice.id,
             'client_name': invoice.client_name,
-            'company_name': invoice.company_name,
-            'billing_address': invoice.billing_address,
+            'client_company_name': invoice.client_company_name,
+            'client_address': invoice.client_address,
             'item_description': invoice.item_description,
             'item_quantity': invoice.item_quantity,
             'item_price': invoice.item_price,
@@ -207,18 +208,10 @@ def add_client(request):
     if request.method == 'POST':
         form = ClientForm(request.POST)
         if form.is_valid():
-            client_data = form.cleaned_data
-            client = Client.objects.create(
-                client_name=client_data['client_name'],
-                client_address=client_data['client_address'],
-                client_email=client_data['client_email'],
-                active_status=client_data['active_status'],
-                owned_by=client_data['owned_by']
-            )
-            messages.success(request, 'Client added successfully!')
-            return redirect('client_list')  # Assuming you have a client list view
+            form.save()
+            return redirect('invoicing_app:client_list')  # Assuming you have a client list view
         else:
-            messages.error(request, 'Error adding client')
+            return render(request, 'client/create_client.html', {'form':form})
     else:
         form = ClientForm()
 
@@ -266,7 +259,7 @@ def edit_settings(request):
         form = SettingsForm(request.POST, instance=settings_instance)
         if form.is_valid():
             form.save()
-            return redirect('settings') # Redirect to settings page
+            return redirect('settings/settings_overview.html') # Redirect to settings page
         else:
             form = SettingsForm(instance=settings_instance)
 
@@ -275,6 +268,11 @@ def edit_settings(request):
             'settings_instance': settings_instance,
         }
         return render(request, 'invoice/settings.html', context)
+
+# Settings overview
+#def settings(request):
+#    settings = Settings.objects.all()
+#    return render(request, 'settings/settings_overview.html', {'settings':settings})
     
 # Active client list
 def active_clients_list(request):
@@ -301,3 +299,8 @@ def mark_client_inactive(request, client_id):
     client.client_status = 'inactive'
     client.save()
     return redirect('clients_list')  # Adjust the redirect URL as needed
+
+# Countries list function
+def country(request):
+    country_list = list(countries)
+    return render(request, 'client/create_client.html', {'countries':country_list})

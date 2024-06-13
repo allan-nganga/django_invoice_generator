@@ -14,7 +14,7 @@ urlpatterns = [
     path('invoice/<int:invoice_id>/delete/', delete_invoice, name='delete_invoice'),
     path('invoice/<int:invoice_id>/mark_as_paid/', mark_as_paid, name='mark_as_paid'),
     path('invoice/<int:invoice_id>/mark_as_unpaid/', mark_as_unpaid, name='mark_as_unpaid'),
-    path('client/add/', add_client, name='client_add'),
+    path('client/add/', add_client, name='add_client'),
     path('client/edit/<uuid:client_id>/', edit_client, name='client_edit'),
     path('client/delete/<uuid:client_id>/', delete_client, name='client_delete'),
     path('settings/', edit_settings, name='settings'),
@@ -22,4 +22,5 @@ urlpatterns = [
     path('clients/', client_list, name='client_list'),
     path('client/<int:client_id>/activate/', mark_client_active, name='mark_client_active'),
     path('client/<int:client_id>/deactivate/', mark_client_inactive, name='mark_client_inactive'),
+    # path('settings/edit', settings, name='settings'),
 ]

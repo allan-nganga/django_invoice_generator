@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'login',
     'invoicing_app',
     'reminders',
+    'django_countries',
 ]
 
 MIDDLEWARE = [
