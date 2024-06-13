@@ -137,3 +137,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # To redirect User upon successful login
 LOGIN_REDIRECT_URL = 'invoicing_app:dashboard'
 LOGOUT_REDIRECT_URL = 'login:login'
+
+
+# For backend email authentication
+AUTHENTICATION_BACKENDS = [
+    'login.backends.EmailOrUsernameBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]

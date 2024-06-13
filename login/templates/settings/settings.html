@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+<main>
+    <h1 class="sr-only">Company Overview</h1>
+
+    <header class="border-b border-white/5">
+        <!-- Secondary navigation -->
+        <nav class="flex overflow-x-auto py-4">
+            <ul role="list"
+                class="flex min-w-full flex-none gap-x-6 px-4 text-sm font-semibold leading-6 text-gray-400 sm:px-6 lg:px-8">
+                <li>
+                    <a href="#" class="text-indigo-400">Company Settings</a>
+                </li>
+                <li>
+                    <a href="#" class="">Company Settings</a>
+                </li>
+                <li>
+                    <a href="#" class="">Account</a>
+                </li>
+                <li>
+                    <a href="#" class="">Notifications</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+        <div class="bg-gray-800 p-8 rounded-lg shadow-lg">
+          <h1 class="text-3xl font-bold mb-6">Company Details</h1>
+          <div class="flex items-center mb-6">
+            <img src="https://via.placeholder.com/150" alt="Company Logo" class="h-24 w-24 rounded-lg object-cover">
+            <div class="ml-6">
+              <h2 class="text-2xl font-semibold">Company Name</h2>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <div>
+              <h3 class="text-lg font-medium">Address</h3>
+              <p class="mt-1 text-gray-300">123 Main St, Springfield</p>
+            </div>
+            <div>
+              <h3 class="text-lg font-medium">Email</h3>
+              <p class="mt-1 text-gray-300">company@example.com</p>
+            </div>
+            <div>
+              <h3 class="text-lg font-medium">City</h3>
+              <p class="mt-1 text-gray-300">Springfield</p>
+            </div>
+            <div>
+              <h3 class="text-lg font-medium">Country</h3>
+              <p class="mt-1 text-gray-300">United States</p>
+            </div>
+          </div>
+        </div>
+      </div>
+</main>
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Company Settings{% endblock %}
+
+{% block content %}
+<main>
+    <h1 class="sr-only">Company Settings</h1>
+
+    <header class="border-b border-white/5">
+        <!-- Secondary navigation -->
+        <nav class="flex overflow-x-auto py-4">
+            <ul role="list"
+                class="flex min-w-full flex-none gap-x-6 px-4 text-sm font-semibold leading-6 text-gray-400 sm:px-6 lg:px-8">
+                <li>
+                    <a href="#" class="">Company Overview</a>
+                </li>
+                <li>
+                    <a href="#" class="text-indigo-400">Company Settings</a>
+                </li>
+                <li>
+                    <a href="#" class="">Account</a>
+                </li>
+                <li>
+                    <a href="#" class="">Notifications</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <form class="md:col-span-2">
+        <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:max-w-xl sm:grid-cols-6">
+            <div class="col-span-full flex items-center gap-x-8">
+                <img src="https://via.placeholder.com/150" alt="Company Logo"
+                    class="h-24 w-24 flex-none rounded-lg bg-gray-800 object-cover">
+                <div>
+                    <button type="button"
+                        class="rounded-md bg-white/10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-white/20">Change
+                        logo</button>
+                    <p class="mt-2 text-xs leading-5 text-gray-400">JPG, GIF or PNG. 1MB max.</p>
+                </div>
+            </div>
+
+            <div class="sm:col-span-3">
+                <label for="company-name" class="block text-sm font-medium leading-6 text-white">Company Name</label>
+                <div class="mt-2">
+                    <input type="text" name="company-name" id="company-name"
+                        class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6">
+                </div>
+            </div>
+
+            <div class="col-span-full">
+                <label for="company-address" class="block text-sm font-medium leading-6 text-white">Company
+                    Address</label>
+                <div class="mt-2">
+                    <input type="text" name="company-address" id="company-address"
+                        class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6">
+                </div>
+            </div>
+
+            <div class="col-span-full">
+                <label for="company-email" class="block text-sm font-medium leading-6 text-white">Company Email
+                    Address</label>
+                <div class="mt-2">
+                    <input type="email" name="company-email" id="company-email"
+                        class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6">
+                </div>
+            </div>
+
+            <div class="sm:col-span-3">
+                <label for="company-city" class="block text-sm font-medium leading-6 text-white">City</label>
+                <div class="mt-2">
+                    <input type="text" name="company-city" id="company-city"
+                        class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6">
+                </div>
+            </div>
+
+            <div class="sm:col-span-3">
+                <label for="company-country" class="block text-sm font-medium leading-6 text-white">Country</label>
+                <div class="mt-2">
+                    <select id="company-country" name="company-country"
+                        class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6 [&_*]:text-black">
+                        <!-- Example list of countries -->
+                        <option value="United States">United States</option>
+                        <option value="Canada">Canada</option>
+                        <option value="United Kingdom">United Kingdom</option>
+                        <option value="Australia">Australia</option>
+                        <!-- Add more countries as needed -->
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 flex">
+            <button type="submit"
+                class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Save</button>
+        </div>
+    </form>
+</main>
+{% endblock %}

@@ -1,28 +1,31 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
+from django import forms
 
-def login_view(request):
+
+class EmailOrUsernameAuthenticationForm(AuthenticationForm):
+    username = forms.CharField(label='Email or Username', max_length=254)
+
+def login(request):
   if request.method == 'POST':
-    email = request.POST.get('email')  # Handle potential absence of 'email' key
-    password = request.POST['password']
-    user = authenticate(request, email=email, password=password)
-    if user:
-      login(request, user)
-      return redirect('invoicing_app:dashboard')  # Replace with actual dashboard URL name
-    else:
-      # Invalid credentials, display error message
-      return render(request, 'login/login.html', {'error': 'Invalid email address or password'})
+        form = EmailOrUsernameAuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=email, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('invoicing_app:dashboard')  # Redirect to a success page.
   else:
-    # Render the login form
-    return render(request, 'login/login.html')
+      form = EmailOrUsernameAuthenticationForm()
+  return render(request, 'registration/login.html', {'form': form})
   
 def signup_user(request):
   if request.method == 'POST':
     username = request.POST['username']
     email = request.POST['email']
     password = request.POST['password']
-    first_name = request.POST['first_name']
-    last_name = request.POST['last_name']
 
     # Validate user data (optional)
     # You can add validation for username, email, and password format and length
@@ -38,7 +41,7 @@ def signup_user(request):
       if user:
         login(request, user)
         # Redirect to desired page after login (e.g., dashboard)
-        return redirect('invoicing_app:dashboard')  # Replace with your actual URL name
+        return redirect('invoicing_app:dashboard')
 
       # Handle successful signup without auto-login
       return render(request, 'signup_success.html')  # Display success message
