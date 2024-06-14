@@ -12,16 +12,16 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
   <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
 </head>
-</head>
 
 <body class="h-full">
   <div class="flex h-screen">
-    <div class="fixed inset-y-0 z-50 lg:static lg:inset-0 lg:z-auto lg:w-72 lg:flex lg:flex-col">
+    <!-- Sidebar -->
+    <div id="sidebar" class="fixed inset-y-0 z-50 lg:static lg:inset-0 lg:z-auto lg:w-72 lg:flex lg:flex-col">
       <div class="fixed inset-0 bg-zinc-300"></div>
 
       <div class="fixed inset-0 flex">
         <div class="absolute left-full top-0 flex w-16 justify-center pt-5">
-          <button type="button" class="-m-2.5 p-2.5">
+          <button type="button" id="closeSidebarButton" class="-m-2.5 p-2.5">
             <span class="sr-only">Close sidebar</span>
             <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
               aria-hidden="true">
@@ -135,7 +135,7 @@
         <div class="w-full lg:pl-72">
           <div
             class="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
-            <button type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden">
+            <button type="button" id="openSidebarButton" class="-m-2.5 p-2.5 text-gray-700 lg:hidden">
               <span class="sr-only">Open sidebar</span>
               <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                 aria-hidden="true">
@@ -227,7 +227,40 @@
       </div>
     </div>
 
-    <!-- Script for profile dropdown menu -->
+    <!-- Script for opening and closing sidebar and dropdown for user profile -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const openSidebarButton = document.getElementById('openSidebarButton');
+        const closeSidebarButton = document.getElementById('closeSidebarButton');
+        const sidebar = document.getElementById('sidebar');
+  
+        openSidebarButton.addEventListener('click', function () {
+          sidebar.classList.toggle('hidden');
+        });
+  
+        closeSidebarButton.addEventListener('click', function () {
+          sidebar.classList.toggle('hidden');
+        });
+  
+        const userMenuButton = document.getElementById('user-menu-button');
+        const userMenu = document.getElementById('user-menu');
+  
+        userMenuButton.addEventListener('click', function () {
+          const isExpanded = userMenuButton.getAttribute('aria-expanded') === 'true';
+          userMenuButton.setAttribute('aria-expanded', !isExpanded);
+          userMenu.classList.toggle('hidden');
+        });
+  
+        window.addEventListener('click', function (e) {
+          if (!userMenuButton.contains(e.target) && !userMenu.contains(e.target)) {
+            userMenu.classList.add('hidden');
+            userMenuButton.setAttribute('aria-expanded', 'false');
+          }
+        });
+      });
+    </script>
+
+    <!-- Script for profile dropdown menu 
     <script>
       document.addEventListener('DOMContentLoaded', function () {
           const userMenuButton = document.getElementById('user-menu-button');
@@ -248,6 +281,6 @@
           });
       });
   </script>
-  
+  -->
 </body>
 </html>

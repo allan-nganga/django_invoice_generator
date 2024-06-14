@@ -42,10 +42,8 @@
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{{ client.client_email }}</td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">{{ client.active_status }}</td>
                   <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                    <a href="#" class="text-indigo-400 hover:text-indigo-300">Edit<span class="sr-only">, John
-                        Doe</span></a>
-                    <a href="#" class="text-red-400 hover:text-red-300 ml-4">Delete<span class="sr-only">, John
-                        Doe</span></a>
+                    <a href="{% url 'invoicing_app:edit_client' client.client_id %}" class="text-indigo-400 hover:text-indigo-300">Edit</a>
+                    <a href="{% url 'invoicing_app:delete_client' client.client_id %}" class="text-red-400 hover:text-red-300 ml-4">Delete</a>
                     <button type="button" class="ml-4 text-yellow-400 hover:text-yellow-300">Mark as Inactive</button>
                   </td>
                 </tr>

@@ -244,7 +244,7 @@ def delete_client(request, client_id):
     if request.method == 'POST':
         client.delete()
         messages.success(request, 'Client deleted successfully!')
-        return redirect('client_list')  # Assuming you have a client list view
+        return redirect('invoicing_app:client_list')
 
     return render(request, 'client/confirm_delete_client.html', {'client': client})
 
