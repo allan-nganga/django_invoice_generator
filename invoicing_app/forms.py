@@ -1,5 +1,6 @@
 from django import forms
 from.models import Invoice, Client, InvoiceItem, Settings
+from django_countries.widgets import CountrySelectWidget
 
 class ClientForm(forms.ModelForm):
     class Meta:
@@ -12,6 +13,11 @@ class ClientForm(forms.ModelForm):
             'active_status',
             'client_country'
         ]
+        widgets = {
+            'client_country':CountrySelectWidget(attrs={
+                'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+            })
+        }
 
 class InvoiceForm(forms.ModelForm):
     class Meta:
@@ -42,3 +48,8 @@ class SettingsForm(forms.ModelForm):
             'company_city',
             'company_country'
         ]
+        widgets = {
+            'company_country':CountrySelectWidget(attrs={
+                'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+            })
+        }

@@ -208,10 +208,13 @@ def add_client(request):
     if request.method == 'POST':
         form = ClientForm(request.POST)
         if form.is_valid():
-            form.save()
+            client = form.save(commit=False)
+            client.created_by = request.user
+            client.save()
             return redirect('invoicing_app:client_list')  # Assuming you have a client list view
         else:
-            return render(request, 'client/create_client.html', {'form':form})
+            print(form.errors)
+            # return render(request, 'client/create_client.html', {'form':form})
     else:
         form = ClientForm()
 

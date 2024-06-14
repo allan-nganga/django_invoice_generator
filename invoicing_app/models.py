@@ -13,7 +13,7 @@ class Client(models.Model):
     client_company_name = models.CharField(max_length=255)
     active_status = models.BooleanField(default=True)
     client_country = CountryField(blank_label='(select country)', default='Kenya')
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='client_created_by', default=1)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='client_created_by')
     created_at = models.DateTimeField(auto_now_add=True)
 
     # owned_by = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL, related_name='client_owned_by', default=User)
