@@ -19,8 +19,7 @@
                             <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                 <!-- Dropdown menu for active clients -->
                                 <div class="sm:col-span-4">
-                                    <label for="client"
-                                        class="block text-sm font-medium leading-6 text-white">Client</label>
+                                    <label for="client" class="block text-sm font-medium leading-6 text-white">Client</label>
                                     <div class="mt-2">
                                         <select id="client-select" name="client"
                                             class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6 [&_*]:text-black">
@@ -35,7 +34,7 @@
                                 <div class="sm:col-span-2">
                                     <div class="relative flex items-start">
                                         <div class="flex h-6 items-center">
-                                            <input id="paid_status" name="paid_status" type="checkbox"
+                                            <input id="paid_status" name="paid" type="checkbox"
                                                 class="h-4 w-4 rounded border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900">
                                         </div>
                                         <div class="ml-3 text-sm leading-6">
@@ -46,8 +45,7 @@
 
                                 <!-- Due date -->
                                 <div class="sm:col-span-2">
-                                    <label for="due_date" class="block text-sm font-medium leading-6 text-white">Due
-                                        Date</label>
+                                    <label for="due_date" class="block text-sm font-medium leading-6 text-white">Due Date</label>
                                     <input type="date" name="due_date" id="due_date"
                                         class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6">
                                 </div>
@@ -59,23 +57,19 @@
                                         <!-- Item template, hidden by default -->
                                         <div class="invoice-item-template sm:col-span-6" style="display:none;">
                                             <div class="sm:col-span-2">
-                                                <label for="item_description"
-                                                    class="block text-sm font-medium leading-6 text-white">Item
-                                                    Description</label>
+                                                <label for="item_description" class="block text-sm font-medium leading-6 text-white">Item Description</label>
                                                 <input type="text" name="item_description" class="item-description"
                                                     class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6">
                                             </div>
 
                                             <div class="sm:col-span-1">
-                                                <label for="item_quantity"
-                                                    class="block text-sm font-medium leading-6 text-white">Quantity</label>
+                                                <label for="item_quantity" class="block text-sm font-medium leading-6 text-white">Quantity</label>
                                                 <input type="number" name="item_quantity" class="item-quantity"
                                                     class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6">
                                             </div>
 
                                             <div class="sm:col-span-1">
-                                                <label for="item_price"
-                                                    class="block text-sm font-medium leading-6 text-white">Price</label>
+                                                <label for="item_price" class="block text-sm font-medium leading-6 text-white">Price</label>
                                                 <input type="text" name="item_price" class="item-price"
                                                     class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6">
                                             </div>
@@ -91,9 +85,7 @@
 
                     <div class="mt-6 flex items-center justify-end gap-x-6">
                         <button type="button" class="text-sm font-semibold leading-6 text-white">Cancel</button>
-                        <button type="submit"
-                            class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Create
-                            Invoice</button>
+                        <button type="submit" class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Create Invoice</button>
                     </div>
                 </form>
             </div>
@@ -109,9 +101,9 @@
         itemTemplate.classList.remove('invoice-item-template');
 
         // Ensure inputs have unique names
-        itemTemplate.querySelector('.item-description').name = `item_description_${itemContainer.children.length}`;
-        itemTemplate.querySelector('.item-quantity').name = `item_quantity_${itemContainer.children.length}`;
-        itemTemplate.querySelector('.item-price').name = `item_price_${itemContainer.children.length}`;
+        itemTemplate.querySelector('.item-description').name = `item_description`;
+        itemTemplate.querySelector('.item-quantity').name = `item_quantity`;
+        itemTemplate.querySelector('.item-price').name = `item_price`;
 
         // Add remove button functionality
         itemTemplate.querySelector('.remove-item').onclick = function() {

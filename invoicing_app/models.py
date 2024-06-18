@@ -31,7 +31,7 @@ class Invoice(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Invoice #{self.id} for {self.client_name}"
+        return f"Invoice #{self.id} for {self.client.client_name}"
 
     @property
     def total_cost(self):

@@ -125,7 +125,7 @@ def create_invoice(request):
 
     else:
         invoice_form = InvoiceForm()
-        clients = Client.objects.filter(active_status=True)
+    clients = Client.objects.filter(active_status=True)
     return render(request, 'invoice/create_invoice.html', {'invoice_form': invoice_form, 'clients':clients})
 
 """
