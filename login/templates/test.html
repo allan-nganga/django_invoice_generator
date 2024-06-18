@@ -1,105 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Invoice{% endblock %}
+
+{% load humanize %}
+{% block content %}
 <div class="w-full bg-gray-900">
     <div class="mx-auto max-w-7xl">
         <div class="bg-gray-900 py-10">
             <div class="px-4 sm:px-6 lg:px-8">
-                <div class="sm:flex sm:items-center">
-                    <div class="sm:flex-auto">
-                        <h1 class="text-base font-semibold leading-6 text-white">Invoice List</h1>
-                    </div>
-                    <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-                        <button type="button"
-                            class="block rounded-md bg-indigo-500 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Add
-                            invoice</button>
-                    </div>
-                </div>
-                <div class="mt-8 flow-root">
-                    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                        <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                            <table class="min-w-full divide-y divide-gray-700">
-                                <thead>
-                                    <tr>
-                                        <th scope="col"
-                                            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-0">
-                                            #</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
-                                            Client Name</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
-                                            Billing Address</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
-                                            Invoice Date</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
-                                            Due Date</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
-                                            Amount Due</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
-                                            Status</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
-                                            Actions</th>
-                                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
-                                            <span class="sr-only">Edit</span>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-gray-800">
-                                    {% for invoice in invoice %}
-                                    <tr>
-                                        <td
-                                            class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-white sm:pl-0">
-                                            {{ invoice.id }}</td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">Front-end
-                                            {{ invoice.client_name }}</td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
-                                            {{ invoice.billing_address }}</td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
-                                            {{ invoice.created_at | date:"DATE_FORMAT" }}</td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
-                                            {{ invoice.due_date | date:"DATE_FORMAT" }}</td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
-                                            {{ invoice.total_cost | floatformat:2|intcomma }}</td>
-                                        <!--
-                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
-                                            {{ invoice.paid|yesno:"Paid,Unpaid" }}</td>
-                                        -->
-                                        <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                                            <span
-                                                class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ invoice.paid|yesno:"Paid,Unpaid" }}</span>
-                                        </td>
-                                        <td
-                                            class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                                            <a href="{% url 'invoicing_app:invoice_detail' invoice.id %}"
-                                                class="text-indigo-400 hover:text-indigo-300">View</a>
-                                        </td>
-                                        <td
-                                            class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                                            <a href="{% url 'invoicing_app:edit_invoice' invoice.id %}"
-                                                class="text-indigo-400 hover:text-indigo-300">Edit</a>
-                                        </td>
-                                        <td
-                                            class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                                            <form action="{% url 'invoicing_app:delete_invoice' invoice.id %}"
-                                                method="post" id="delete-form-{{ invoice.id }}" class="inline">
-                                                {% csrf_token %}
-                                                <a href="#" class="text-indigo-400 hover:text-indigo-300"
-                                                    onclick="event.preventDefault(); document.getElementById('delete-form-{{ invoice.id }}').submit();">
-                                                    Delete
-                                                </a>
-                                            </form>
-                                        </td>
-                                        <td
-                                            class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                                            <a href="{% url 'invoicing_app:generate_invoice_pdf' invoice.id %}"
-                                                class="text-indigo-400 hover:text-indigo-300">Download</a>
-                                        </td>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="space-y-12">
+                        <div class="border-b border-white/10 pb-12">
+                            <h2 class="text-base font-semibold leading-7 text-white">Create Invoice</h2>
+                            <p class="mt-1 text-sm leading-6 text-gray-400">Fill in the details below to create a new
+                                invoice.</p>
 
-                                    </tr>
-                                    {% endfor %}
-                                    <!-- More people... -->
-                                </tbody>
-                            </table>
+                            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                <!-- Dropdown menu for active clients -->
+                                <div class="sm:col-span-4">
+                                    <label for="client"
+                                        class="block text-sm font-medium leading-6 text-white">Client</label>
+                                    <div class="mt-2">
+                                        <select id="client-select" name="client"
+                                            class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6 [&_*]:text-black">
+                                            {% for client in clients %}
+                                            <option value="{{ client.client_id }}">{{ client.client_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Checkbox for paid status -->
+                                <div class="sm:col-span-2">
+                                    <div class="relative flex items-start">
+                                        <div class="flex h-6 items-center">
+                                            <input id="paid_status" name="paid_status" type="checkbox"
+                                                class="h-4 w-4 rounded border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900">
+                                        </div>
+                                        <div class="ml-3 text-sm leading-6">
+                                            <label for="paid_status" class="font-medium text-white">Paid Status</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {% for form in item_formset %}
+                                <!-- Invoice items -->
+                                <div class="col-span-full">
+                                    <h3 class="text-base font-semibold leading-7 text-white">Invoice Items</h3>
+                                    <div class="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                        <!-- Item description -->
+                                        <div class="sm:col-span-2">
+                                            <label for="item_description"
+                                                class="block text-sm font-medium leading-6 text-white">Item
+                                                Description</label>
+                                            <input type="text" name="item_description" id="item_description"
+                                                class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6">
+                                        </div>
+
+                                        <!-- Item quantity -->
+                                        <div class="sm:col-span-1">
+                                            <label for="item_quantity"
+                                                class="block text-sm font-medium leading-6 text-white">Quantity</label>
+                                            <input type="number" name="item_quantity" id="item_quantity"
+                                                class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6">
+                                        </div>
+
+                                        <!-- Item price -->
+                                        <div class="sm:col-span-1">
+                                            <label for="item_price"
+                                                class="block text-sm font-medium leading-6 text-white">Price</label>
+                                            <input type="text" name="item_price" id="item_price"
+                                                class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6">
+                                        </div>
+
+                                        <!-- Tax checkbox 
+                                        <div class="sm:col-span-1">
+                                            <div class="relative flex items-start">
+                                                <div class="flex h-6 items-center">
+                                                    <input id="tax" name="tax" type="checkbox"
+                                                        class="h-4 w-4 rounded border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900">
+                                                </div>
+                                                <div class="ml-3 text-sm leading-6">
+                                                    <label for="tax" class="font-medium text-white">Tax</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        -->
+                                        <!-- Due date -->
+                                        <div class="sm:col-span-2">
+                                            <label for="due_date"
+                                                class="block text-sm font-medium leading-6 text-white">Due Date</label>
+                                            <input type="date" name="due_date" id="due_date"
+                                                class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6">
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
-                </div>
+
+
+                    <div class="mt-6 flex items-center justify-end gap-x-6">
+                        <button type="button" class="text-sm font-semibold leading-6 text-white">Cancel</button>
+                        <button type="submit"
+                            class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Create
+                            Invoice</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}

@@ -8,7 +8,8 @@
     <div class="mx-auto max-w-7xl">
         <div class="bg-gray-900 py-10">
             <div class="px-4 sm:px-6 lg:px-8">
-                <form>
+                <form method="post">
+                    {% csrf_token %}
                     <div class="space-y-12">
                         <div class="border-b border-white/10 pb-12">
                             <h2 class="text-base font-semibold leading-7 text-white">Create Invoice</h2>
@@ -21,9 +22,11 @@
                                     <label for="client"
                                         class="block text-sm font-medium leading-6 text-white">Client</label>
                                     <div class="mt-2">
-                                        <select id="client" name="client"
+                                        <select id="client-select" name="client"
                                             class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6 [&_*]:text-black">
-                                            <!-- Options will be added here dynamically -->
+                                            {% for client in clients %}
+                                            <option value="{{ client.client_id }}">{{ client.client_name }}</option>
+                                            {% endfor %}
                                         </select>
                                     </div>
                                 </div>
@@ -41,56 +44,46 @@
                                     </div>
                                 </div>
 
+                                <!-- Due date -->
+                                <div class="sm:col-span-2">
+                                    <label for="due_date" class="block text-sm font-medium leading-6 text-white">Due
+                                        Date</label>
+                                    <input type="date" name="due_date" id="due_date"
+                                        class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6">
+                                </div>
+
                                 <!-- Invoice items -->
                                 <div class="col-span-full">
                                     <h3 class="text-base font-semibold leading-7 text-white">Invoice Items</h3>
-                                    <div class="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                                        <!-- Item description -->
-                                        <div class="sm:col-span-2">
-                                            <label for="item_description"
-                                                class="block text-sm font-medium leading-6 text-white">Item
-                                                Description</label>
-                                            <input type="text" name="item_description" id="item_description"
-                                                class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6">
-                                        </div>
-
-                                        <!-- Item quantity -->
-                                        <div class="sm:col-span-1">
-                                            <label for="item_quantity"
-                                                class="block text-sm font-medium leading-6 text-white">Quantity</label>
-                                            <input type="number" name="item_quantity" id="item_quantity"
-                                                class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6">
-                                        </div>
-
-                                        <!-- Item price -->
-                                        <div class="sm:col-span-1">
-                                            <label for="item_price"
-                                                class="block text-sm font-medium leading-6 text-white">Price</label>
-                                            <input type="text" name="item_price" id="item_price"
-                                                class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6">
-                                        </div>
-
-                                        <!-- Tax checkbox -->
-                                        <div class="sm:col-span-1">
-                                            <div class="relative flex items-start">
-                                                <div class="flex h-6 items-center">
-                                                    <input id="tax" name="tax" type="checkbox"
-                                                        class="h-4 w-4 rounded border-white/10 bg-white/5 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-gray-900">
-                                                </div>
-                                                <div class="ml-3 text-sm leading-6">
-                                                    <label for="tax" class="font-medium text-white">Tax</label>
-                                                </div>
+                                    <div id="item-container" class="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                        <!-- Item template, hidden by default -->
+                                        <div class="invoice-item-template sm:col-span-6" style="display:none;">
+                                            <div class="sm:col-span-2">
+                                                <label for="item_description"
+                                                    class="block text-sm font-medium leading-6 text-white">Item
+                                                    Description</label>
+                                                <input type="text" name="item_description" class="item-description"
+                                                    class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6">
                                             </div>
-                                        </div>
 
-                                        <!-- Due date -->
-                                        <div class="sm:col-span-2">
-                                            <label for="due_date"
-                                                class="block text-sm font-medium leading-6 text-white">Due Date</label>
-                                            <input type="date" name="due_date" id="due_date"
-                                                class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6">
+                                            <div class="sm:col-span-1">
+                                                <label for="item_quantity"
+                                                    class="block text-sm font-medium leading-6 text-white">Quantity</label>
+                                                <input type="number" name="item_quantity" class="item-quantity"
+                                                    class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6">
+                                            </div>
+
+                                            <div class="sm:col-span-1">
+                                                <label for="item_price"
+                                                    class="block text-sm font-medium leading-6 text-white">Price</label>
+                                                <input type="text" name="item_price" class="item-price"
+                                                    class="block w-full rounded-md border-0 bg-white/5 py-1.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6">
+                                            </div>
+
+                                            <button type="button" class="remove-item text-sm text-red-500">Remove</button>
                                         </div>
                                     </div>
+                                    <button type="button" onclick="addItem()" class="mt-2 text-sm text-indigo-500">Add Item</button>
                                 </div>
                             </div>
                         </div>
@@ -108,32 +101,24 @@
     </div>
 </div>
 
-
 <script>
-    // Function to fetch clients from JSON file
-    async function fetchClients() {
-        const response = await fetch('clients.json');
-        return await response.json();
+    function addItem() {
+        const itemContainer = document.getElementById('item-container');
+        const itemTemplate = document.querySelector('.invoice-item-template').cloneNode(true);
+        itemTemplate.style.display = 'block';
+        itemTemplate.classList.remove('invoice-item-template');
+
+        // Ensure inputs have unique names
+        itemTemplate.querySelector('.item-description').name = `item_description_${itemContainer.children.length}`;
+        itemTemplate.querySelector('.item-quantity').name = `item_quantity_${itemContainer.children.length}`;
+        itemTemplate.querySelector('.item-price').name = `item_price_${itemContainer.children.length}`;
+
+        // Add remove button functionality
+        itemTemplate.querySelector('.remove-item').onclick = function() {
+            itemTemplate.remove();
+        };
+
+        itemContainer.appendChild(itemTemplate);
     }
-
-    // Function to populate the select element with active clients
-    async function populateActiveClientsDropdown() {
-        const clients = await fetchClients();
-        const selectElement = document.getElementById('client');
-
-        // Filter active clients
-        const activeClients = clients.filter(client => client.status === 'active');
-
-        // Populate the select element with active clients
-        activeClients.forEach(client => {
-            const option = document.createElement('option');
-            option.value = client.id;
-            option.textContent = client.name;
-            selectElement.appendChild(option);
-        });
-    }
-
-    // Call the function to populate the dropdown
-    populateActiveClientsDropdown();
 </script>
 {% endblock %}

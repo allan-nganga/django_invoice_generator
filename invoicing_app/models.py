@@ -36,6 +36,12 @@ class Invoice(models.Model):
     @property
     def total_cost(self):
         return sum(item.quantity * item.price for item in self.items.all())
+    
+    # For invoice to be saved using unique id
+    def save(self, *args, **kwargs):
+        if not self.invoice_id:
+            self.invoice_id = str(uuid.uuid4())
+        super().save(*args, **kwargs)
 
 
 class InvoiceItem(models.Model):
@@ -48,7 +54,7 @@ class InvoiceItem(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.description
+        return f"Item {self.id} of Invoice {self.invoice.id}"
 
 
 class Settings(models.Model):

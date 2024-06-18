@@ -10,6 +10,7 @@ from django.db.models import Sum, F, FloatField, ExpressionWrapper
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django_countries import countries
+from django.forms import modelformset_factory
 
 
 # Create your views here.
@@ -65,10 +66,10 @@ def generate_invoice_pdf(request, invoice_id):
     context = {
         'invoice': {
             'id': invoice.id,
-            'client_name': invoice.client_name,
-            'client_company_name': invoice.client_company_name,
-            'client_address': invoice.client_address,
-            'item_description': invoice.item_description,
+            'client_name': invoice.client.client_name,
+            'client_company_name': invoice.client.client_company_name,
+            'client_address': invoice.client.client_address,
+            'item_description': invoice.invoiceitem.description,
             'item_quantity': invoice.item_quantity,
             'item_price': invoice.item_price,
             'total_cost': invoice.total_cost,  
@@ -95,21 +96,37 @@ def generate_invoice_pdf(request, invoice_id):
 # invoice create function
 @login_required
 def create_invoice(request):
-    # context = {'page_title':'Create Invoice'}
     if request.method == 'POST':
-        form = InvoiceForm(request.POST)
-        if form.is_valid():
-            invoice = form.save(commit=False)
+        invoice_form = InvoiceForm(request.POST)
+        if invoice_form.is_valid():
+            invoice = invoice_form.save(commit=False)
             invoice.created_by = request.user
             invoice.save()
+
+            item_descriptions = request.POST.getlist('item_description')
+            item_quantities = request.POST.getlist('item_quantity')
+            item_prices = request.POST.getlist('item_price')
+
+            for description, quantity, price in zip(item_descriptions, item_quantities, item_prices):
+                item_form = InvoiceItemForm({
+                    'description': description,
+                    'quantity': quantity,
+                    'price': price,
+                    'invoice': invoice.id
+                })
+                if item_form.is_valid():
+                    item = item_form.save(commit=False)
+                    item.invoice = invoice
+                    item.created_by = request.user
+                    item.save()
             return redirect('invoicing_app:invoice_detail', invoice_id=invoice.id)
         else:
-            return render(request, 'invoice/create_invoice.html', {'form': form})
+            return render(request, 'invoice/create_invoice.html', {'invoice_form': invoice_form})
 
     else:
-        # if the form is invalid, render the form again with validation errors
-        form = InvoiceForm()
-    return render(request, 'invoice/create_invoice.html', {'form': form})
+        invoice_form = InvoiceForm()
+        clients = Client.objects.filter(active_status=True)
+    return render(request, 'invoice/create_invoice.html', {'invoice_form': invoice_form, 'clients':clients})
 
 """
 @login_required
@@ -280,15 +297,10 @@ def edit_settings(request):
 # Active client list
 def active_clients_list(request):
     # Retrieve clients with client_status set to active
-    active_clients = Client.objects.filter(client_status='active')
-    
-    # Pass the retrieved clients to the template context
-    context = {
-        'active_clients': active_clients,
-    }
+    active_clients = Client.objects.filter(active_status=True)
     
     # Render the template with the context
-    return render(request, 'clients/active_clients_list.html', context)
+    return render(request, 'clients/active_clients_list.html', {'clients':active_clients})
 
 # Active status
 def mark_client_active(request, client_id):

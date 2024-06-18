@@ -1,6 +1,7 @@
 from django import forms
 from.models import Invoice, Client, InvoiceItem, Settings
 from django_countries.widgets import CountrySelectWidget
+from django.forms import inlineformset_factory
 
 class ClientForm(forms.ModelForm):
     class Meta:
@@ -27,6 +28,10 @@ class InvoiceForm(forms.ModelForm):
             'client', 
             'paid'
         ]
+    client = forms.ModelChoiceField(
+        queryset=Client.objects.filter(active_status=True),
+        empty_label="Select Client"
+    )
 
 class InvoiceItemForm(forms.ModelForm):
     class Meta:
