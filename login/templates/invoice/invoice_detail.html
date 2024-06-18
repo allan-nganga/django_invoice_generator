@@ -139,7 +139,7 @@
                 <td>{{ item.description }}</td>
                 <td>Ksh {{ item.price|floatformat:2|intcomma }}</td>
                 <td>{{ item.quantity }}</td>
-                <td>Ksh {{ item.quantity|floatformat:2|intcomma }} * {{ item.price|floatformat:2|intcomma }}</td>
+                <td>Ksh {{ item.total |floatformat:2|intcomma }}</td>
             </tr>
             {% endfor %}
         </tbody>

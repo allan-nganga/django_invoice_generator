@@ -57,28 +57,14 @@ def delete_invoice(request, invoice_id):
 @login_required
 def generate_invoice_pdf(request, invoice_id):
     # Retrieve the invoice object
-    try:
-        invoice = Invoice.objects.get(id=invoice_id)
-    except Invoice.DoesNotExist:
-        return HttpResponse("Invoice not found!", status=404)
+    invoice = get_object_or_404(Invoice, id=invoice_id)
 
     # Prepare context data for the template
+    items = invoice.items.all()
     context = {
-        'invoice': {
-            'id': invoice.id,
-            'client_name': invoice.client.client_name,
-            'client_company_name': invoice.client.client_company_name,
-            'client_address': invoice.client.client_address,
-            'item_description': invoice.invoiceitem.description,
-            'item_quantity': invoice.item_quantity,
-            'item_price': invoice.item_price,
-            'total_cost': invoice.total_cost,  
-            'due_date': invoice.due_date,
-            'created_at':invoice.created_at,
-            'paid':invoice.paid, 
-        }
+        'invoice': invoice,
+        'items': items,
     }
-
     # Render the HTML template with invoice data
     # template = get_template('invoice/invoice_template.html')
     html_string = render_to_string('invoice/invoice_template.html', context)

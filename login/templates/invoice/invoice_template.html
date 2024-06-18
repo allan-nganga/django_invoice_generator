@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice {{ invoice.id }}</title>
+    <title>Invoice {{ invoice.invoice_id }}</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'invoice/invoice_template.css' %}">
 </head>
@@ -21,8 +21,7 @@
         {% endif %}
         <h1>INVOICE # {{ invoice.id }}</h1>
         <div class="company-brand">
-            
-            <img src="{% static 'creative-junk_logo.jpg'%}"><br>
+            <img src="{% static 'creative-junk logo.jpg'%}"><br>
         </div>
         <div class="company-info">
             <p><strong>Creative Junk Ltd</strong></p>
@@ -32,9 +31,10 @@
         </div>
         <div class="invoice-to">
             <p><strong>Invoiced To</strong></p>
-            <p>{{ invoice.company_name }}</p>
+            <p>{{ invoice.client.client_company_name }}</p>
             <p>ATTN: {{ invoice.client.client_name }}</p>
-            <p>{{ invoice.client.billing_address }}</p>
+            <p>{{ invoice.client.client_address }}</p>
+            <p>{{ invoice.client.client_country }}</p>
         </div>
         <div class="invoice-details">
             <p><strong>INVOICE #{{ invoice.id }}</strong></p>
@@ -53,14 +53,16 @@
                 </tr>
             </thead>
             <tbody>
+                {% for item in invoice.items.all %}
                 <tr>
-                    <td>{{ invoice.item_description }}</td>
+                    <td>{{ item.description }}</td>
                     <!-- To display figures in currency format -->
-                    <td>Ksh {{ invoice.item_price | floatformat:2|intcomma }}</td>
+                    <td>Ksh {{ item.price | floatformat:2|intcomma }}</td>
                     <td>{{ invoice.item_quantity }}</td>
                     <!-- To display figures in currency format -->
-                    <td>Ksh {{ invoice.total_cost | floatformat:2|intcomma }}</td>
+                    <td>Ksh {{ item.total | floatformat:2|intcomma }}</td>
                 </tr>
+                {% endfor %}
             </tbody>
         </table>
         <div class="totals">

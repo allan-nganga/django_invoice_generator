@@ -55,7 +55,10 @@ class InvoiceItem(models.Model):
 
     def __str__(self):
         return f"Item {self.id} of Invoice {self.invoice.id}"
-
+    
+    @property
+    def total(self):
+        return self.quantity * self.price
 
 class Settings(models.Model):
     company_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
