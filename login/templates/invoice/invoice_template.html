@@ -34,7 +34,7 @@
             <p>{{ invoice.client.client_company_name }}</p>
             <p>ATTN: {{ invoice.client.client_name }}</p>
             <p>{{ invoice.client.client_address }}</p>
-            <p>{{ invoice.client.client_country }}</p>
+            <p>{{ invoice.client.client_country.name }}</p>
         </div>
         <div class="invoice-details">
             <p><strong>INVOICE #{{ invoice.id }}</strong></p>
