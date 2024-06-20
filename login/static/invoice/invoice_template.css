@@ -113,7 +113,7 @@ table th {
     pointer-events: none;
     user-select: none;
     z-index: 1000;
-    margin-left: 0px;
+    margin-top: 200px;
     white-space: nowrap;
 }
 

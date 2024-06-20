@@ -10,8 +10,10 @@
   {% load static %}
   <link href="{% static 'css/tailwind.css' %}" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
-  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+  <script type="text/javascript" charset="utf8"
+    src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
   {% block extra_styles %}{% endblock %}
+  {% block css %}{% endblock %}
 </head>
 
 <body class="h-full">
@@ -114,7 +116,7 @@
                     </li>
                   </ul>
                 </li>
-                
+
                 <li class="mt-auto">
                   <a href="#"
                     class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
@@ -148,7 +150,40 @@
             <div class="h-6 w-px bg-gray-900/10 lg:hidden" aria-hidden="true"></div>
 
             <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-              
+              <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="relative inline-block text-left">
+                  <div>
+                    <button type="button"
+                      class="relative inline-flex items-center gap-x-1.5 rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                      id="menu-button" aria-expanded="true" aria-haspopup="true">Invoice status
+                      <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"
+                        aria-hidden="true">
+                        <path fill-rule="evenodd"
+                          d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                          clip-rule="evenodd" />
+                      </svg>
+                    </button>
+                  </div>
+
+                  <!-- Dropdown menu -->
+                  <div
+                    class="hidden-absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                    <div class="py-1" role="none">
+                      <!-- Mark as Paid -->
+                      <a href="{% url 'invoicing_app:mark_as_paid' invoice.id %}"
+                        class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                        id="menu-item-0">Mark
+                        as Paid</a>
+                      <!-- Mark as Unpaid -->
+                      <a href="{% url 'invoicing_app:mark_as_unpaid' invoice.id %}"
+                        class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
+                        id="menu-item-1">Mark
+                        as Unpaid</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="flex items-center gap-x-4 lg:gap-x-6">
                 <button type="button" class="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
                   <span class="sr-only">View notifications</span>
@@ -183,16 +218,6 @@
                     </span>
                   </button>
 
-                  <!--
-              Dropdown menu, show/hide based on menu state.
-
-              Entering: "transition ease-out duration-100"
-                From: "transform opacity-0 scale-95"
-                To: "transform opacity-100 scale-100"
-              Leaving: "transition ease-in duration-75"
-                From: "transform opacity-100 scale-100"
-                To: "transform opacity-0 scale-95"
-            -->
                   <div id="user-menu"
                     class="hidden absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
                     role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
@@ -217,61 +242,60 @@
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Script for opening and closing sidebar and dropdown for user profile -->
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        const openSidebarButton = document.getElementById('openSidebarButton');
-        const closeSidebarButton = document.getElementById('closeSidebarButton');
-        const sidebar = document.getElementById('sidebar');
-  
-        openSidebarButton.addEventListener('click', function () {
-          sidebar.classList.toggle('hidden');
-        });
-  
-        closeSidebarButton.addEventListener('click', function () {
-          sidebar.classList.toggle('hidden');
-        });
-  
-        const userMenuButton = document.getElementById('user-menu-button');
-        const userMenu = document.getElementById('user-menu');
-  
-        userMenuButton.addEventListener('click', function () {
-          const isExpanded = userMenuButton.getAttribute('aria-expanded') === 'true';
-          userMenuButton.setAttribute('aria-expanded', !isExpanded);
-          userMenu.classList.toggle('hidden');
-        });
-  
-        window.addEventListener('click', function (e) {
-          if (!userMenuButton.contains(e.target) && !userMenu.contains(e.target)) {
-            userMenu.classList.add('hidden');
-            userMenuButton.setAttribute('aria-expanded', 'false');
-          }
-        });
-      });
-    </script>
+  <!-- Script for opening and closing sidebar and dropdown for user profile -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const openSidebarButton = document.getElementById('openSidebarButton');
+      const closeSidebarButton = document.getElementById('closeSidebarButton');
+      const sidebar = document.getElementById('sidebar');
 
-    <!-- Script for profile dropdown menu 
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-          const userMenuButton = document.getElementById('user-menu-button');
-          const userMenu = document.getElementById('user-menu');
-  
-          userMenuButton.addEventListener('click', function () {
-              const isExpanded = userMenuButton.getAttribute('aria-expanded') === 'true';
-              userMenuButton.setAttribute('aria-expanded', !isExpanded);
-              userMenu.classList.toggle('hidden');
-          });
-  
-          // Close the dropdown if the user clicks outside of it
-          window.addEventListener('click', function (e) {
-              if (!userMenuButton.contains(e.target) && !userMenu.contains(e.target)) {
-                  userMenu.classList.add('hidden');
-                  userMenuButton.setAttribute('aria-expanded', 'false');
-              }
-          });
+      openSidebarButton.addEventListener('click', function () {
+        sidebar.classList.toggle('hidden');
       });
+
+      closeSidebarButton.addEventListener('click', function () {
+        sidebar.classList.toggle('hidden');
+      });
+
+      const userMenuButton = document.getElementById('user-menu-button');
+      const userMenu = document.getElementById('user-menu');
+
+      userMenuButton.addEventListener('click', function () {
+        const isExpanded = userMenuButton.getAttribute('aria-expanded') === 'true';
+        userMenuButton.setAttribute('aria-expanded', !isExpanded);
+        userMenu.classList.toggle('hidden');
+      });
+
+      window.addEventListener('click', function (e) {
+        if (!userMenuButton.contains(e.target) && !userMenu.contains(e.target)) {
+          userMenu.classList.add('hidden');
+          userMenuButton.setAttribute('aria-expanded', 'false');
+        }
+      });
+    });
+
+
+    // Script for invoice status dropdown menu
+    document.addEventListener('DOMContentLoaded', function () {
+      const button = document.getElementById('menu-button');
+      const menu = document.getElementById('dropdown-menu');
+
+      button.addEventListener('click', function () {
+        const expanded = button.getAttribute('aria-expanded') === 'true';
+        button.setAttribute('aria-expanded', !expanded);
+        menu.classList.toggle('hidden');
+      });
+
+      document.addEventListener('click', function (event) {
+        if (!button.contains(event.target) && !menu.contains(event.target)) {
+          button.setAttribute('aria-expanded', false);
+          menu.classList.add('hidden');
+        }
+      });
+    });
   </script>
-  -->
 </body>
+
 </html>

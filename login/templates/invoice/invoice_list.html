@@ -62,10 +62,6 @@
                                             {{ invoice.due_date | date:"DATE_FORMAT" }}</td>
                                         <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
                                             {{ invoice.total_cost | floatformat:2|intcomma }}</td>
-                                        <!--
-                                            <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
-                                            {{ invoice.paid|yesno:"Paid,Unpaid" }}</td>
-                                            -->
                                         <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                                             <span
                                                 class="inline-flex items-center rounded-md bg-green-500/10 px-2 py-1 text-xs font-medium text-green-400 ring-1 ring-inset ring-green-500/20">
@@ -93,30 +89,6 @@
                                             class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                                             <a href="{% url 'invoicing_app:generate_invoice_pdf' invoice.id %}"
                                                 class="text-indigo-400 hover:text-indigo-300">Download</a>
-                                        </td>
-                                        <td
-                                            class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                                            <div class="relative inline-block text-left">
-                                                <div>
-                                                    <button type="button"
-                                                        class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                                                        id="status-button">
-                                                        Status
-                                                    </button>
-                                                </div>
-                                                <div class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none hidden"
-                                                    id="dropdown-menu" role="menu" aria-orientation="vertical"
-                                                    aria-labelledby="menu-button" tabindex="-1">
-                                                    <div class="py-1" role="none">
-                                                        <a href="{% url 'invoicing_app:mark_as_paid' invoice.id %}"
-                                                            class="block px-4 py-2 text-sm text-gray-700"
-                                                            role="menuitem" id="menu-item-0">Mark as paid</a>
-                                                        <a href="{% url 'invoicing_app:mark_as_unpaid' invoice.id %}"
-                                                            class="block px-4 py-2 text-sm text-gray-700"
-                                                            role="menuitem" id="menu-item-1">Mark as unpaid</a>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </td>
                                     </tr>
                                     {% endfor %}
