@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
 from .models import Invoice, Client, Settings, InvoiceItem
 from .forms import InvoiceForm, InvoiceItemForm, ClientForm, SettingsForm
@@ -10,7 +10,7 @@ from django.db.models import Sum, F, FloatField, ExpressionWrapper
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django_countries import countries
-from django.forms import modelformset_factory
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 # Create your views here.
@@ -254,8 +254,29 @@ def delete_client(request, client_id):
 # Client list
 @login_required
 def client_list(request):
-    clients = Client.objects.all()
-    return render(request, 'client/client_list.html', {'clients': clients})
+    client_list = Client.objects.all()
+    paginator = Paginator(client_list, 15)
+
+    page = request.GET.get('page')
+    try:
+        clients = paginator.page(page)
+    except PageNotAnInteger:
+        clients = paginator.page(1)
+    except EmptyPage:
+        clients = paginator.page(paginator.num_pages)
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        html = render_to_string('client/client_list.html', {'clients':clients})
+        return JsonResponse({
+            'html':html,
+            'page_number': paginator.num_pages,
+            'num_pages': paginator.num_pages,
+            'total_items': paginator.count,
+            'has_previous': clients.has_previous(),
+            'has_next': clients.has_next(),
+        })
+
+    return render(request, 'client/client_list.html', {'clients':clients})
 
 # Settings function
 def edit_settings(request):

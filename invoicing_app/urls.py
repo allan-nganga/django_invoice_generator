@@ -20,7 +20,7 @@ urlpatterns = [
     path('settings/', edit_settings, name='settings'),
     path('client/active/', active_clients_list, name='active_clients_list'),
     path('clients/', client_list, name='client_list'),
-    path('client/<int:client_id>/activate/', mark_client_active, name='mark_client_active'),
-    path('client/<int:client_id>/deactivate/', mark_client_inactive, name='mark_client_inactive'),
+    path('client/<uuid:client_id>/activate/', mark_client_active, name='mark_client_active'),
+    path('client/<uuid:client_id>/deactivate/', mark_client_inactive, name='mark_client_inactive'),
     # path('settings/edit', settings, name='settings'),
 ]
