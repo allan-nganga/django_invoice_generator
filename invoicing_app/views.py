@@ -255,7 +255,7 @@ def delete_client(request, client_id):
 @login_required
 def client_list(request):
     client_list = Client.objects.all()
-    paginator = Paginator(client_list, 15)
+    paginator = Paginator(client_list, 10)
 
     page = request.GET.get('page')
     try:
