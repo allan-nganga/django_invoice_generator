@@ -135,20 +135,20 @@ def create_invoice_item(request, invoice_id):
 @login_required
 def invoice_list(request):
     # context = {'page_title': 'Invoice List'}
-    invoice = Invoice.objects.all().order_by('created_at')
+    # invoice = Invoice.objects.all().order_by('-created_at')
 
     # Search-bar function
     query = request.GET.get('q')
     if query:
-        invoice = Invoice.objects.filter(
+        invoices = Invoice.objects.filter(
             Q(id__icontains=query) |
-            Q(client_name__icontains=query)
-        ).order_by('created_at')
+            Q(client__client_name__icontains=query)
+        ).order_by('-created_at')
     else:
-        invoice = Invoice.objects.all().order_by('created_at')
+        invoices = Invoice.objects.all().order_by('-created_at')
 
-    paginator = Paginator(invoice, 10)
-    page = request.GET.get('page', 1)
+    paginator = Paginator(invoices, 9)
+    page = request.GET.get('page')
     try:
         invoices = paginator.page(page)
     except PageNotAnInteger:
