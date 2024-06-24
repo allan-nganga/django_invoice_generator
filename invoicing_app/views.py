@@ -135,7 +135,7 @@ def create_invoice_item(request, invoice_id):
 @login_required
 def invoice_list(request):
     # context = {'page_title': 'Invoice List'}
-    invoice = Invoice.objects.all()
+    invoice = Invoice.objects.all().order_by('created_at')
 
     # Search-bar function
     query = request.GET.get('q')
@@ -143,10 +143,32 @@ def invoice_list(request):
         invoice = Invoice.objects.filter(
             Q(id__icontains=query) |
             Q(client_name__icontains=query)
-        )
+        ).order_by('created_at')
     else:
-        invoice = Invoice.objects.all()
-    return render(request, 'invoice/invoice_list.html', {'invoice': invoice})
+        invoice = Invoice.objects.all().order_by('created_at')
+
+    paginator = Paginator(invoice, 10)
+    page = request.GET.get('page', 1)
+    try:
+        invoices = paginator.page(page)
+    except PageNotAnInteger:
+        invoices = paginator.page(1)
+    except EmptyPage:
+        invoices = paginator.page(paginator.num_pages)
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        html = render_to_string('invoice/invoice_list_partial.html', {'invoices': invoices})
+        data = {
+            'html': html,
+            'page_number': invoices.number,
+            'has_previous': invoices.has_previous(),
+            'has_next': invoices.has_next(),
+            'num_pages': paginator.num_pages,
+            'total_items': paginator.count,
+        }
+        return JsonResponse(data)
+    
+    return render(request, 'invoice/invoice_list.html', {'invoices': invoices})
 
 # Display contents of the requested invoice
 @login_required
