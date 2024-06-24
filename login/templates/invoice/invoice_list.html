@@ -10,7 +10,7 @@
             <div class="px-4 sm:px-6 lg:px-8">
                 <div class="sm:flex sm:items-center">
                     <div class="sm:flex-auto">
-                        <h1 class="text-base font-semibold leading-6 text-white">INVOICE LIST</h1>
+                        <h1 class="text-base font-semibold leading-6 text-blue-500">INVOICE LIST</h1>
                     </div>
                     <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
                         <a href="{% url 'invoicing_app:create_invoice' %}"
@@ -25,21 +25,21 @@
                                 <thead>
                                     <tr>
                                         <th scope="col"
-                                            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-0">
+                                            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-blue-500 sm:pl-0">
                                             #</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-blue-500">
                                             Client Name</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-blue-500">
                                             Billing Address</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-blue-500">
                                             Invoice Date</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-blue-500">
                                             Due Date</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-blue-500">
                                             Amount Due</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-blue-500">
                                             Status</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-white">
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-blue-500">
                                             Actions</th>
                                         <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
                                             <span class="sr-only">Edit</span>
@@ -78,8 +78,8 @@
                                                 class="text-indigo-400 hover:text-indigo-300">Edit</a>
                                         </td>
                                         <td
-                                            class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                                            <a href="#" class="text-indigo-400 hover:text-indigo-300"
+                                            class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm text-red-500 font-medium sm:pr-0">
+                                            <a href="#" class="text-red-400 hover:text-indigo-300"
                                                 onclick="event.preventDefault(); openModal('{{ invoice.id }}');">
                                                 Delete
                                             </a>

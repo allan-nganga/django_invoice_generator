@@ -266,15 +266,16 @@ def client_list(request):
         clients = paginator.page(paginator.num_pages)
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        html = render_to_string('client/client_list.html', {'clients':clients})
-        return JsonResponse({
+        html = render_to_string('client/paginated_clients.html', {'clients':clients})
+        data = {
             'html':html,
-            'page_number': paginator.num_pages,
+            'page_number': clients.number,
             'num_pages': paginator.num_pages,
             'total_items': paginator.count,
             'has_previous': clients.has_previous(),
             'has_next': clients.has_next(),
-        })
+        }
+        return JsonResponse(data)
 
     return render(request, 'client/client_list.html', {'clients':clients})
 
