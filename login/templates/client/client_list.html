@@ -1,9 +1,9 @@
-{% extends 'base.html' %}
+{% extends 'dash.html' %}
 
 {% block title %}Client List{% endblock %}
 
 {% block content %}
-<div class="w-full h-[87vh] bg-gray-900">
+<div class="w-full h-[88vh] bg-gray-900">
   <div class="mx-auto max-w-7xl">
     <div class="bg-gray-900 py-10">
       <div class="px-4 sm:px-6 lg:px-8">
@@ -15,7 +15,7 @@
           </div>
           <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
             <a href="{% url 'invoicing_app:add_client' %}"
-              class="block rounded-md bg-indigo-500 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Add
+              class="block rounded-md bg-blue-500 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Add
               Client</a>
           </div>
         </div>
@@ -45,10 +45,10 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    function loadPage(pageNumber) {
+    function loadPage(pageNumber, query='') {
       document.getElementById('spinner').style.display = 'flex';
 
-      fetch(`?page=${pageNumber}`, {
+      fetch(`?page=${pageNumber}&q=${query}`, {
         headers: {
           'X-Requested-With': 'XMLHttpRequest'
         }

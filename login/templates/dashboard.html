@@ -5,27 +5,36 @@
 {% load humanize %}
 {% block content %}
 <!-- Your content -->
-<dl class="mx-auto grid grid-cols-1 gap-px bg-gray-900/5 sm:grid-cols-2 lg:grid-cols-4">
-  <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-    <dt class="text-sm font-medium leading-6 text-gray-500">Revenue</dt>
-    <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">
-      KSH {{ total_amount | floatformat:2|intcomma }}</dd>
+<div class="w-full h-[87vh] bg-gray-900 overflow-auto mb-4">
+  <div class="bg-gray-900">
+    <div class="mx-auto w-full border-b-g">
+      <div class="grid grid-cols-1 gap-px bg-white/5 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="bg-gray-900 px-4 py-6 sm:px-6 lg:px-8">
+          <p class="text-sm font-medium leading-6 text-gray-400">Revenue</p>
+          <p class="mt-2 flex items-baseline gap-x-2">
+            <span class="text-4xl font-semibold tracking-tight text-white">KSH {{ total_amount | floatformat:2|intcomma }}</span>
+          </p>
+        </div>
+        <div class="bg-gray-900 px-4 py-6 sm:px-6 lg:px-8">
+          <p class="text-sm font-medium leading-6 text-gray-400">Number of Invoices</p>
+          <p class="mt-2 flex items-baseline gap-x-2">
+            <span class="text-4xl font-semibold tracking-tight text-white">{{ total_invoices|intcomma}}</span>
+          </p>
+        </div>
+        <div class="bg-gray-900 px-4 py-6 sm:px-6 lg:px-8">
+          <p class="text-sm font-medium leading-6 text-gray-400">Total Unpaid Invoices</p>
+          <p class="mt-2 flex items-baseline gap-x-2">
+            <span class="text-4xl font-semibold tracking-tight text-white">{{ total_unpaid_invoices |intcomma }}</span>
+          </p>
+        </div>
+        <div class="bg-gray-900 px-4 py-6 sm:px-6 lg:px-8">
+          <p class="text-sm font-medium leading-6 text-gray-400">Total Paid Invoices</p>
+          <p class="mt-2 flex items-baseline gap-x-2">
+            <span class="text-4xl font-semibold tracking-tight text-white">{{ total_paid_invoices |intcomma }}</span>
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-    <dt class="text-sm font-medium leading-6 text-gray-500">Total Invoices</dt>
-    <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">
-      {{ total_invoices | intcomma }}</dd>
-  </div>
-  <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-    <dt class="text-sm font-medium leading-6 text-gray-500">Total Unpaid Invoices</dt>
-    <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">
-      {{ total_unpaid_invoices |intcomma }}</dd>
-  </div>
-  <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 bg-white px-4 py-10 sm:px-6 xl:px-8">
-    <dt class="text-sm font-medium leading-6 text-gray-500">Total Paid Invoices</dt>
-    <dd class="w-full flex-none text-3xl font-medium leading-10 tracking-tight text-gray-900">
-      {{ total_paid_invoices |intcomma }}</dd>
-  </div>
-</dl>
-
+</div>
 {% endblock %}

@@ -11,6 +11,8 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django_countries import countries
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.utils import timezone
+from django.views.decorators.http import require_http_methods
 
 
 # Create your views here.
@@ -138,11 +140,11 @@ def invoice_list(request):
     # invoice = Invoice.objects.all().order_by('-created_at')
 
     # Search-bar function
-    query = request.GET.get('q')
-    if query:
+    q = request.GET.get('q')
+    if q:
         invoices = Invoice.objects.filter(
-            Q(id__icontains=query) |
-            Q(client__client_name__icontains=query)
+            Q(id__icontains=q) |
+            Q(client__client_name__icontains=q)
         ).order_by('-created_at')
     else:
         invoices = Invoice.objects.all().order_by('-created_at')
@@ -247,20 +249,22 @@ def add_client(request):
 
 # Edit client
 @login_required
+@require_http_methods(["GET", "POST"])
 def edit_client(request, client_id):
-    client = get_object_or_404(Client, pk=client_id)
+    client = get_object_or_404(Client, client_id=client_id)
+    
     if request.method == 'POST':
         form = ClientForm(request.POST, instance=client)
         if form.is_valid():
             form.save()
             messages.success(request, 'Client updated successfully!')
-            return redirect('client_list')  # Assuming you have a client list view
+            return redirect('invoicing_app:client_list')  # Assuming you have a client list view
         else:
             messages.error(request, 'Error updating client')
     else:
         form = ClientForm(instance=client)
 
-    return render(request, 'clent/edit_client.html', {'form': form})
+    return render(request, 'client/edit_client.html', {'form': form, 'client':client})
 
 # Delete client
 @login_required
@@ -276,9 +280,18 @@ def delete_client(request, client_id):
 # Client list
 @login_required
 def client_list(request):
-    client_list = Client.objects.all()
-    paginator = Paginator(client_list, 10)
+    # client_list = Client.objects.all().order_by('-created_at')
 
+    query = request.GET.get('q')
+    if query:
+        clients = Client.objects.filter(
+            Q(client_email__icontains=query) |
+            Q(client_name__icontains=query)
+        ).order_by('-created_at')
+    else:
+        clients = Client.objects.all().order_by('-created_at')
+
+    paginator = Paginator(clients, 10)
     page = request.GET.get('page')
     try:
         clients = paginator.page(page)
@@ -333,19 +346,40 @@ def active_clients_list(request):
     return render(request, 'clients/active_clients_list.html', {'clients':active_clients})
 
 # Active status
-def mark_client_active(request, client_id):
-    client = get_object_or_404(Client, id=client_id)
+def mark_client_active(request, client_uuid):
+    client = get_object_or_404(Client, client_id=client_uuid)
     client.client_status = 'active'
     client.save()
-    return redirect('clients_list')  # Adjust the redirect URL as needed
+    return redirect('invoicing_app:client_list')  # Adjust the redirect URL as needed
 
-def mark_client_inactive(request, client_id):
-    client = get_object_or_404(Client, id=client_id)
+def mark_client_inactive(request, client_uuid):
+    client = get_object_or_404(Client, client_id=client_uuid)
     client.client_status = 'inactive'
     client.save()
-    return redirect('clients_list')  # Adjust the redirect URL as needed
+    return redirect('invoicing_app:client_list')  # Adjust the redirect URL as needed
 
 # Countries list function
 def country(request):
     country_list = list(countries)
     return render(request, 'client/create_client.html', {'countries':country_list})
+
+# Function for due invoices
+@login_required
+def due_invoices(request):
+    today = timezone.now().date()
+    invoices = Invoice.objects.filter(due_date__get=today)
+    paginator = Paginator(invoices, 10)
+
+    page_number = request.GET.get('page')
+    page_obj = Paginator.get_page(page_number)
+
+    
+    
+    return render(request, 'invoice/due_invoices.html', {'invoices':due_invoices})
+
+# Function for overdue invoices
+@login_required
+def overdue_invoices(request):
+    today = timezone.now().date()
+    overdue_invoices = Invoice.objects.filter(due_date__lt=today)
+    return render(request, 'invoice/overdue_invoices.html', {'invoices':overdue_invoices})

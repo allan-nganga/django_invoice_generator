@@ -1,0 +1,115 @@
+{% extends 'dash.html' %}
+
+{% block title %}Edit Client{% endblock %}
+
+{% block content %}
+<div class="w-full h-[87vh] bg-gray-900 overflow-auto mb-4">
+    <div class="mx-auto max-w-7xl">
+        <div class="bg-gray-900 py-10">
+            <div class="px-4 sm:px-6 lg:px-8">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="space-y-12">
+                        <div class="border-b border-white/10 pb-12">
+                            <h2 class="text-base font-semibold leading-7 text-white">Edit Client</h2>
+                            <p class="mt-1 text-sm leading-6 text-gray-400">Update the details below to edit the client information.</p>
+
+                            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                <!-- Client Name -->
+                                <div class="sm:col-span-4">
+                                    <label for="client_name" class="block text-sm font-medium leading-6 text-white">Client Name</label>
+                                    <div class="mt-2 relative">
+                                        {{ form.client_name }}
+                                    </div>
+                                </div>
+
+                                <!-- Client Address -->
+                                <div class="sm:col-span-4">
+                                    <label for="client_address" class="block text-sm font-medium leading-6 text-white">Client Address</label>
+                                    <div class="mt-2 relative">
+                                        {{ form.client_address }}
+                                    </div>
+                                </div>
+
+                                <!-- Client Email -->
+                                <div class="sm:col-span-4">
+                                    <label for="client_email" class="block text-sm font-medium leading-6 text-white">Client Email</label>
+                                    <div class="mt-2 relative">
+                                        {{ form.client_email }}
+                                    </div>
+                                </div>
+
+                                <!-- Client Company Name -->
+                                <div class="sm:col-span-4">
+                                    <label for="client_company_name" class="block text-sm font-medium leading-6 text-white">Client Company Name</label>
+                                    <div class="mt-2 relative">
+                                        {{ form.client_company_name }}
+                                    </div>
+                                </div>
+
+                                <!-- Client Country -->
+                                <div class="sm:col-span-4">
+                                    <label for="client_country" class="block text-sm font-medium leading-6 text-white">Client Country</label>
+                                    <div class="mt-2 relative">
+                                        {{ form.client_country }}
+                                    </div>
+                                </div>
+
+                                <!-- Active Status Dropdown -->
+                                <div class="sm:col-span-4">
+                                    <label for="active_status" class="block text-sm font-medium leading-6 text-white">Active Status</label>
+                                    <div class="mt-2 relative">
+                                        {{ form.active_status }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex items-center justify-end gap-x-6">
+                        <button><a href="{% url 'invoicing_app:client_list' %}" class="text-sm font-semibold leading-6 text-white">Cancel</a></button>
+                        <button type="submit" class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleDropdown() {
+        var dropdown = document.getElementById('status-dropdown');
+        if (dropdown.classList.contains('hidden')) {
+            dropdown.classList.remove('hidden');
+        } else {
+            dropdown.classList.add('hidden');
+        }
+    }
+
+    function setStatus(status) {
+        document.getElementById('active_status').value = status;
+        toggleDropdown();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Handle the visibility of placeholders based on input values
+        var inputs = document.querySelectorAll('input[type="text"], input[type="email"], textarea');
+
+        inputs.forEach(function (input) {
+            if (input.value) {
+                input.classList.add('filled');
+            } else {
+                input.classList.remove('filled');
+            }
+
+            input.addEventListener('input', function () {
+                if (input.value) {
+                    input.classList.add('filled');
+                } else {
+                    input.classList.remove('filled');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

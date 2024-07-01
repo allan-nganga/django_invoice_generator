@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, update_session_auth_hash
 from django.contrib.auth.forms import AuthenticationForm
 from django import forms
 from .forms import SignUpForm
+from django.contrib.auth.decorators import login_required
 
 class EmailOrUsernameAuthenticationForm(AuthenticationForm):
     username = forms.CharField(label='Email or Username', max_length=254)
@@ -39,3 +40,21 @@ def signup(request):
   else:
       form = SignUpForm()
   return render(request, 'registration/signup.html', {'form': form, 'error':False})
+
+
+"""
+@login_required    
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user) # Update the session to reflect the new password
+            return redirect('settings/profile_info.html')
+        else:
+            form = PasswordChangeForm(request.user)
+        context = {
+            'form':form,
+        }
+        return render(request, 'settings/edit_profile.html', context)
+        """
