@@ -137,61 +137,63 @@
 
 {% load humanize %}
 {% block content %}
-<div class="invoice-box">
-    <!-- Logic for watermark -->
-    {% if invoice.paid %}
-    <div class="watermark paid">PAID</div>
-    {% else %}
-    <div class="watermark unpaid">UNPAID</div>
-    {% endif %}
-    <h1>INVOICE # {{ invoice.id }}</h1>
-    <div class="company-info">
-        <img src="{% static 'creative-junk logo.jpg' %}">
-        <p><strong>Creative Junk Ltd</strong></p>
-        <p>3rd Floor, College House</p>
-        <p>Koinange Street / University Way</p>
-        <p>Nairobi, Kenya</p>
-    </div>
-    <div class="invoice-to">
-        <p><strong>Invoiced To</strong></p>
-        <p>{{ invoice.client.client_company_name }}</p>
-        <p>ATTN: {{ invoice.client.client_name }}</p>
-        <p>{{ invoice.client.client_address }}</p>
-        <p>{{ invoice.client.client_country.name }}</p>
-    </div>
-    <div class="invoice-details">
-        <p><strong>INVOICE #{{ invoice.id }}</strong></p>
-        <p>Status: <strong>{{ invoice.paid|yesno:"Paid,Unpaid" }}</strong></span></p>
-        <p>Invoice Date: <strong>{{ invoice.created_at|date:"DATE_FORMAT" }}</strong></p>
-        <p>Due Date: <strong>{{ invoice.due_date|date:"DATE_FORMAT" }}</strong></p>
-        <p>Amount Due: <strong>Ksh {{ invoice.total_cost|floatformat:2|intcomma }}</strong></p>
-    </div>
-    <table>
-        <thead>
-            <tr>
-                <th>Item</th>
-                <th>Price</th>
-                <th>Qty</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in invoice.items.all %}
-            <tr>
-                <td>{{ item.description }}</td>
-                <td>Ksh {{ item.price|floatformat:2|intcomma }}</td>
-                <td>{{ item.quantity }}</td>
-                <td>Ksh {{ item.total |floatformat:2|intcomma }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <div class="totals">
-        <p>Grand Total: <strong>Ksh {{ invoice.total_cost|floatformat:2|intcomma }}</strong></p>
-    </div>
-    <div class="terms">
-        <p><strong>TERMS</strong></p>
-        <p>All Payments to be made out to CREATIVE JUNK LTD</p>
+<div class="overflow-auto h-[88vh]">
+    <div class="invoice-box ">
+        <!-- Logic for watermark -->
+        {% if invoice.paid %}
+        <div class="watermark paid">PAID</div>
+        {% else %}
+        <div class="watermark unpaid">UNPAID</div>
+        {% endif %}
+        <h1>INVOICE # {{ invoice.id }}</h1>
+        <div class="company-info">
+            <img src="{% static 'creative-junk logo.jpg' %}">
+            <p><strong>Creative Junk Ltd</strong></p>
+            <p>3rd Floor, College House</p>
+            <p>Koinange Street / University Way</p>
+            <p>Nairobi, Kenya</p>
+        </div>
+        <div class="invoice-to">
+            <p><strong>Invoiced To</strong></p>
+            <p>{{ invoice.client.client_company_name }}</p>
+            <p>ATTN: {{ invoice.client.client_name }}</p>
+            <p>{{ invoice.client.client_address }}</p>
+            <p>{{ invoice.client.client_country.name }}</p>
+        </div>
+        <div class="invoice-details">
+            <p><strong>INVOICE #{{ invoice.id }}</strong></p>
+            <p>Status: <strong>{{ invoice.paid|yesno:"Paid,Unpaid" }}</strong></span></p>
+            <p>Invoice Date: <strong>{{ invoice.created_at|date:"DATE_FORMAT" }}</strong></p>
+            <p>Due Date: <strong>{{ invoice.due_date|date:"DATE_FORMAT" }}</strong></p>
+            <p>Amount Due: <strong>Ksh {{ invoice.total_cost|floatformat:2|intcomma }}</strong></p>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in invoice.items.all %}
+                <tr>
+                    <td>{{ item.description }}</td>
+                    <td>Ksh {{ item.price|floatformat:2|intcomma }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>Ksh {{ item.total |floatformat:2|intcomma }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="totals">
+            <p>Grand Total: <strong>Ksh {{ invoice.total_cost|floatformat:2|intcomma }}</strong></p>
+        </div>
+        <div class="terms">
+            <p><strong>TERMS</strong></p>
+            <p>All Payments to be made out to CREATIVE JUNK LTD</p>
+        </div>
     </div>
 </div>
 {% endblock %}

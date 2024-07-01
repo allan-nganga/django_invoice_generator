@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
-from .models import Invoice, Client, Settings, InvoiceItem
-from .forms import InvoiceForm, InvoiceItemForm, ClientForm, SettingsForm
+from .models import Invoice, Client, Settings
+from .forms import InvoiceForm, InvoiceItemFormSet, ClientForm, SettingsForm
 from weasyprint import HTML
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum, F, FloatField, ExpressionWrapper
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django_countries import countries
@@ -20,31 +19,27 @@ from django.views.decorators.http import require_http_methods
 # View invoice function
 @login_required
 def view_invoice(request,invoice_id):
-    invoice = get_object_or_404(Invoice, id=invoice_id)
+    invoice = get_object_or_404(Invoice, invoice_id=invoice_id)
     return render(request, 'invoice/invoice_detail.html', {'invoice': invoice})
 
 # Edit invoice function
 @login_required
+@require_http_methods(["GET", "POST"])
 def edit_invoice(request, invoice_id):
-    invoice = get_object_or_404(Invoice, id=invoice_id)
-    InvoiceItemFormSet = forms.inlineformset_factory(Invoice, InvoiceItem, form=InvoiceItemForm, extra=1)
+    invoice = get_object_or_404(Invoice, invoice_id=invoice_id)
     
     if request.method == 'POST':
         form = InvoiceForm(request.POST, instance=invoice)
-        formset = InvoiceItemFormSet(request.POST, instance= invoice)
+        formset = InvoiceItemFormSet(request.POST, instance=invoice)
         if form.is_valid() and formset.is_valid():
             form.save()
-            return redirect('invoicing_app:invoice_detail', invoice_id=invoice.id)
+            formset.save()
+            return redirect('invoicing_app:invoice_detail', invoice_id=invoice_id)
     else:
         form = InvoiceForm(instance=invoice)
         formset = InvoiceItemFormSet(instance=invoice)
 
-        context = {
-            'form': form,
-            'formset':formset,
-            'invoice':invoice
-        }
-    return render(request, 'invoice/edit_invoice.html', context)
+    return render(request, 'invoice/edit_invoice.html', {'form':form, 'formset':formset, 'invoice':invoice})
 
 # Delete invoice function
 @login_required
@@ -175,7 +170,7 @@ def invoice_list(request):
 # Display contents of the requested invoice
 @login_required
 def invoice_detail(request, invoice_id):
-    invoice = get_object_or_404(Invoice, pk=invoice_id)
+    invoice = get_object_or_404(Invoice, invoice_id=invoice_id)
     return render(request, 'invoice/invoice_detail.html', {'invoice': invoice})
 
 # Invoice summary
@@ -252,7 +247,7 @@ def add_client(request):
 @require_http_methods(["GET", "POST"])
 def edit_client(request, client_id):
     client = get_object_or_404(Client, client_id=client_id)
-    
+
     if request.method == 'POST':
         form = ClientForm(request.POST, instance=client)
         if form.is_valid():

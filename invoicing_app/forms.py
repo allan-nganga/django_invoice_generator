@@ -41,6 +41,7 @@ class InvoiceItemForm(forms.ModelForm):
             'quantity',
             'price'
         ]
+InvoiceItemFormSet = inlineformset_factory(Invoice, InvoiceItem, form=InvoiceItemForm, extra=1)
 
 class SettingsForm(forms.ModelForm):
     class Meta:

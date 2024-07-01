@@ -10,6 +10,7 @@
                     </th>
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-blue-500">Client Email</th>
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-blue-500">Active Status</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-blue-400">Actions</th>
                     <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0"><span class="sr-only">Actions</span></th>
                 </tr>
             </thead>
@@ -28,19 +29,6 @@
                             class="text-indigo-400 hover:text-indigo-300">Edit</a>
                         <a href="{% url 'invoicing_app:delete_client' client.client_id %}"
                             class="text-red-400 hover:text-red-300 ml-4">Delete</a>
-                        <div class="inline-block ml-4 relative">
-                            <button type="button"
-                                class="text-yellow-400 hover:text-yellow-300 dropdown-toggle">Status</button>
-                            <ul class="dropdown-menu absolute hidden text-gray-700 pt-1">
-                                <li><a class="rounded-t bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
-                                        href="{% url 'invoicing_app:mark_client_active' client.client_id %}">Mark as
-                                        Active</a>
-                                </li>
-                                <li><a class="bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"
-                                        href="{% url 'invoicing_app:mark_client_inactive' client.client_id %}">Mark as
-                                        Inactive</a></li>
-                            </ul>
-                        </div>
                     </td>
                 </tr>
                 {% endfor %}

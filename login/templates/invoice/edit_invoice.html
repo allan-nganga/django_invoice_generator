@@ -1,0 +1,102 @@
+{% extends 'dash.html' %}
+
+{% block title %}Edit Invoice{% endblock %}
+
+{% block content %}
+<div class="w-full h-[87vh] bg-gray-900 overflow-auto mb-4">
+    <div class="mx-auto max-w-7xl">
+        <div class="bg-gray-900 py-10">
+            <div class="px-4 sm:px-6 lg:px-8">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="space-y-12">
+                        <div class="border-b border-white/10 pb-12">
+                            <h2 class="text-base font-semibold leading-7 text-white">Edit Invoice</h2>
+                            <p class="mt-1 text-sm leading-6 text-gray-400">Update the details below to edit the invoice information.</p>
+
+                            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                <!-- Client -->
+                                <div class="sm:col-span-4">
+                                    <label for="client" class="block text-sm font-medium leading-6 text-white">Client</label>
+                                    <div class="mt-2 relative">
+                                        {{ form.client }}
+                                    </div>
+                                </div>
+
+                                <!-- Due Date -->
+                                <div class="sm:col-span-4">
+                                    <label for="due_date" class="block text-sm font-medium leading-6 text-white">Due Date</label>
+                                    <div class="mt-2 relative">
+                                        {{ form.due_date }}
+                                    </div>
+                                </div>
+
+                                <!-- Paid -->
+                                <div class="sm:col-span-4">
+                                    <label for="paid" class="block text-sm font-medium leading-6 text-white">Paid</label>
+                                    <div class="mt-2 relative">
+                                        {{ form.paid }}
+                                    </div>
+                                </div>
+
+                                <!-- Invoice Items -->
+                                {% for formset_form in formset %}
+                                <div class="sm:col-span-4">
+                                    <label for="description" class="block text-sm font-medium leading-6 text-white">Item Description</label>
+                                    <div class="mt-2 relative">
+                                        {{ formset_form.description }}
+                                    </div>
+                                </div>
+                                <div class="sm:col-span-2">
+                                    <label for="quantity" class="block text-sm font-medium leading-6 text-white">Quantity</label>
+                                    <div class="mt-2 relative">
+                                        {{ formset_form.quantity }}
+                                    </div>
+                                </div>
+                                <div class="sm:col-span-2">
+                                    <label for="price" class="block text-sm font-medium leading-6 text-white">Price</label>
+                                    <div class="mt-2 relative">
+                                        {{ formset_form.price }}
+                                    </div>
+                                </div>
+                                <div class="sm:col-span-1 flex items-end">
+                                    {{ formset_form.DELETE }}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex items-center justify-end gap-x-6">
+                        <button><a href="{% url 'invoicing_app:invoice_list' %}" class="text-sm font-semibold leading-6 text-white">Cancel</a></button>
+                        <button type="submit" class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Handle the visibility of placeholders based on input values
+        var inputs = document.querySelectorAll('input[type="text"], input[type="email"], textarea');
+
+        inputs.forEach(function (input) {
+            if (input.value) {
+                input.classList.add('filled');
+            } else {
+                input.classList.remove('filled');
+            }
+
+            input.addEventListener('input', function () {
+                if (input.value) {
+                    input.classList.add('filled');
+                } else {
+                    input.classList.remove('filled');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
