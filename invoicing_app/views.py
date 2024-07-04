@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.template.loader import render_to_string
 from .models import Invoice, Client, Settings
-from .forms import InvoiceForm, InvoiceItemFormSet, ClientForm, SettingsForm
+from .forms import InvoiceForm, InvoiceItemForm, InvoiceItemFormSet, ClientForm, SettingsForm
 from weasyprint import HTML
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
@@ -44,7 +44,7 @@ def edit_invoice(request, invoice_id):
 # Delete invoice function
 @login_required
 def delete_invoice(request, invoice_id):
-    invoice = get_object_or_404(Invoice, id=invoice_id)
+    invoice = get_object_or_404(Invoice, invoice_id=invoice_id)
     if request.method == 'POST':
         invoice.delete()
         return redirect('invoicing_app:invoice_list')
@@ -54,7 +54,7 @@ def delete_invoice(request, invoice_id):
 @login_required
 def generate_invoice_pdf(request, invoice_id):
     # Retrieve the invoice object
-    invoice = get_object_or_404(Invoice, id=invoice_id)
+    invoice = get_object_or_404(Invoice, invoice_id=invoice_id)
 
     # Prepare context data for the template
     items = invoice.items.all()
@@ -102,7 +102,7 @@ def create_invoice(request):
                     item.invoice = invoice
                     item.created_by = request.user
                     item.save()
-            return redirect('invoicing_app:invoice_detail', invoice_id=invoice.id)
+            return redirect('invoicing_app:invoice_detail', invoice_id=invoice.invoice_id)
         else:
             return render(request, 'invoice/create_invoice.html', {'invoice_form': invoice_form})
 
@@ -211,18 +211,18 @@ def dashboard(request):
 # Change invoice payment status to paid
 @login_required
 def mark_as_paid(request, invoice_id):
-    invoice = get_object_or_404(Invoice, id=invoice_id)
+    invoice = get_object_or_404(Invoice, invoice_id=invoice_id)
     invoice.paid = True
     invoice.save()
-    return redirect('invoicing_app:invoice_detail', invoice_id=invoice.id)
+    return redirect('invoicing_app:invoice_detail', invoice_id=invoice.invoice_id)
 
 # Change invoice payment status to unpaid
 @login_required
 def mark_as_unpaid(request, invoice_id):
-    invoice = get_object_or_404(Invoice, id=invoice_id)
+    invoice = get_object_or_404(Invoice, invoice_id=invoice_id)
     invoice.paid = False
     invoice.save()
-    return redirect('invoicing_app:invoice_detail', invoice_id=invoice.id)
+    return redirect('invoicing_app:invoice_detail', invoice_id=invoice.invoice_id)
 
 # Create Client
 @login_required

@@ -23,7 +23,7 @@ class Client(models.Model):
 
 
 class Invoice(models.Model):
-    invoice_id = models.CharField(max_length=100, unique=True, blank=True)
+    invoice_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     due_date = models.DateField()
     paid = models.BooleanField(default=False)
     client = models.ForeignKey(Client, on_delete=models.CASCADE, default=1)
@@ -38,10 +38,10 @@ class Invoice(models.Model):
         return sum(item.quantity * item.price for item in self.items.all())
     
     # For invoice to be saved using unique id
-    def save(self, *args, **kwargs):
-        if not self.invoice_id:
-            self.invoice_id = str(uuid.uuid4())
-        super().save(*args, **kwargs)
+    #def save(self, *args, **kwargs):
+        #if not self.invoice_id:
+        #    self.invoice_id = str(uuid.uuid4())
+        #super().save(*args, **kwargs)
 
 
 class InvoiceItem(models.Model):

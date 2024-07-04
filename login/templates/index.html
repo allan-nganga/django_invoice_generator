@@ -171,12 +171,12 @@
                     role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                     <div class="py-1" role="none">
                       <!-- Mark as Paid -->
-                      <a href="{% url 'invoicing_app:mark_as_paid' invoice.id %}"
+                      <a href="{% url 'invoicing_app:mark_as_paid' invoice.invoice_id %}"
                         class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
                         id="menu-item-0">Mark
                         as Paid</a>
                       <!-- Mark as Unpaid -->
-                      <a href="{% url 'invoicing_app:mark_as_unpaid' invoice.id %}"
+                      <a href="{% url 'invoicing_app:mark_as_unpaid' invoice.invoice_id %}"
                         class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
                         id="menu-item-1">Mark
                         as Unpaid</a>
