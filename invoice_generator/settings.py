@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+import ssl
+import certifi
+from django.core.mail.backends.smtp import EmailBackend
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,6 +46,7 @@ INSTALLED_APPS = [
     'invoicing_app',
     'reminders',
     'django_countries',
+    'mailer',
 ]
 
 MIDDLEWARE = [
@@ -145,3 +149,14 @@ AUTHENTICATION_BACKENDS = [
     'login.backends.EmailOrUsernameBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
+
+# Mail configs
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.creative-junk.com'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'billing@creative-junk.com'
+EMAIL_HOST_PASSWORD = 'fakepassword1'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+# EMAIL_SSL_CERTFILE = certifi.where()

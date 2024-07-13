@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white">
+    <form method="post" class="max-w-3xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
+        {% csrf_token %}
+        <div class="space-y-12">
+            <div class="border-b border-white/10 pb-12">
+                <h2 class="text-base font-semibold leading-7 text-white">Send Email</h2>
+                <p class="mt-1 text-sm leading-6 text-gray-400">Fill in the details to send an email.</p>
+
+                <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                    <div class="sm:col-span-4">
+                        <label for="recipient" class="block text-sm font-medium leading-6 text-white">Email Address</label>
+                        <div class="mt-2">
+                            {{ form.recipient }}
+                        </div>
+                    </div>
+
+                    <div class="col-span-full">
+                        <label for="subject" class="block text-sm font-medium leading-6 text-white">Subject</label>
+                        <div class="mt-2">
+                            {{ form.subject }}
+                        </div>
+                    </div>
+
+                    <div class="col-span-full">
+                        <label for="body" class="block text-sm font-medium leading-6 text-white">Email Body</label>
+                        <div class="mt-2">
+                            {{ form.body }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-6 flex items-center justify-end gap-x-6">
+            <button type="button" class="text-sm font-semibold leading-6 text-white">Cancel</button>
+            <button type="submit" class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Send Email</button>
+        </div>
+        {% if error %}
+            <p class="mt-2 text-sm leading-6 text-red-600">{{ error }}</p>
+        {% endif %}
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/forms@0.3.3"></script>
+</body>
+</html>
