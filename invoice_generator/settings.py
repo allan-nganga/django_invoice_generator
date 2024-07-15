@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.humanize', # For formatting int values to currency format
     'login',
     'invoicing_app',
-    'reminders',
     'django_countries',
     'mailer',
 ]
@@ -159,4 +158,3 @@ EMAIL_USE_SSL = True
 EMAIL_HOST_USER = 'billing@creative-junk.com'
 EMAIL_HOST_PASSWORD = 'fakepassword1'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-# EMAIL_SSL_CERTFILE = certifi.where()

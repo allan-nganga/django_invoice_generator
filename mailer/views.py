@@ -1,72 +1,39 @@
-"""
-from django.shortcuts import render, get_object_or_404
-from .email_utils import send_invoice_email
-from django.http import HttpResponseRedirect
-from invoicing_app.models import Invoice
-from invoicing_app.views import generate_invoice_pdf
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
 from django.conf import settings
-from django.core.mail import send_mail
-
-# Create your views here.
-def send_email_view(request):
-    if request.method == 'POST':
-        to_email = request.POST.get('email-address')
-        subject = request.POST.get('subject')
-        body = request.POST.get('email-body')
-        
-        # Assuming you have a function to generate the PDF and send the email
-        pdf = generate_invoice_pdf(invoice)
-        send_invoice_email(to_email, subject, body)
-
-        return HttpResponseRedirect('{% url "invoicing_app:invoice_list" %}')  # Redirect to a success page or the same form with a success message
-
-    return render(request, 'mailer/send_email.html', {'invoice': invoice})
-
-
-from django.core.mail import send_mail, BadHeaderError
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
+from invoicing_app.utils import generate_pdf
+from invoicing_app.models import Invoice
 
-
-def send_welcome_email(request):
-    try:
-        send_mail(
-        'Welcome',
-        'Here is the message.',
-        'billing@creative-junk.com',
-        ['allen.nganga7@gmail.com'],
-        fail_silently=False,
+def send_invoice_reminder(request, invoice_id):
+    invoice = get_object_or_404(Invoice, invoice_id=invoice_id)
+    client_email = invoice.client.client_email
+    client_name = invoice.client.client_name
+    due_date = invoice.due_date
+    
+    # Render email content
+    email_content = render_to_string('mailer/reminder.html', {
+        'client_name': client_name,
+        'invoice_id': invoice.invoice_id,
+        'due_date': due_date
+    })
+    
+    # Generate PDF invoice
+    pdf_file = generate_pdf(invoice)
+    
+    # Create email
+    email = EmailMessage(
+        subject='Invoice Reminder',
+        body=email_content,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=[client_email]
     )
-    except BadHeaderError:
-        return HttpResponse('Invalid header found.')
-    except Exception as e:
-        return HttpResponse(f'An error occurred: {e}')
-    return render(request, 'mailer/send_email.html')
-"""
+    
+    # Attach PDF
+    email.attach(f'invoice_{invoice.invoice_id}.pdf', pdf_file, 'application/pdf')
+    
+    # Send email
+    email.send()
 
-from django.core.mail import send_mail
-from django.shortcuts import render
-from django.http import HttpResponse
-from .forms import EmailForm
-
-def send_welcome_email(request):
-    if request.method == 'POST':
-        form = EmailForm(request.POST)
-        if form.is_valid():
-            recipient = form.cleaned_data['recipient']
-            subject = form.cleaned_data['subject']
-            body = form.cleaned_data['body']
-            try:
-                send_mail(
-                    subject,
-                    body,
-                    'billing@creative-junk.com',  # From email
-                    [recipient],  # To email
-                    fail_silently=False,
-                )
-                return HttpResponse('Email sent successfully.')
-            except Exception as e:
-                return HttpResponse(f'An error occurred: {e}')
-    else:
-        form = EmailForm()
-    return render(request, 'mailer/send_email.html', {'form': form})
+    return HttpResponse('Reminder sent successfully.')

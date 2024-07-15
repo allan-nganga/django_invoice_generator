@@ -12,7 +12,7 @@ from django_countries import countries
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils import timezone
 from django.views.decorators.http import require_http_methods
-
+from .utils import generate_pdf
 
 # Create your views here.
 
@@ -53,6 +53,16 @@ def delete_invoice(request, invoice_id):
 # Generate PDF
 @login_required
 def generate_invoice_pdf(request, invoice_id):
+    invoice = get_object_or_404(Invoice, id=invoice_id)
+    pdf = generate_pdf(invoice, request)
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="invoice_{invoice.id}.pdf"'
+    return response
+
+"""
+# Generate PDF
+@login_required
+def generate_invoice_pdf(request, invoice_id):
     # Retrieve the invoice object
     invoice = get_object_or_404(Invoice, invoice_id=invoice_id)
 
@@ -75,6 +85,7 @@ def generate_invoice_pdf(request, invoice_id):
     response = HttpResponse(pdf, content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="invoice_{invoice.id}.pdf"'
     return response
+"""
 
 # invoice create function
 @login_required
