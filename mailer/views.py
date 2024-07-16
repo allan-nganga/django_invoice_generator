@@ -2,7 +2,7 @@ from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.conf import settings
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
+from django.http import JsonResponse
 from invoicing_app.utils import generate_pdf
 from invoicing_app.models import Invoice
 
@@ -33,7 +33,11 @@ def send_invoice_reminder(request, invoice_id):
     # Attach PDF
     email.attach(f'invoice_{invoice.invoice_id}.pdf', pdf_file, 'application/pdf')
     
-    # Send email
-    email.send()
+    try:
+        # Send email
+        email.send()
+        response_data = {'status': 'success', 'message': 'Reminder sent successfully.'}
+    except Exception as e:
+        response_data = {'status': 'error', 'message': 'Failed to send reminder. Please try again later.'}
 
-    return HttpResponse('Reminder sent successfully.')
+    return JsonResponse(response_data)

@@ -59,7 +59,7 @@
                     </td>
                     <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                         {% if invoice.invoice_id %}
-                        <a href="{% url 'invoicing_app:edit_invoice' invoice.invoice_id %}" class="text-indigo-400 hover:text-indigo-300">Edit</a>
+                        <a href="{% url 'invoicing_app:edit_invoice' invoice.invoice_id %}" class="text-yellow-400 hover:text-yellow-300">Edit</a>
                         {% else %}
                         <span class="text-gray-400">No ID</span>
                         {% endif %}
@@ -69,14 +69,14 @@
                     </td>
                     <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                         {% if invoice.invoice_id %}
-                        <a href="{% url 'invoicing_app:generate_invoice_pdf' invoice.invoice_id %}" class="text-indigo-400 hover:text-indigo-300">Download</a>
+                        <a href="{% url 'invoicing_app:generate_invoice_pdf' invoice.invoice_id %}" class="text-green-500 hover:text-green-300">Download</a>
                         {% else %}
                         <span class="text-gray-400">No ID</span>
                         {% endif %}
                     </td>
                     <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                         {% if invoice.invoice_id %}
-                        <a href="{% url 'mailer:send_invoice_reminder' invoice.invoice_id %}" class="text-indigo-400 hover:text-indigo-300">Send As Mail</a>
+                        <a href="{% url 'mailer:send_invoice_reminder' invoice.invoice_id %}" class="text-blue-700 hover:text-blue-300">Send As Mail</a>
                         {% else %}
                         <span class="text-gray-400">No ID</span>
                         {% endif %}
