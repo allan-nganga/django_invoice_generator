@@ -20,7 +20,7 @@ def send_invoice_reminder(request, invoice_id):
     })
     
     # Generate PDF invoice
-    pdf_file = generate_pdf(invoice)
+    pdf_file = generate_pdf(invoice, request)
     
     # Create email
     email = EmailMessage(

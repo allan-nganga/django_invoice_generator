@@ -152,23 +152,7 @@
             <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
               <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div class="relative inline-block text-left">
-                  <!-- Button for send as mail -->
-                  <div>
-                    <form action="{% url 'mailer:send_welcome_email' invoice.invoice_id %}" method="post">
-                      {% csrf_token %}
-                      <button type="submit"
-                        class="relative inline-flex items-center gap-x-1.5 rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                        id="send-mail-button" aria-expanded="true" aria-haspopup="true">
-                        Send as Mail
-                        <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                          <path fill-rule="evenodd"
-                            d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                            clip-rule="evenodd" />
-                        </svg>
-                      </button>
-                    </form>
-                  </div>
-
+                  
                   <!-- Button for invoice status(mark as paid & mark as unpaid) -->
                   <div>
                     <button type="button"
