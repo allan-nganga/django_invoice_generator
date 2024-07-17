@@ -58,7 +58,7 @@
                     <td>{{ item.description }}</td>
                     <!-- To display figures in currency format -->
                     <td>Ksh {{ item.price | floatformat:2|intcomma }}</td>
-                    <td>{{ invoice.item_quantity }}</td>
+                    <td>{{ item.quantity }}</td>
                     <!-- To display figures in currency format -->
                     <td>Ksh {{ item.total | floatformat:2|intcomma }}</td>
                 </tr>
