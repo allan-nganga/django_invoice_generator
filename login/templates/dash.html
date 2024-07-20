@@ -45,8 +45,8 @@
                   <ul role="list" class="-mx-2 space-y-1">
                     <li>
                       <!-- Current: "bg-gray-800 text-white", Default: "text-gray-400 hover:text-white hover:bg-gray-800" -->
-                      <a href="{% url 'invoicing_app:dashboard' %}"
-                        class="group flex gap-x-3 rounded-md bg-gray-800 p-2 text-sm font-semibold leading-6 text-white">
+                      <a href="{% url 'invoicing_app:dashboard' %}" data-page="dashboard"
+                        class="nav-link group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
                         <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                           stroke="currentColor" aria-hidden="true">
                           <path stroke-linecap="round" stroke-linejoin="round"
@@ -56,8 +56,8 @@
                       </a>
                     </li>
                     <li>
-                      <a href="{% url 'invoicing_app:client_list' %}"
-                        class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
+                      <a href="{% url 'invoicing_app:client_list' %}" data-page="client_list"
+                        class="nav-link group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
                         <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                           stroke="currentColor" aria-hidden="true">
                           <path stroke-linecap="round" stroke-linejoin="round"
@@ -67,8 +67,8 @@
                       </a>
                     </li>
                     <li>
-                      <a href="{% url 'invoicing_app:invoice_list' %}"
-                        class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
+                      <a href="{% url 'invoicing_app:invoice_list' %}" data-page="invoice_list"
+                        class="nav-link group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
                         <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                           stroke="currentColor" aria-hidden="true">
                           <path stroke-linecap="round" stroke-linejoin="round"
@@ -78,8 +78,8 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#"
-                        class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
+                      <a href="#" data-page="calendar"
+                        class="nav-link group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
                         <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                           stroke="currentColor" aria-hidden="true">
                           <path stroke-linecap="round" stroke-linejoin="round"
@@ -89,8 +89,8 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#"
-                        class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
+                      <a href="#" data-page="documents"
+                        class="nav-link group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
                         <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                           stroke="currentColor" aria-hidden="true">
                           <path stroke-linecap="round" stroke-linejoin="round"
@@ -100,8 +100,8 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#"
-                        class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
+                      <a href="#" data-page="reports"
+                        class="nav-link group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
                         <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                           stroke="currentColor" aria-hidden="true">
                           <path stroke-linecap="round" stroke-linejoin="round"
@@ -116,8 +116,8 @@
                 </li>
                 
                 <li class="mt-auto">
-                  <a href="#"
-                    class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
+                  <a href="#" data-page="settings"
+                    class="nav-link group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
                     <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                       stroke="currentColor" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round"
@@ -257,30 +257,19 @@
             userMenuButton.setAttribute('aria-expanded', 'false');
           }
         });
+  
+        // Highlight active link
+        const pageLinks = document.querySelectorAll('.nav-link');
+        const currentPath = window.location.pathname;
+        pageLinks.forEach(link => {
+          if (link.getAttribute('href') === currentPath) {
+            link.classList.add('bg-gray-800', 'text-white');
+          } else {
+            link.classList.remove('bg-gray-800', 'text-white');
+          }
+        });
       });
     </script>
-
-    <!-- Script for profile dropdown menu 
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-          const userMenuButton = document.getElementById('user-menu-button');
-          const userMenu = document.getElementById('user-menu');
-  
-          userMenuButton.addEventListener('click', function () {
-              const isExpanded = userMenuButton.getAttribute('aria-expanded') === 'true';
-              userMenuButton.setAttribute('aria-expanded', !isExpanded);
-              userMenu.classList.toggle('hidden');
-          });
-  
-          // Close the dropdown if the user clicks outside of it
-          window.addEventListener('click', function (e) {
-              if (!userMenuButton.contains(e.target) && !userMenu.contains(e.target)) {
-                  userMenu.classList.add('hidden');
-                  userMenuButton.setAttribute('aria-expanded', 'false');
-              }
-          });
-      });
-  </script>
-  -->
 </body>
+
 </html>
