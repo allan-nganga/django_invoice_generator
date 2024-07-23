@@ -14,6 +14,15 @@
     src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
   {% block extra_styles %}{% endblock %}
   {% block css %}{% endblock %}
+  <style>
+    .hidden-absolute {
+      display: none;
+      position: absolute;
+    }
+    .show {
+      display: block;
+    }
+  </style>
 </head>
 
 <body class="h-full">
@@ -47,8 +56,8 @@
                   <ul role="list" class="-mx-2 space-y-1">
                     <li>
                       <!-- Current: "bg-gray-800 text-white", Default: "text-gray-400 hover:text-white hover:bg-gray-800" -->
-                      <a href="{% url 'invoicing_app:dashboard' %}"
-                        class="group flex gap-x-3 rounded-md bg-gray-800 p-2 text-sm font-semibold leading-6 text-white">
+                      <a href="{% url 'invoicing_app:dashboard' %}" data-page="dashboard"
+                        class="nav-link group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
                         <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                           stroke="currentColor" aria-hidden="true">
                           <path stroke-linecap="round" stroke-linejoin="round"
@@ -58,8 +67,8 @@
                       </a>
                     </li>
                     <li>
-                      <a href="{% url 'invoicing_app:client_list' %}"
-                        class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
+                      <a href="{% url 'invoicing_app:client_list' %}" data-page="client_list"
+                        class="nav-link group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
                         <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                           stroke="currentColor" aria-hidden="true">
                           <path stroke-linecap="round" stroke-linejoin="round"
@@ -69,8 +78,8 @@
                       </a>
                     </li>
                     <li>
-                      <a href="{% url 'invoicing_app:invoice_list' %}"
-                        class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
+                      <a href="{% url 'invoicing_app:invoice_list' %}" data-page="invoice_list"
+                        class="nav-link group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
                         <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                           stroke="currentColor" aria-hidden="true">
                           <path stroke-linecap="round" stroke-linejoin="round"
@@ -80,8 +89,8 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#"
-                        class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
+                      <a href="#" data-page="calendar"
+                        class="nav-link group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
                         <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                           stroke="currentColor" aria-hidden="true">
                           <path stroke-linecap="round" stroke-linejoin="round"
@@ -91,8 +100,8 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#"
-                        class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
+                      <a href="#" data-page="documents"
+                        class="nav-link group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
                         <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                           stroke="currentColor" aria-hidden="true">
                           <path stroke-linecap="round" stroke-linejoin="round"
@@ -102,8 +111,8 @@
                       </a>
                     </li>
                     <li>
-                      <a href="#"
-                        class="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
+                      <a href="#" data-page="reports"
+                        class="nav-link group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
                         <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                           stroke="currentColor" aria-hidden="true">
                           <path stroke-linecap="round" stroke-linejoin="round"
@@ -116,10 +125,10 @@
                     </li>
                   </ul>
                 </li>
-
+                
                 <li class="mt-auto">
-                  <a href="#"
-                    class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
+                  <a href="#" data-page="settings"
+                    class="nav-link group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
                     <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                       stroke="currentColor" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round"
@@ -157,7 +166,7 @@
                   <div>
                     <button type="button"
                       class="relative inline-flex items-center gap-x-1.5 rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                      id="menu-button" aria-expanded="true" aria-haspopup="true">Invoice status
+                      id="menu-button" aria-expanded="false" aria-haspopup="true">Invoice status
                       <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"
                         aria-hidden="true">
                         <path fill-rule="evenodd"
@@ -170,18 +179,16 @@
                   <!-- Dropdown menu -->
                   <div
                     class="hidden-absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
-                    role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                    role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1" id="menu">
                     <div class="py-1" role="none">
                       <!-- Mark as Paid -->
                       <a href="{% url 'invoicing_app:mark_as_paid' invoice.invoice_id %}"
                         class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
-                        id="menu-item-0">Mark
-                        as Paid</a>
+                        id="menu-item-0">Mark as Paid</a>
                       <!-- Mark as Unpaid -->
                       <a href="{% url 'invoicing_app:mark_as_unpaid' invoice.invoice_id %}"
                         class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1"
-                        id="menu-item-1">Mark
-                        as Unpaid</a>
+                        id="menu-item-1">Mark as Unpaid</a>
                     </div>
                   </div>
                 </div>
@@ -277,27 +284,48 @@
         }
       });
     });
-
-
-    // Script for invoice status dropdown menu
-    document.addEventListener('DOMContentLoaded', function () {
-      const button = document.getElementById('menu-button');
-      const menu = document.getElementById('dropdown-menu');
-
-      button.addEventListener('click', function () {
-        const expanded = button.getAttribute('aria-expanded') === 'true';
-        button.setAttribute('aria-expanded', !expanded);
-        menu.classList.toggle('hidden');
-      });
-
-      document.addEventListener('click', function (event) {
-        if (!button.contains(event.target) && !menu.contains(event.target)) {
-          button.setAttribute('aria-expanded', false);
-          menu.classList.add('hidden');
-        }
-      });
-    });
   </script>
-</body>
 
+    <!-- Responsive sidebar toggle -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const sidebar = document.getElementById('sidebar');
+        const closeSidebarButton = document.getElementById('closeSidebarButton');
+        const pageLinks = document.querySelectorAll('.nav-link');
+        const currentPath = window.location.pathname;
+  
+        // Close sidebar for mobile
+        closeSidebarButton.addEventListener('click', function () {
+          sidebar.classList.toggle('hidden');
+        });
+  
+        // Highlight active link
+        pageLinks.forEach(link => {
+          if (link.getAttribute('href') === currentPath) {
+            link.classList.add('bg-gray-800', 'text-white');
+          } else {
+            link.classList.remove('bg-gray-800', 'text-white');
+          }
+        });
+      });
+    </script>
+    <script>
+      // Script for invoice status dropdown menu
+    document.getElementById('menu-button').addEventListener('click', function() {
+      const menu = document.getElementById('menu');
+      const isExpanded = this.getAttribute('aria-expanded') === 'true';
+      this.setAttribute('aria-expanded', !isExpanded);
+      menu.classList.toggle('show');
+    });
+
+    document.addEventListener('click', function(event) {
+      const menu = document.getElementById('menu');
+      const menuButton = document.getElementById('menu-button');
+      if (!menu.contains(event.target) && !menuButton.contains(event.target)) {
+        menu.classList.remove('show');
+        menuButton.setAttribute('aria-expanded', 'false');
+      }
+    });
+    </script>
+</body>
 </html>
