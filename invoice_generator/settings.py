@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'invoicing_app',
     'django_countries',
     'mailer',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -157,3 +158,9 @@ EMAIL_USE_SSL = config('EMAIL_USE_SSL', cast = bool)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# Celery configs
+CELERY_BROKER_URL = config('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND = config('CELERY_RESULT_BACKEND')
+
+# Additional Celery configuration as needed
