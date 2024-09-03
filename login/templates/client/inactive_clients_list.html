@@ -1,0 +1,125 @@
+{% extends 'dash.html' %}
+
+{% block title %}Inactive Clients List{% endblock %}
+
+{% block content %}
+<div class="w-full h-[88vh] bg-gray-900">
+    <div class="mx-auto max-w-7xl">
+        <div class="bg-gray-900 py-10">
+            <div class="px-4 sm:px-6 lg:px-8">
+                <div class="sm:flex sm:items-center">
+                    <div class="sm:flex-auto">
+                        <h1 class="text-base font-semibold leading-6 text-blue-500">Inactive Clients List</h1>
+                        <p class="mt-2 text-sm text-gray-300">A list of all inactive clients in your account including
+                            their name,
+                            email, address and status.</p>
+                    </div>
+                    <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+                        <a href="{% url 'invoicing_app:add_client' %}"
+                            class="block rounded-md bg-blue-500 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
+                            Add Client
+                        </a>
+                    </div>
+                </div>
+                <div id="table-container" class="mt-8 flow-root flex-1 overflow-y-auto">
+                    {% include 'client/paginated_inactive_clients.html' %}
+                </div>
+
+                <!-- Pagination Controls -->
+                <div id="pagination-controls" class="card-footer">
+                    <!-- Pagination buttons will be loaded here by AJAX -->
+                </div>
+
+                <!-- Spinner -->
+                <div id="spinner" class="flex justify-center items-center" style="display: none;">
+                    <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                        </circle>
+                        <path class="opacity-75" fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                        </path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        function loadPage(pageNumber, query = '') {
+            document.getElementById('spinner').style.display = 'flex';
+
+            fetch(`?page=${pageNumber}&q=${query}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const tableContainer = document.getElementById('table-container');
+                    tableContainer.innerHTML = data.html;
+
+                    const paginationControls = document.getElementById('pagination-controls');
+                    paginationControls.innerHTML = `
+            <div class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+              <div class="flex flex-1 justify-between sm:hidden">
+                ${data.has_previous ? `<a href="#" class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50" data-page="${data.page_number - 1}">Previous</a>` : ''}
+                ${data.has_next ? `<a href="#" class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50" data-page="${parseInt(data.page_number) + 1}">Next</a>` : ''}
+              </div>
+              <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+                <div>
+                  <p class="text-sm text-gray-700">
+                    Showing <span class="font-medium">${(data.page_number - 1) * 10 + 1}</span> to <span class="font-medium">${Math.min(data.page_number * 10, data.total_items)}</span> of <span class="font-medium">${data.total_items}</span> results
+                  </p>
+                </div>
+                <div>
+                  <nav class="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                    ${data.has_previous ? `<a href="#" class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0" data-page="${data.page_number - 1}">
+                      <span class="sr-only">Previous</span>
+                      <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+                      </svg>
+                    </a>` : ''}
+                    ${Array.from({ length: data.num_pages }, (_, i) => `
+                      <a href="#" class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${data.page_number == i + 1 ? 'bg-indigo-600 text-white' : ''}" data-page="${i + 1}">${i + 1}</a>
+                    `).join('')}
+                    ${data.has_next ? `<a href="#" class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0" data-page="${parseInt(data.page_number) + 1}">
+                      <span class="sr-only">Next</span>
+                      <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                      </svg>
+                    </a>` : ''}
+                  </nav>
+                </div>
+              </div>
+            </div>
+          `;
+
+                    document.querySelectorAll('#pagination-controls a').forEach(button => {
+                        button.addEventListener('click', function (event) {
+                            event.preventDefault();
+                            loadPage(this.dataset.page);
+                        });
+                    });
+
+                    document.querySelectorAll('.dropdown-toggle').forEach(button => {
+                        button.addEventListener('click', function (event) {
+                            const dropdownMenu = this.nextElementSibling;
+                            dropdownMenu.classList.toggle('hidden');
+                        });
+                    });
+
+                    document.getElementById('spinner').style.display = 'none';
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                    document.getElementById('spinner').style.display = 'none';
+                });
+        }
+
+        loadPage(1);
+    });
+</script>
+{% endblock %}

@@ -351,7 +351,7 @@ def active_clients_list(request):
     # Pagination
     paginator = Paginator(active_clients, 10)
     page = request.GET.get('page')
-    
+
     try:
         active_clients = paginator.page(page)
     except PageNotAnInteger:
@@ -373,6 +373,37 @@ def active_clients_list(request):
 
     # Render the template with the context
     return render(request, 'client/active_clients_list.html', {'clients':active_clients})
+
+# Inactive client list
+def inactive_clients_list(request):
+    # Retrieve clients with client_status set to active
+    inactive_clients = Client.objects.filter(active_status=False).order_by('-created_at')
+
+    # Pagination
+    paginator = Paginator(inactive_clients, 10)
+    page = request.GET.get('page')
+    
+    try:
+        inactive_clients = paginator.page(page)
+    except PageNotAnInteger:
+        inactive_clients = paginator.page(1)
+    except EmptyPage:
+        inactive_clients = paginator.page(paginator.num_pages)
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        html = render_to_string('client/paginated_inactive_clients.html', {'clients':inactive_clients})
+        data = {
+            'html':html,
+            'page_number':inactive_clients.number,
+            'num_pages':paginator.num_pages,
+            'total_items':paginator.count,
+            'has_previous':inactive_clients.has_previous(),
+            'has_next':inactive_clients.has_next(),        
+        }
+        return JsonResponse(data)
+
+    # Render the template with the context
+    return render(request, 'client/inactive_clients_list.html', {'clients':inactive_clients})
 
 # Active status
 def mark_client_active(request, client_uuid):

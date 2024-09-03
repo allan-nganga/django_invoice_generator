@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import generate_invoice_pdf, edit_invoice, delete_invoice, view_invoice, mark_as_paid, mark_as_unpaid, create_invoice, dashboard, invoice_list, invoice_detail, add_client, edit_client, delete_client, edit_settings,active_clients_list,client_list, mark_client_active, mark_client_inactive, overdue_invoices, due_invoices
+from .views import generate_invoice_pdf, edit_invoice, delete_invoice, view_invoice, mark_as_paid, mark_as_unpaid, create_invoice, dashboard, invoice_list, invoice_detail, add_client, edit_client, delete_client, edit_settings,active_clients_list,client_list, mark_client_active, mark_client_inactive, overdue_invoices, due_invoices, inactive_clients_list
 
 app_name = 'invoice_generator'
 
@@ -19,6 +19,7 @@ urlpatterns = [
     path('client/<uuid:client_id>/delete/', delete_client, name='delete_client'),
     path('settings/', edit_settings, name='settings'),
     path('clients/active/', active_clients_list, name='active_clients_list'),
+    path('clients/inactive', inactive_clients_list, name='inactive_clients_list'),
     path('clients/', client_list, name='client_list'),
     path('client/<uuid:client_uuid>/activate/', mark_client_active, name='mark_client_active'),
     path('client/<uuid:client_uuid>/deactivate/', mark_client_inactive, name='mark_client_inactive'),
