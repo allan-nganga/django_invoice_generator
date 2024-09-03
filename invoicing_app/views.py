@@ -346,10 +346,15 @@ def edit_settings(request):
 # Active client list
 def active_clients_list(request):
     # Retrieve clients with client_status set to active
-    active_clients = Client.objects.filter(active_status=True)
+    active_clients = Client.objects.filter(active_status=True).order_by('-created_at')
+
+    # Pagination
+    paginator = Paginator(active_clients, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     
     # Render the template with the context
-    return render(request, 'client/active_clients_list.html', {'clients':active_clients})
+    return render(request, 'client/active_clients_list.html', {'page_obj':page_obj})
 
 # Active status
 def mark_client_active(request, client_uuid):
