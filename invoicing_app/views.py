@@ -349,7 +349,7 @@ def active_clients_list(request):
     active_clients = Client.objects.filter(active_status=True)
     
     # Render the template with the context
-    return render(request, 'clients/active_clients_list.html', {'clients':active_clients})
+    return render(request, 'client/active_clients_list.html', {'clients':active_clients})
 
 # Active status
 def mark_client_active(request, client_uuid):

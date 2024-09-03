@@ -2,6 +2,8 @@ from django.db import models
 import uuid
 from django_countries.fields import CountryField
 from django.contrib.auth.models import User
+from datetime import timedelta
+from django.utils import timezone
 
 
 # Create your models here.
@@ -29,6 +31,12 @@ class Invoice(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE, default=1)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='invoice_created_by', default=1)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def is_due(self):
+        return self.due_date >= timezone.now().date()
+    
+    def is_overdue(self):
+        return self.due_date <timezone.now().date() and not self.paid
 
     def __str__(self):
         return f"Invoice #{self.id} for {self.client.client_name}"

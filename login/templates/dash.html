@@ -10,7 +10,8 @@
   {% load static %}
   <link href="{% static 'css/tailwind.css' %}" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
-  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+  <script type="text/javascript" charset="utf8"
+    src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
   {% block extra_styles %}{% endblock %}
 </head>
 
@@ -55,17 +56,36 @@
                         Dashboard
                       </a>
                     </li>
-                    <li>
-                      <a href="{% url 'invoicing_app:client_list' %}" data-page="client_list"
-                        class="nav-link group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
+
+                    <!-- Clients Menu -->
+                    <li class="relative">
+                      <button type="button"
+                        class="nav-link group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white w-full text-left"
+                        aria-haspopup="true" aria-expanded="false" aria-controls="clients-menu">
                         <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                           stroke="currentColor" aria-hidden="true">
                           <path stroke-linecap="round" stroke-linejoin="round"
                             d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
                         </svg>
                         Clients
-                      </a>
+                        <svg
+                          class="ml-auto h-5 w-5 flex-shrink-0 text-gray-300 group-hover:text-gray-400 transform transition-transform duration-150 ease-in-out"
+                          viewBox="0 0 20 20" aria-hidden="true">
+                          <path d="M6 6L14 10L6 14V6Z" fill="currentColor" />
+                        </svg>
+                      </button>
+                      <!-- Dropdown menu -->
+                      <div class="space-y-1 hidden" id="clients-menu">
+                        <a href="{% url 'invoicing_app:client_list' %}"
+                          class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-200 hover:bg-gray-50 hover:text-gray-900">All Clients</a>
+                        <a href="{% url 'invoicing_app:active_clients_list' %}"
+                          class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-200 hover:bg-gray-50 hover:text-gray-900">Active Clients</a>
+                        <a href="#"
+                          class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-200 hover:bg-gray-50 hover:text-gray-900">Inactive Clients</a>
+                      </div>
                     </li>
+
+                    <!-- invoice list Menu -->
                     <li>
                       <a href="{% url 'invoicing_app:invoice_list' %}" data-page="invoice_list"
                         class="nav-link group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
@@ -77,6 +97,7 @@
                         Invoice List
                       </a>
                     </li>
+
                     <li>
                       <a href="#" data-page="calendar"
                         class="nav-link group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
@@ -114,7 +135,7 @@
                     </li>
                   </ul>
                 </li>
-                
+
                 <li class="mt-auto">
                   <a href="#" data-page="settings"
                     class="nav-link group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
@@ -150,11 +171,16 @@
             <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
               <form class="relative flex flex-1" action="{% url 'invoicing_app:client_list' %}" method="GET">
                 <label for="search-field" class="sr-only">Search</label>
-                <input id="search-field" class="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm" type="text" name="q" placeholder="Search for client......." value="{{ request.GET.q }}">
-                <button type="submit" class="bg-white text-gray-400 p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <input id="search-field"
+                  class="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
+                  type="text" name="q" placeholder="Search for client......." value="{{ request.GET.q }}">
+                <button type="submit"
+                  class="bg-white text-gray-400 p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                   <!-- Heroicon search icon SVG -->
                   <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M12.9 14.32a8 8 0 111.41-1.41l4.31 4.31a1 1 0 01-1.41 1.41l-4.31-4.31zM8 14A6 6 0 108 2a6 6 0 000 12z" clip-rule="evenodd" />
+                    <path fill-rule="evenodd"
+                      d="M12.9 14.32a8 8 0 111.41-1.41l4.31 4.31a1 1 0 01-1.41 1.41l-4.31-4.31zM8 14A6 6 0 108 2a6 6 0 000 12z"
+                      clip-rule="evenodd" />
                   </svg>
                 </button>
               </form>
@@ -233,31 +259,31 @@
         const openSidebarButton = document.getElementById('openSidebarButton');
         const closeSidebarButton = document.getElementById('closeSidebarButton');
         const sidebar = document.getElementById('sidebar');
-  
+
         openSidebarButton.addEventListener('click', function () {
           sidebar.classList.toggle('hidden');
         });
-  
+
         closeSidebarButton.addEventListener('click', function () {
           sidebar.classList.toggle('hidden');
         });
-  
+
         const userMenuButton = document.getElementById('user-menu-button');
         const userMenu = document.getElementById('user-menu');
-  
+
         userMenuButton.addEventListener('click', function () {
           const isExpanded = userMenuButton.getAttribute('aria-expanded') === 'true';
           userMenuButton.setAttribute('aria-expanded', !isExpanded);
           userMenu.classList.toggle('hidden');
         });
-  
+
         window.addEventListener('click', function (e) {
           if (!userMenuButton.contains(e.target) && !userMenu.contains(e.target)) {
             userMenu.classList.add('hidden');
             userMenuButton.setAttribute('aria-expanded', 'false');
           }
         });
-  
+
         // Highlight active link
         const pageLinks = document.querySelectorAll('.nav-link');
         const currentPath = window.location.pathname;
@@ -269,6 +295,15 @@
           }
         });
       });
+
+      // Sidebar menu activity function
+      document.querySelector('button[aria-controls="clients-menu"]').addEventListener('click', function () {
+        var menu = document.getElementById('clients-menu');
+        var expanded = this.getAttribute('aria-expanded') === 'true' || false;
+        this.setAttribute('aria-expanded', !expanded);
+        menu.classList.toggle('hidden');
+      });
     </script>
 </body>
+
 </html>
