@@ -350,11 +350,29 @@ def active_clients_list(request):
 
     # Pagination
     paginator = Paginator(active_clients, 10)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    page = request.GET.get('page')
     
+    try:
+        active_clients = paginator.page(page)
+    except PageNotAnInteger:
+        active_clients = paginator.page(1)
+    except EmptyPage:
+        active_clients = paginator.page(paginator.num_pages)
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        html = render_to_string('client/paginated_active_clients.html', {'clients':active_clients})
+        data = {
+            'html':html,
+            'page_number':active_clients.number,
+            'num_pages':paginator.num_pages,
+            'total_items':paginator.count,
+            'has_previous':active_clients.has_previous(),
+            'has_next':active_clients.has_next(),        
+        }
+        return JsonResponse(data)
+
     # Render the template with the context
-    return render(request, 'client/active_clients_list.html', {'page_obj':page_obj})
+    return render(request, 'client/active_clients_list.html', {'clients':active_clients})
 
 # Active status
 def mark_client_active(request, client_uuid):
