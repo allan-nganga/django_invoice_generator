@@ -321,6 +321,7 @@ def client_list(request):
     return render(request, 'client/client_list.html', {'clients':clients})
 
 # Settings function
+@login_required
 def edit_settings(request):
     settings_instance = Settings.objects.first()
 
@@ -344,6 +345,7 @@ def edit_settings(request):
 #    return render(request, 'settings/settings_overview.html', {'settings':settings})
     
 # Active client list
+@login_required
 def active_clients_list(request):
     # Retrieve clients with client_status set to active
     active_clients = Client.objects.filter(active_status=True).order_by('-created_at')
@@ -375,6 +377,7 @@ def active_clients_list(request):
     return render(request, 'client/active_clients_list.html', {'clients':active_clients})
 
 # Inactive client list
+@login_required
 def inactive_clients_list(request):
     # Retrieve clients with client_status set to active
     inactive_clients = Client.objects.filter(active_status=False).order_by('-created_at')
@@ -406,12 +409,14 @@ def inactive_clients_list(request):
     return render(request, 'client/inactive_clients_list.html', {'clients':inactive_clients})
 
 # Active status
+@login_required
 def mark_client_active(request, client_uuid):
     client = get_object_or_404(Client, client_id=client_uuid)
     client.client_status = 'active'
     client.save()
     return redirect('invoicing_app:client_list')  # Adjust the redirect URL as needed
 
+@login_required
 def mark_client_inactive(request, client_uuid):
     client = get_object_or_404(Client, client_id=client_uuid)
     client.client_status = 'inactive'
