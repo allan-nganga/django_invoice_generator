@@ -203,20 +203,19 @@ def dashboard(request):
     # Get invoice summary data
     summary_data = invoice_summary(request)
 
-    """
-    total_amount = 0
-    paid_invoices = Invoice.objects.filter(paid=True)
-    for invoice in paid_invoices:
-        total_amount += invoice.total_cost
-
-        'total_amount':total_amount
-    """
+    # Calculate the total amount for paid invoices
     total_amount = sum(invoice.total_cost for invoice in Invoice.objects.filter(paid=True))
-    ['total_amount'] or 0
+    
+    # Get the 5 latest invoices, ordered by creation date (assuming 'created_at' is the timestamp)
+    latest_invoices = Invoice.objects.order_by('-created_at')[:5]
+
+    # Update context with total_amount, summary data, and latest invoices
     context = {
-        'total_amount':total_amount
+        'total_amount': total_amount,
+        'recent_invoices': latest_invoices  # Add recent invoices to the context
     }
     context.update(summary_data)
+    
     return render(request, 'dashboard.html', context)
 
 # Change invoice payment status to paid
