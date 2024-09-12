@@ -93,17 +93,39 @@
                           class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-200 hover:bg-gray-50 hover:text-gray-900">Inactive Clients</a>
                       </div>
                     </li>
-                    <li>
-                      <a href="{% url 'invoicing_app:invoice_list' %}" data-page="invoice_list"
-                        class="nav-link group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
-                        <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                          stroke="currentColor" aria-hidden="true">
-                          <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
-                        </svg>
-                        Invoice List
-                      </a>
-                    </li>
+<!-- Invoices Menu -->
+<li class="relative">
+  <button type="button"
+    class="nav-link group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white w-full text-left"
+    aria-haspopup="true" aria-expanded="false" aria-controls="invoices-menu">
+    <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+      stroke="currentColor" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round"
+        d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
+    </svg>
+    Invoices
+    <svg
+      class="ml-auto h-5 w-5 flex-shrink-0 text-gray-300 group-hover:text-gray-400 transform transition-transform duration-150 ease-in-out"
+      viewBox="0 0 20 20" aria-hidden="true">
+      <path d="M6 6L14 10L6 14V6Z" fill="currentColor" />
+    </svg>
+  </button>
+  <!-- Dropdown menu -->
+  <div class="space-y-1 hidden" id="invoices-menu">
+    <a href="{% url 'invoicing_app:invoice_list' %}"
+      class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-200 hover:bg-gray-50 hover:text-gray-900">
+      All Invoices
+    </a>
+    <a href="{% url 'invoicing_app:due_invoices' %}"
+      class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-200 hover:bg-gray-50 hover:text-gray-900">
+      Due Invoices
+    </a>
+    <a href="{% url 'invoicing_app:overdue_invoices' %}"
+      class="group flex w-full items-center rounded-md py-2 pl-11 pr-2 text-sm font-medium text-gray-200 hover:bg-gray-50 hover:text-gray-900">
+      Overdue Invoices
+    </a>
+  </div>
+</li>
                     <li>
                       <a href="#" data-page="calendar"
                         class="nav-link group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
@@ -349,6 +371,24 @@
         this.setAttribute('aria-expanded', !expanded);
         menu.classList.toggle('hidden');
       });
+
+      // Script to toggle the dropdown menu
+      document.querySelector('button[aria-controls="invoices-menu"]').addEventListener('click', function () {
+        var menu = document.getElementById('invoices-menu');
+        var expanded = this.getAttribute('aria-expanded') === 'true' || false;
+        this.setAttribute('aria-expanded', !expanded);
+        menu.classList.toggle('hidden');
+      });
+       // Highlight active link
+       const pageLinks = document.querySelectorAll('.nav-link');
+        const currentPath = window.location.pathname;
+        pageLinks.forEach(link => {
+          if (link.getAttribute('href') === currentPath) {
+            link.classList.add('bg-gray-800', 'text-white');
+          } else {
+            link.classList.remove('bg-gray-800', 'text-white');
+          }
+        });
     </script>
 </body>
 </html>
