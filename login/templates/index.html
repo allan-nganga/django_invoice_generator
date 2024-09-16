@@ -390,5 +390,57 @@
           }
         });
     </script>
+     <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const openSidebarButton = document.getElementById('openSidebarButton');
+        const closeSidebarButton = document.getElementById('closeSidebarButton');
+        const sidebar = document.getElementById('sidebar');
+
+        openSidebarButton.addEventListener('click', function () {
+          sidebar.classList.toggle('hidden');
+        });
+
+        closeSidebarButton.addEventListener('click', function () {
+          sidebar.classList.toggle('hidden');
+        });
+
+        // Script to manage active dropdowns and highlight active links
+        const currentPath = window.location.pathname;
+        const clientLinks = document.querySelectorAll('.client-link');
+        const invoiceLinks = document.querySelectorAll('.invoice-link');
+
+        // Check if any Clients menu link matches the current path and keep the dropdown open
+        clientLinks.forEach(link => {
+          if (link.getAttribute('href') === currentPath) {
+            document.getElementById('clients-menu').classList.remove('hidden');
+            link.classList.add('bg-gray-800', 'text-white');
+          }
+        });
+
+        // Check if any Invoices menu link matches the current path and keep the dropdown open
+        invoiceLinks.forEach(link => {
+          if (link.getAttribute('href') === currentPath) {
+            document.getElementById('invoices-menu').classList.remove('hidden');
+            link.classList.add('bg-gray-800', 'text-white');
+          }
+        });
+
+        // Toggle clients menu
+        document.querySelector('button[aria-controls="clients-menu"]').addEventListener('click', function () {
+          const menu = document.getElementById('clients-menu');
+          const expanded = this.getAttribute('aria-expanded') === 'true';
+          this.setAttribute('aria-expanded', !expanded);
+          menu.classList.toggle('hidden');
+        });
+
+        // Toggle invoices menu
+        document.querySelector('button[aria-controls="invoices-menu"]').addEventListener('click', function () {
+          const menu = document.getElementById('invoices-menu');
+          const expanded = this.getAttribute('aria-expanded') === 'true';
+          this.setAttribute('aria-expanded', !expanded);
+          menu.classList.toggle('hidden');
+        });
+      });
+    </script>
 </body>
 </html>

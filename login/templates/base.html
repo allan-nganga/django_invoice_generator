@@ -211,16 +211,24 @@
       this.setAttribute('aria-expanded', !expanded);
       menu.classList.toggle('hidden');
     });
-     // Highlight active link
-     const pageLinks = document.querySelectorAll('.nav-link');
-        const currentPath = window.location.pathname;
-        pageLinks.forEach(link => {
-          if (link.getAttribute('href') === currentPath) {
-            link.classList.add('bg-gray-800', 'text-white');
-          } else {
-            link.classList.remove('bg-gray-800', 'text-white');
-          }
-        });
+    // Highlight active link
+    const pageLinks = document.querySelectorAll('.nav-link');
+    const currentPath = window.location.pathname;
+    pageLinks.forEach(link => {
+      if (link.getAttribute('href') === currentPath) {
+        link.classList.add('bg-gray-800', 'text-white');
+      } else {
+        link.classList.remove('bg-gray-800', 'text-white');
+      }
+    });
+
+    // Sidebar menu activity function
+    document.querySelector('button[aria-controls="clients-menu"]').addEventListener('click', function () {
+      var menu = document.getElementById('clients-menu');
+      var expanded = this.getAttribute('aria-expanded') === 'true' || false;
+      this.setAttribute('aria-expanded', !expanded);
+      menu.classList.toggle('hidden');
+    });
   </script>
 </body>
 
