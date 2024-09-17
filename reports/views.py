@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .utils import get_weekly_invoices, get_monthly_invoices, get_yearly_invoices
+from .utils import get_weekly_invoices, get_monthly_invoices, get_yearly_invoices, get_total_invoices_cost
 
 # Create your views here.
 def weekly_invoice_report(request):
