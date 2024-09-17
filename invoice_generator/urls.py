@@ -24,4 +24,5 @@ urlpatterns = [
     path('', include(('login.urls', 'login'), 'login')),
     path('',include(('invoicing_app.urls', 'invoicing_app'),'invoicing_app')),
     path('', include(('mailer.urls', 'mailer'), 'mailer')),
+    path('', include(('reports.urls', 'reports'), 'reports')),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
