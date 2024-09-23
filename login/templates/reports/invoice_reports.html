@@ -1,0 +1,86 @@
+<!-- templates/invoices/invoice_report.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Report</title>
+</head>
+<body>
+    <h1>Invoice Reports</h1>
+
+    <!-- Filter Form -->
+    <form method="GET">
+        <!-- Date Filter -->
+        <label for="date_filter">Date Filter:</label>
+        <select name="date_filter" id="date_filter">
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+            <option value="yearly">Yearly</option>
+            <option value="custom">Custom Date Range</option>
+        </select>
+
+        <!-- Custom Date Range -->
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date">
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date">
+
+        <!-- Payment Status Filter -->
+        <label for="payment_status">Payment Status:</label>
+        <select name="payment_status" id="payment_status">
+            <option value="">All</option>
+            <option value="paid">Paid</option>
+            <option value="unpaid">Unpaid</option>
+        </select>
+
+        <!-- Client Filter -->
+        <label for="client">Client:</label>
+        <select name="client" id="client">
+            <option value="">All Clients</option>
+            {% for client in clients %}
+                <option value="{{ client.client_id }}">{{ client.client_name }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- Company Filter -->
+        <label for="company">Company:</label>
+        <select name="company" id="company">
+            <option value="">All Companies</option>
+            {% for company in companies %}
+                <option value="{{ company.company_id }}">{{ company.company_name }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- Submit Button -->
+        <button type="submit">Filter</button>
+    </form>
+
+    <!-- Invoice Table -->
+    <h2>Filtered Invoices</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Invoice ID</th>
+                <th>Client</th>
+                <th>Amount</th>
+                <th>Paid</th>
+                <th>Due Date</th>
+                <th>Company</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for invoice in invoices %}
+                <tr>
+                    <td>{{ invoice.invoice_id }}</td>
+                    <td>{{ invoice.client.client_name }}</td>
+                    <td>${{ invoice.total_cost }}</td>
+                    <td>{{ invoice.paid }}</td>
+                    <td>{{ invoice.due_date }}</td>
+                    <td>{{ invoice.created_by.settings.company_name }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
