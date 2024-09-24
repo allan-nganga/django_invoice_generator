@@ -1,12 +1,9 @@
-<!-- templates/invoices/invoice_report.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice Report</title>
-</head>
-<body>
+{% extends 'dash.html' %}
+
+{% block title %}Invoice Reports{% endblock %}
+
+{% load humanize %}
+{% block content %}
     <h1>Invoice Reports</h1>
 
     <!-- Filter Form -->
@@ -82,5 +79,4 @@
             {% endfor %}
         </tbody>
     </table>
-</body>
-</html>
+{% endblock %}
