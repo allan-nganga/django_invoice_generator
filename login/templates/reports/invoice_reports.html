@@ -10,7 +10,6 @@
 
         <!-- Filter Form -->
         <form method="GET" class="space-y-4">
-
             <!-- Date Filter -->
             <div>
                 <label for="date_filter" class="block text-sm font-medium leading-6 text-blue-500">Date Filter</label>
@@ -74,6 +73,7 @@
             <button type="submit"
                 class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 focus:outline-none">Filter</button>
         </form>
+        </form>
 
         <!-- Invoice Table -->
         <h2 class="text-2xl font-bold mt-10 text-blue-500">Filtered Invoices</h2>
@@ -101,10 +101,20 @@
                 {% endfor %}
             </tbody>
         </table>
+
+        <!-- Pie Chart Section -->
+        <div class="mt-10">
+            <h2 class="text-2xl font-bold text-blue-500">Paid vs Unpaid Invoices</h2>
+            <canvas id="invoicePieChart" width="400" height="400"></canvas>
+        </div>
     </div>
 </div>
 
-<!-- Script to show/hide custom date fields -->
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Script to handle date range and render the pie chart -->
 <script>
     const dateFilter = document.getElementById('date_filter');
     const customDateRange = document.getElementById('custom-date-range');
@@ -113,6 +123,42 @@
             customDateRange.classList.remove('hidden');
         } else {
             customDateRange.classList.add('hidden');
+        }
+    });
+
+    // Render the Pie Chart using Chart.js
+    const ctx = document.getElementById('invoicePieChart').getContext('2d');
+
+    // Use Django variables for chart data
+    const totalPaidAmount = {{ total_paid_amount|default:0 }};
+    const totalUnpaidAmount = {{ total_unpaid_amount|default:0 }};
+
+    const invoicePieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Paid Invoices', 'Unpaid Invoices'],
+            datasets: [{
+                label: 'Invoice Amount',
+                data: [totalPaidAmount, totalUnpaidAmount],
+                backgroundColor: ['#4CAF50', '#FF5733'],
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let value = context.raw;
+                            return 'Amount: KSH ' + value.toFixed(2);
+                        }
+                    }
+                }
+            }
         }
     });
 </script>

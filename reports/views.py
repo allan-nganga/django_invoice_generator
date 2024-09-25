@@ -45,6 +45,16 @@ def invoice_report_view(request):
     companies = Settings.objects.all()
     """
 
+    # Calculate total amounts for paid and unpaid invoices
+    paid_invoices = invoices.filter(paid=True)
+    unpaid_invoices = invoices.filter(paid=False)
+
+    total_paid_amount = sum(invoice.total_cost for invoice in paid_invoices)
+    total_unpaid_amount = sum(invoice.total_cost for invoice in unpaid_invoices)
+
+
     return render(request, 'reports/invoice_reports.html', {
-        'invoices':invoices
+        'invoices':invoices,
+        'total_paid_amount': total_paid_amount,
+        'total_unpaid_amount': total_unpaid_amount
     })
