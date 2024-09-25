@@ -45,7 +45,7 @@
                 </select>
             </div>
 
-            <!-- Client Filter -->
+            <!-- Client Filter 
             <div>
                 <label for="client" class="block text-sm font-medium leading-6 text-blue-500">Client</label>
                 <select id="client" name="client"
@@ -57,7 +57,7 @@
                 </select>
             </div>
 
-            <!-- Company Filter -->
+            < Company Filter 
             <div>
                 <label for="company" class="block text-sm font-medium leading-6 text-blue-500">Company</label>
                 <select id="company" name="company"
@@ -68,6 +68,7 @@
                     {% endfor %}
                 </select>
             </div>
+        -->
 
             <!-- Submit Button -->
             <button type="submit"
@@ -130,7 +131,7 @@
     const ctx = document.getElementById('invoicePieChart').getContext('2d');
 
     // Use Django variables for chart data
-    const totalPaidAmount = {{ total_paid_amount|default:0 }};
+    const totalPaidAmount = {{ total_paid_amount |default:0 }};
     const totalUnpaidAmount = {{ total_unpaid_amount|default:0 }};
 
     const invoicePieChart = new Chart(ctx, {
