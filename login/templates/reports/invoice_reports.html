@@ -132,9 +132,10 @@
                 const totalInvoices = {{ total_paid_amount|default:"0" }} + {{ total_unpaid_amount|default:"0" }};
                 const paidPercentage = (({{ total_paid_amount|default:"0" }} / totalInvoices) * 100).toFixed(2);
 
-                const fontSize = (height / 150).toFixed(2);
+                const fontSize = (height / 250).toFixed(2);
                 ctx.font = `${fontSize}em sans-serif`;
                 ctx.textBaseline = "middle";
+                ctx.fillStyle = "#7FFF00";
 
                 const text = `${paidPercentage}% Paid`,
                     textX = Math.round((width - ctx.measureText(text).width) / 2),
